@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3: Customer Service & Sales Techniques — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f0d;
+    --surface: #161814;
+    --surface2: #1e201b;
+    --border: #2c2e28;
+    --accent: #a8e063;
+    --accent2: #ff6b6b;
+    --accent3: #f7c948;
+    --accent4: #7eb8f7;
+    --text: #edeae3;
+    --muted: #737368;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 560px; }
+  .meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Progress */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7bbf3a); border-radius: 99px; width: 0%; transition: width 0.5s ease; }
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #0e0f0d; }
+
+  /* Panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 620px; }
+
+  /* Principle cards */
+  .principle-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .principle-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .principle-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--card-accent, var(--accent));
+    border-radius: 3px 0 0 3px;
+  }
+  .principle-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .principle-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+  .principle-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Expandable cards */
+  .card-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .card-detail-header:hover .chevron { color: var(--accent); }
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+  .chip { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(168,224,99,0.1); color: var(--accent); }
+  .chip.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .chip.yellow { background: rgba(247,201,72,0.1); color: var(--accent3); }
+  .chip.blue { background: rgba(126,184,247,0.1); color: var(--accent4); }
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(44,46,40,0.7); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Tip / warn boxes */
+  .tip-box { background: rgba(168,224,99,0.06); border: 1px solid rgba(168,224,99,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 16px; display: flex; gap: 10px; font-size: 13px; color: #c2e88a; }
+  .warn-box { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.22); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #ffaeae; }
+  .info-box { background: rgba(126,184,247,0.06); border: 1px solid rgba(126,184,247,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #b5d4ff; }
+
+  /* Funnel steps */
+  .funnel { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .funnel-step { display: flex; gap: 16px; align-items: flex-start; position: relative; }
+  .funnel-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: var(--border); }
+  .funnel-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; z-index: 1; border: 2px solid var(--border); background: var(--surface); }
+  .funnel-icon.s1 { border-color: var(--accent4); background: rgba(126,184,247,0.1); }
+  .funnel-icon.s2 { border-color: var(--accent); background: rgba(168,224,99,0.1); }
+  .funnel-icon.s3 { border-color: var(--accent3); background: rgba(247,201,72,0.1); }
+  .funnel-icon.s4 { border-color: var(--accent2); background: rgba(255,107,107,0.1); }
+  .funnel-icon.s5 { border-color: #c084fc; background: rgba(192,132,252,0.1); }
+  .funnel-content { padding: 8px 0 24px; }
+  .funnel-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .funnel-label.s1 { color: var(--accent4); }
+  .funnel-label.s2 { color: var(--accent); }
+  .funnel-label.s3 { color: var(--accent3); }
+  .funnel-label.s4 { color: var(--accent2); }
+  .funnel-label.s5 { color: #c084fc; }
+  .funnel-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Do / Don't comparison */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 580px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-col { border-radius: 8px; padding: 14px 16px; }
+  .compare-col.do { background: rgba(168,224,99,0.06); border: 1px solid rgba(168,224,99,0.2); }
+  .compare-col.dont { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2); }
+  .compare-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .compare-label.do { color: var(--accent); }
+  .compare-label.dont { color: var(--accent2); }
+  .compare-item { font-size: 13px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.5; }
+  .compare-item:last-child { border-bottom: none; }
+
+  /* Scenario cards */
+  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 14px; }
+  .scenario-tag { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+  .scenario-tag.green { background: rgba(168,224,99,0.1); color: var(--accent); }
+  .scenario-tag.yellow { background: rgba(247,201,72,0.1); color: var(--accent3); }
+  .scenario-tag.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .scenario-text { font-size: 14px; color: var(--text); font-style: italic; margin-bottom: 14px; border-left: 2px solid var(--border); padding-left: 12px; line-height: 1.7; }
+  .scenario-response-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .scenario-response { font-size: 13px; color: #c2e88a; background: rgba(168,224,99,0.05); border: 1px solid rgba(168,224,99,0.15); border-radius: 8px; padding: 12px 14px; line-height: 1.65; }
+  .scenario-response.yellow { color: #f7e08a; background: rgba(247,201,72,0.05); border-color: rgba(247,201,72,0.15); }
+  .scenario-response.red { color: #ffaeae; background: rgba(255,107,107,0.05); border-color: rgba(255,107,107,0.15); }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-size: 13px; color: var(--text); transition: border-color 0.15s; text-align: left; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent4); }
+  .quiz-opt.correct { background: rgba(168,224,99,0.1); border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.wrong { background: rgba(255,107,107,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(168,224,99,0.08); color: var(--accent); }
+  .quiz-feedback.wrong { background: rgba(255,107,107,0.08); color: #ff8f8f; }
+
+  /* Completion */
+  .completion-banner { background: rgba(168,224,99,0.08); border: 1px solid rgba(168,224,99,0.25); border-radius: var(--radius); padding: 24px; text-align: center; margin-top: 24px; display: none; }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .nav-btn { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #0e0f0d; }
+  .nav-btn.primary:hover { background: #7bbf3a; border-color: #7bbf3a; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 5px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+
+  /* Score bar */
+  #quiz-score-bar { display: none; margin-bottom: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 3 of 5</div>
+    <h1>Customer Service &amp; <span>Sales Techniques</span></h1>
+    <p class="subtitle">How to greet, qualify, recommend, close, and handle the tough moments — so every customer leaves satisfied and comes back.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> ~30 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · The sales approach</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · Recommending &amp; upselling</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · Handling objections</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Knowledge check</button>
+  </div>
+
+  <!-- ===== SECTION 1: THE SALES APPROACH ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">The sales approach</div>
+    <p class="section-intro">Good sales technique at The Vape Store isn't about pressure — it's about asking the right questions, listening carefully, and matching people to the right product. The best salespeople feel like knowledgeable friends.</p>
+
+    <div class="principle-cards">
+      <div class="principle-card" style="--card-accent: var(--accent4)">
+        <span class="principle-icon">👋</span>
+        <div class="principle-title">Greet every customer</div>
+        <div class="principle-body">Acknowledge every person who walks in. A simple "Hey, welcome in — let me know if you need anything" sets the tone without pressure.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent)">
+        <span class="principle-icon">🎧</span>
+        <div class="principle-title">Ask, then listen</div>
+        <div class="principle-body">Find out what they need before pitching anything. Two or three questions will tell you everything you need to make a great recommendation.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent3)">
+        <span class="principle-icon">🎯</span>
+        <div class="principle-title">Match, don't push</div>
+        <div class="principle-body">Recommend what genuinely fits their situation. Customers who trust your advice come back. Customers who felt pressured don't.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent2)">
+        <span class="principle-icon">🔁</span>
+        <div class="principle-title">Build the relationship</div>
+        <div class="principle-body">Repeat customers are the business. Every interaction is an investment. Remember preferences, follow up on how a product worked out, make them feel known.</div>
+      </div>
+    </div>
+
+    <!-- The GREET-QUALIFY-RECOMMEND-CLOSE flow -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">Sales flow</div>
+          <span class="detail-title">GQRC: Greet, Qualify, Recommend, Close</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Every successful sale at The Vape Store follows this four-step pattern. It takes about two minutes to learn and a few weeks to make feel natural. The faster you internalise it, the smoother your shifts become.</p>
+        <div class="funnel">
+          <div class="funnel-step">
+            <div class="funnel-icon s1">👋</div>
+            <div class="funnel-content">
+              <div class="funnel-label s1">Greet — make them feel welcome, not watched</div>
+              <div class="funnel-desc">Don't hover. Acknowledge them immediately, then give them space to look. Something like: "Hey, welcome in — feel free to have a look around, I'm just here if you need anything." If they look like they want help, approach. If they're browsing, wait for the signal.</div>
+            </div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-icon s2">🎧</div>
+            <div class="funnel-content">
+              <div class="funnel-label s2">Qualify — ask before you recommend</div>
+              <div class="funnel-desc">The three questions that tell you everything: <strong>(1) Are you new to vaping, or do you already have a device?</strong> <strong>(2) Are you trying to quit cigarettes or already switched?</strong> <strong>(3) What are you looking for today — a device, juice, or coils?</strong> Their answers dictate everything that follows. Don't skip this step.</div>
+            </div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-icon s3">🎯</div>
+            <div class="funnel-content">
+              <div class="funnel-label s3">Recommend — one clear suggestion, not a menu</div>
+              <div class="funnel-desc">Based on their answers, recommend one specific product — not three or four options. Giving someone who just walked in a choice between 12 devices causes decision paralysis and lost sales. Lead with your best-fit recommendation, then offer an alternative if they seem unsure. Use language like: "For someone in your situation, I'd point you toward this one — here's why."</div>
+            </div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-icon s4">✓</div>
+            <div class="funnel-content">
+              <div class="funnel-label s4">Close — move toward the transaction naturally</div>
+              <div class="funnel-desc">Don't be afraid to move toward the sale. Once they seem interested, a natural close sounds like: "Want me to grab one of those for you?" or "I'll pop a 3-pack of coils in with that — it's worth having them on hand." Keep it conversational. Never use pressure language like "this is the last one" unless it genuinely is.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span><strong>Common mistake:</strong> Jumping straight to recommend without qualifying first. You'll end up pitching the wrong product, losing the customer's confidence, and having to backtrack. The qualifying step takes 30 seconds and saves minutes.</span></div>
+      </div>
+    </div>
+
+    <!-- Reading the customer -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip blue">Customer types</div>
+          <span class="detail-title">Reading the customer — adjusting your approach</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Customer type</th><th>Signals</th><th>Approach</th></tr>
+          <tr><td>First-time switcher</td><td>Says they smoke, looks confused, asks "what's easiest"</td><td>Slow down. Start with disposables or a simple pod. Explain in plain language. Don't overwhelm with specs.</td></tr>
+          <tr><td>Returning vaper</td><td>Uses product terminology, knows what they want</td><td>Match their pace and vocabulary. Get to the point. They don't need hand-holding.</td></tr>
+          <tr><td>Browser / undecided</td><td>Looks around without asking, noncommittal answers</td><td>Give them space, then check in. Ask what brought them in. Don't push — guide with questions.</td></tr>
+          <tr><td>Budget-conscious</td><td>Asks price first, compares costs, hesitates</td><td>Acknowledge the value angle. Highlight long-term savings of pods over disposables. Don't push premium unprompted.</td></tr>
+          <tr><td>Impulse buyer</td><td>Decided before walking in, moves quickly</td><td>Match their energy. Don't slow them down with a long pitch. Suggest a quick add-on at checkout.</td></tr>
+          <tr><td>Gift buyer</td><td>Buying for someone else, unsure what they use</td><td>Ask about the recipient. A simple, well-packaged starter kit is almost always the right call. Mention the return policy.</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>You won't always get it right immediately — and that's fine. The skill is noticing when an approach isn't landing and adjusting mid-conversation without making it awkward.</span></div>
+      </div>
+    </div>
+
+    <!-- Do / don't language -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip">Language</div>
+          <span class="detail-title">What to say — and what to avoid</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">The words you use matter as much as what you're recommending. Small language habits make a big difference in how confident and trustworthy you come across.</p>
+        <div class="compare-grid">
+          <div class="compare-col do">
+            <div class="compare-label do">✓ Say this</div>
+            <div class="compare-item">"For someone in your situation, I'd go with this one."</div>
+            <div class="compare-item">"Most people switching from cigarettes start here."</div>
+            <div class="compare-item">"It's worth grabbing a spare pack of coils at the same time."</div>
+            <div class="compare-item">"Let me know how you get on with it — you can always come back."</div>
+            <div class="compare-item">"That's a great choice — want me to grab it?"</div>
+          </div>
+          <div class="compare-col dont">
+            <div class="compare-label dont">✗ Avoid this</div>
+            <div class="compare-item">"I don't know, they're all pretty good honestly."</div>
+            <div class="compare-item">"It depends" (without following up with an actual answer).</div>
+            <div class="compare-item">"You should probably also get..." (sounds like a hard upsell).</div>
+            <div class="compare-item">"That's our most expensive option but it's the best."</div>
+            <div class="compare-item">"Honestly I've never tried that one myself."</div>
+          </div>
+        </div>
+        <div class="warn-box"><span>⚠️</span><span><strong>Health claims:</strong> Never tell a customer that vaping is safe, healthy, or a guaranteed quit method. You can say it's an alternative to cigarettes and that many people use it to switch — that's it. Any stronger claim creates liability.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: Recommending &amp; upselling →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: RECOMMENDING & UPSELLING ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">Recommending &amp; upselling</div>
+    <p class="section-intro">The best upsell is one the customer doesn't notice as a upsell — because it's genuinely useful. Your goal is to send every customer home with everything they actually need.</p>
+
+    <!-- Starter kits -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip">New customers</div>
+          <span class="detail-title">The new-customer bundle — what to always suggest</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">A new customer buying their first device needs more than just the device. If they walk out without everything they need, they'll have a frustrating first experience and potentially blame the product — or the store.</p>
+        <table class="data-table">
+          <tr><th>Device type</th><th>Core purchase</th><th>Always suggest</th><th>Why</th></tr>
+          <tr><td>Disposable</td><td>The disposable unit</td><td>A second unit or a pod system introduction</td><td>Sets the seed for their next step. Plant the cost-savings conversation.</td></tr>
+          <tr><td>Closed pod system</td><td>Device + 1 pack of pods</td><td>A second pod flavour + USB-C cable if not included</td><td>Flavour variety keeps them engaged. Cable prevents the "it ran out of charge and I can't find the charger" dropout.</td></tr>
+          <tr><td>Open pod / refillable</td><td>Device + e-liquid</td><td>3-pack of coils + second bottle of juice</td><td>Coils will need replacing within 1–3 weeks. Sending them home without spares leads to frustrated returns.</td></tr>
+          <tr><td>Box mod</td><td>Mod + tank + coils</td><td>18650 battery charger + spare batteries + high-VG juice</td><td>Loose batteries without a proper charger is a safety issue. Spare batteries mean they're never caught without power.</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>Frame add-ons as practical advice, not a sales pitch: "One thing I'd definitely grab alongside this is a pack of coils — they last 1–3 weeks and you don't want to be stuck without one."</span></div>
+      </div>
+    </div>
+
+    <!-- Upsell triggers -->
+    <div class="card-detail" id="d4">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip yellow">Upselling</div>
+          <span class="detail-title">Natural upsell moments — and how to use them</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">An upsell isn't a trick — it's identifying when a better or additional product will genuinely improve the customer's experience. Upsells feel natural when they're relevant to what the customer just told you.</p>
+        <table class="data-table">
+          <tr><th>What the customer says/does</th><th>Natural upsell</th><th>Script</th></tr>
+          <tr><td>Buying a disposable for the third time</td><td>Suggest an open pod system</td><td>"You'd actually save quite a bit if you made the switch to a pod device — the upfront cost is more but the ongoing cost is much lower. Want me to show you a good starting option?"</td></tr>
+          <tr><td>Buying a single bottle of juice</td><td>Suggest a second flavour</td><td>"That one's really popular — if you want something to rotate with it, this one pairs well. A lot of people grab two so they're not vaping the same thing all day."</td></tr>
+          <tr><td>Buying a refillable device</td><td>Coil pack + juice bundle</td><td>"I'll grab you a pack of coils to go with that — they'll need replacing after a couple of weeks. And have you picked a juice yet?"</td></tr>
+          <tr><td>Asking about battery life</td><td>Spare batteries or a higher-capacity device</td><td>"If battery life is a priority, it might be worth looking at this one — it's got a bigger battery and charges faster."</td></tr>
+          <tr><td>Buying a mod without a charger</td><td>External battery charger</td><td>"Do you have a charger for 18650 batteries already? If not, I'd grab one — it's a lot safer than charging them in the mod."</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>One upsell per transaction.</strong> Stacking multiple add-ons feels pushy and damages trust. Pick the one that makes the most sense and focus there. If they say no, let it go gracefully.</span></div>
+      </div>
+    </div>
+
+    <!-- Juice recommendations -->
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip blue">E-liquid</div>
+          <span class="detail-title">Recommending juice — matching flavour to the customer</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Juice recommendations are the most personal part of the job. Taste is subjective — your job isn't to push your favourite, it's to find theirs. Use these as starting points.</p>
+        <table class="data-table">
+          <tr><th>Customer profile</th><th>Start here</th><th>Then suggest</th></tr>
+          <tr><td>Former cigarette smoker</td><td>Tobacco or menthol flavour</td><td>Once comfortable: cool fruit or iced berry to ease toward more variety</td></tr>
+          <tr><td>Former menthol smoker</td><td>Menthol / ice</td><td>Iced mango, cool watermelon — the cold element keeps them comfortable</td></tr>
+          <tr><td>Already vaping, wants variety</td><td>Ask what they already like</td><td>Suggest something adjacent — if they like mango, try lychee or peach</td></tr>
+          <tr><td>Doesn't know what they want</td><td>Fruit (mango or watermelon)</td><td>Safe default — most people like fruit, it's the most popular category</td></tr>
+          <tr><td>Experienced vaper, into flavour</td><td>Dessert or complex profiles</td><td>Custard, bakery, or layered drinks — these reward people who pay attention to flavour</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>If your store has testers, always offer them. A customer who tries before they buy is far more likely to purchase and far less likely to return the product.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← The sales approach</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: Handling objections →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: HANDLING OBJECTIONS ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">Handling objections</div>
+    <p class="section-intro">An objection isn't a rejection — it's a question in disguise. Most customers who push back are still interested. Your job is to understand what's really behind the hesitation and address it calmly.</p>
+
+    <!-- Objection framework -->
+    <div class="card-detail" id="d6">
+      <div class="card-detail-header" onclick="toggleDetail('d6')">
+        <div class="card-detail-left">
+          <div class="chip">Framework</div>
+          <span class="detail-title">The ACE method — Acknowledge, Clarify, Explain</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">When a customer pushes back, don't argue and don't immediately capitulate. Use ACE: Acknowledge what they've said, Clarify what's really behind it, then Explain how the product or situation addresses that concern.</p>
+        <div class="funnel">
+          <div class="funnel-step">
+            <div class="funnel-icon s1">A</div>
+            <div class="funnel-content">
+              <div class="funnel-label s1">Acknowledge — validate their concern first</div>
+              <div class="funnel-desc">Never immediately disagree or dismiss. Start by acknowledging that their concern is reasonable: "That's a fair point" / "I totally understand why you'd think that" / "Yeah, I hear that a lot actually." This keeps the conversation open.</div>
+            </div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-icon s2">C</div>
+            <div class="funnel-content">
+              <div class="funnel-label s2">Clarify — understand what's really going on</div>
+              <div class="funnel-desc">Sometimes the stated objection isn't the real one. "It's too expensive" might actually mean "I'm not sure it'll work for me." Ask a follow-up: "Is it more the price, or are you not sure it's the right fit?" Knowing what you're actually dealing with lets you respond to the real concern.</div>
+            </div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-icon s3">E</div>
+            <div class="funnel-content">
+              <div class="funnel-label s3">Explain — address the concern directly and confidently</div>
+              <div class="funnel-desc">Give a clear, honest answer. Don't over-promise. If the concern is price, show the long-term value. If it's uncertainty, offer to start with something smaller-commitment. If you don't know the answer, say you'll find out rather than guessing.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>If you've gone through ACE and the customer still isn't ready, respect that. "No problem at all — take your time and come back when you're ready" is a better close than a sale made under pressure that results in a return.</span></div>
+      </div>
+    </div>
+
+    <!-- Common objections -->
+    <div class="card-detail" id="d7">
+      <div class="card-detail-header" onclick="toggleDetail('d7')">
+        <div class="card-detail-left">
+          <div class="chip yellow">Common objections</div>
+          <span class="detail-title">Objections you'll hear every week — and how to handle them</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Objection</th><th>What's behind it</th><th>How to respond</th></tr>
+          <tr><td>"It's too expensive."</td><td>Price sensitivity or value uncertainty</td><td>Show the cost-per-puff comparison vs cigarettes or disposables. Offer a more accessible entry point without dismissing the premium option entirely.</td></tr>
+          <tr><td>"I don't know if I'll stick with it."</td><td>Commitment anxiety — common with switchers</td><td>Suggest starting with something low-commitment: a disposable to test the experience, or the most affordable pod kit. "You don't have to go all in on day one."</td></tr>
+          <tr><td>"I tried vaping before and it didn't work."</td><td>Bad previous experience — wrong device or nic level</td><td>Ask what they used. Most of the time they had the wrong setup. "A lot of people have that experience — they often had the wrong nicotine strength or device type. Let's figure out what actually suits you."</td></tr>
+          <tr><td>"My friend said this brand is bad."</td><td>Social proof concern</td><td>Acknowledge it: "I hear that sometimes — tastes and experiences vary a lot. What matters is matching the right product to how you vape." Redirect to their needs, not the brand debate.</td></tr>
+          <tr><td>"I'll just think about it."</td><td>Not enough confidence in the recommendation, or they want to leave without saying no</td><td>Don't push. Ask one gentle clarifying question: "Is there anything I can help clarify before you go?" If they're still leaving, let them go warmly — a comfortable exit keeps the door open.</td></tr>
+          <tr><td>"Can you do anything on the price?"</td><td>Wants to feel like they got a deal</td><td>Be honest about what you can and can't do. If you can't discount, offer genuine value: "I can't move on the price, but I'll make sure you leave with everything you need to get the most out of it."</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Complaints -->
+    <div class="card-detail" id="d8">
+      <div class="card-detail-header" onclick="toggleDetail('d8')">
+        <div class="card-detail-left">
+          <div class="chip red">Complaints</div>
+          <span class="detail-title">Handling complaints &amp; returns</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">A customer who complains and gets it resolved well often becomes more loyal than one who never had an issue. How you handle it matters more than the complaint itself.</p>
+        <table class="data-table">
+          <tr><th>Rule</th><th>What it means in practice</th></tr>
+          <tr><td>Listen fully before responding</td><td>Don't jump to solutions before the customer has finished explaining. Interrupting or deflecting too quickly signals defensiveness.</td></tr>
+          <tr><td>Never blame the customer</td><td>Even if they clearly misused the product, focus on finding a solution rather than establishing fault. "Let's see what we can do" beats "well, you should have..."</td></tr>
+          <tr><td>Know the store's return policy</td><td>Ask your manager to walk you through this before your first solo shift. Nothing's worse than making promises you can't keep.</td></tr>
+          <tr><td>Escalate without hesitation</td><td>If you're not sure, get a manager. Customers respect "let me get someone who can sort this properly" over a wrong answer delivered confidently.</td></tr>
+          <tr><td>Burnt taste complaints</td><td>Almost always a coil issue — not primed properly, or past end of life. Diagnose before offering a replacement.</td></tr>
+          <tr><td>Device not working</td><td>Check charge first. Then connection between pod and device. Then coil. Most issues are simple — a quick diagnosis avoids unnecessary returns.</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>Never process a refund or exchange without manager approval</strong> unless you've been explicitly authorised to do so. Protect yourself — get sign-off first.</span></div>
+      </div>
+    </div>
+
+    <!-- Scenario practice -->
+    <h4>Scenario practice</h4>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">These are common real-world conversations you'll face. Read the scenario and the suggested response.</p>
+
+    <div class="scenario-card">
+      <div class="scenario-tag green">Sales flow</div>
+      <div class="scenario-text">A customer walks in and says "I smoke about a pack a day and I want to try quitting. I don't know anything about vaping."</div>
+      <div class="scenario-response-label">Suggested approach</div>
+      <div class="scenario-response">"Good on you for making the switch — we'll get you set up properly. For someone coming from cigarettes, I usually recommend starting with a pod device and a nic salt juice at 20mg — it absorbs the quickest and most people find it feels closest to a cigarette. Want me to show you what we have? We can keep it simple."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Objection</div>
+      <div class="scenario-text">A customer picks up a refillable device, looks at the price, and says "That's more than I wanted to spend."</div>
+      <div class="scenario-response-label">Suggested approach</div>
+      <div class="scenario-response yellow">"Totally fair — it does cost more upfront. The reason most regular vapers end up here is that the juice and coils are much cheaper long-term than disposables or pods. But if you'd rather start smaller, I can show you something more entry-level — it's still a good device, just a bit more basic."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Objection</div>
+      <div class="scenario-text">A customer returns with a device they bought last week. "The taste is really burnt — this thing's broken."</div>
+      <div class="scenario-response-label">Suggested approach</div>
+      <div class="scenario-response yellow">"Sorry to hear that — let's have a look. Burnt taste is usually one of two things: either the coil needs replacing, or it wasn't primed before the first use. Can I ask — when you first used it, did you let it sit with juice in it for a few minutes before vaping? [If no:] That's likely what's happened — the coil's burned out. I can show you how to replace it and get you sorted."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Difficult customer</div>
+      <div class="scenario-text">A customer is visibly frustrated and says "I come in here all the time and this place never has what I need."</div>
+      <div class="scenario-response-label">Suggested approach</div>
+      <div class="scenario-response red">"I'm really sorry about that — that's genuinely frustrating. Can you tell me what you've been trying to get? I want to see if there's something we can do, or at least flag it to our manager so we can make sure we stock it going forward."</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← Recommending &amp; upselling</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Knowledge check</div>
+    <p class="section-intro">10 questions on sales technique, objection handling, and customer service. Score 8/10 to pass.</p>
+
+    <div id="quiz-score-bar">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. What are the three qualifying questions you should ask before making a product recommendation?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">How much do you want to spend? What flavour do you like? Have you vaped before?</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">Are you new to vaping or do you have a device? Are you trying to quit cigarettes? What are you looking for today — a device, juice, or coils?</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">What brand do you use? How many cigarettes do you smoke? Do you want nicotine?</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">You don't need to ask questions — just recommend the most popular product.</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. A first-time customer says "I don't know anything — what's the best?" What is the correct approach?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Show them the full range and let them decide</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Recommend the most expensive device — it's always the best</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">Ask two or three qualifying questions to understand their situation, then make one clear recommendation based on their answers</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Tell them to do some research online and come back when they know what they want</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. When is the best time to suggest a coil pack to a customer buying a refillable device?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Only if they ask about coils themselves</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">After they've paid, as an afterthought</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">At the same time as the device — frame it as a practical necessity, not an upsell</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Never — wait until their coil burns out and they return to the store</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. What does the ACE method stand for when handling objections?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Ask, Convert, Execute</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">Acknowledge, Clarify, Explain</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Agree, Counter, Enforce</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Assess, Close, Exit</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. A customer who buys closed pods every week is making a comment about how much they spend. What is the right upsell opportunity here?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Suggest they buy more pods in bulk to save per-unit</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">Suggest switching to an open pod system — the upfront cost is higher but the ongoing cost is significantly lower</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Switch them to disposables — they're cheaper upfront</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">There's no upsell opportunity here — just process the transaction</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. A customer says "I tried vaping before and it didn't work for me." What is the best response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Apologise and suggest they try cigarettes again</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Tell them to try a different brand this time</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Ask what device and nicotine strength they used — the most common reason it doesn't work is the wrong setup — then recommend based on their answers</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Tell them vaping doesn't work for everyone and move on</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. How many upsells should you attempt per transaction?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">As many as possible — every add-on counts</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">None — upselling feels pushy and should be avoided</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">One well-chosen upsell — pick the most relevant add-on and focus there. If they decline, let it go.</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Two — always pair a device upsell with a juice upsell</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. A customer returns saying their device tastes burnt. Before offering a replacement, what should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Immediately offer a full replacement to keep them happy</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Tell them it's user error and they voided the warranty</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">Diagnose first — ask if the coil was primed before first use, and check if the coil needs replacing. Most burnt taste complaints have a simple fix.</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Refer them to the manufacturer's website</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. A first-time customer who used to smoke menthol cigarettes asks for a juice recommendation. Where do you start?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Dessert or custard — it's your personal favourite</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Tobacco flavour — they're coming from cigarettes</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Menthol or ice — it mirrors their existing habit and reduces the unfamiliarity of switching</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Mango — it's the most popular flavour in the store</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. A customer says "I'll just think about it" and moves toward the door. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Follow them and keep pitching until they leave</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Say nothing — any further contact will annoy them</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Ask one gentle clarifying question — "Is there anything I can help clarify?" — then let them go warmly if they're still leaving. A comfortable exit keeps the door open.</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Offer a discount to close the sale immediately</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Module 3 Complete</h3>
+      <p>You've passed the customer service &amp; sales module. You're ready to move on to Module 4.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← Handling objections</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. These three questions tell you everything: their experience level, their motivation, and what they actually need today. Skip them and you're guessing.", wrong: "The three key qualifying questions are: Are you new to vaping or do you have a device? Are you trying to quit cigarettes or already switched? What are you looking for today? These shape everything that follows." },
+    q2:  { correct: "Correct. 'What's the best?' is a prompt to qualify, not to pitch. Two or three questions will tell you exactly what to recommend — then give one clear answer.", wrong: "When a customer doesn't know what they want, the right move is to ask qualifying questions first. Showing them everything causes decision paralysis. Ask, then make one clear recommendation." },
+    q3:  { correct: "Correct. Coils are a consumable — they'll run out within 1–3 weeks. A customer who can't replace them will have a bad experience. Always bundle them at point of sale and frame it as practical advice.", wrong: "Coils should always be suggested alongside a refillable device purchase. Frame it as practical advice: 'You'll need these within a couple of weeks — worth grabbing now.' Waiting until they return frustrated is too late." },
+    q4:  { correct: "Correct. ACE: Acknowledge the concern, Clarify what's really behind it, then Explain how the product or situation addresses it. It keeps the conversation open without being argumentative.", wrong: "ACE stands for Acknowledge, Clarify, Explain. Acknowledge their concern first (don't dismiss it), clarify what's really behind the objection, then explain how to address it." },
+    q5:  { correct: "Correct. A regular closed-pod buyer spending more than they'd like is the ideal candidate to switch to an open pod system. The math usually works clearly in their favour — and it builds loyalty through bottled juice sales.", wrong: "The right upsell for a regular closed-pod customer commenting on cost is an open pod system. The upfront cost is higher, but the per-puff cost of bottled juice is significantly lower — it's a genuine saving and an easy conversation to have." },
+    q6:  { correct: "Correct. Most people who say vaping didn't work for them had the wrong setup — usually the wrong nicotine strength or the wrong device type. Diagnose before writing them off.", wrong: "When a customer says vaping didn't work before, don't accept that at face value. Ask what they used. Most of the time they had an unsuitable setup. Diagnosing first lets you actually fix the problem." },
+    q7:  { correct: "Correct. One relevant, well-framed upsell per transaction. Stacking multiple add-ons comes across as pushy and erodes the trust you've built. Pick the one that matters most and present it genuinely.", wrong: "The rule is one upsell per transaction — the most relevant one, framed as genuine advice. Multiple upsells in one transaction feel like a hard sell and damage the relationship." },
+    q8:  { correct: "Correct. Burnt taste is almost always a solvable problem — unprimed coil or a coil that needs replacing. Diagnose first. A customer who leaves with a working device is far better than one who gets a replacement and has the same issue again.", wrong: "Burnt taste complaints should be diagnosed before any replacement is offered. In most cases it's an unprimed or worn coil — a simple fix. Jumping straight to replacement misses the chance to educate the customer and avoid repeat issues." },
+    q9:  { correct: "Correct. Former menthol smokers respond best to menthol and ice flavours first — it mirrors what they're used to and removes one unfamiliar element from the switch. You can introduce other profiles once they're comfortable.", wrong: "For a former menthol smoker, start with menthol or ice flavours. It matches their existing sensory expectation and reduces the friction of switching. Other flavour categories can come later once they've settled in." },
+    q10: { correct: "Correct. One gentle question — 'Is there anything I can help clarify?' — gives them an opening if they have an unanswered concern. If they're still heading out, let them go warmly. A positive exit keeps the relationship alive for next time.", wrong: "When a customer says they'll think about it, one gentle clarifying question is appropriate. If they still want to leave, let them go warmly — a comfortable exit is far better than a pressured close that damages trust." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else {
+        updateProgress(70);
+      }
+    }
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

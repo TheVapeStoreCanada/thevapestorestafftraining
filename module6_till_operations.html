@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6: Till Operations & Cash Handling — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d0b;
+    --surface: #131513;
+    --surface2: #1a1d1a;
+    --border: #252825;
+    --accent: #4ecb71;
+    --accent2: #ff6b6b;
+    --accent3: #f7c948;
+    --accent4: #7eb8f7;
+    --text: #e8ede8;
+    --muted: #6a736a;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+  .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 46px); font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 560px; }
+  .meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Progress */
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 40px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #2da34f); border-radius: 99px; width: 0%; transition: width 0.5s ease; }
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab-btn { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #0b0d0b; }
+
+  /* Panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 620px; }
+
+  /* Summary cards */
+  .summary-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; position: relative; overflow: hidden; }
+  .summary-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--card-accent, var(--accent)); border-radius: 3px 0 0 3px; }
+  .summary-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .summary-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+  .summary-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Expandable */
+  .card-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .card-detail-header:hover .chevron { color: var(--accent); }
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+  .chip { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(78,203,113,0.1); color: var(--accent); }
+  .chip.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .chip.yellow { background: rgba(247,201,72,0.1); color: var(--accent3); }
+  .chip.blue { background: rgba(126,184,247,0.1); color: var(--accent4); }
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Step flow */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .flow-step { display: flex; gap: 16px; align-items: flex-start; position: relative; }
+  .flow-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: var(--border); }
+  .flow-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; z-index: 1; border: 2px solid var(--border); background: var(--surface); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; color: var(--muted); }
+  .flow-icon.green { border-color: var(--accent); background: rgba(78,203,113,0.1); color: var(--accent); }
+  .flow-icon.yellow { border-color: var(--accent3); background: rgba(247,201,72,0.1); color: var(--accent3); }
+  .flow-icon.red { border-color: var(--accent2); background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .flow-icon.blue { border-color: var(--accent4); background: rgba(126,184,247,0.1); color: var(--accent4); }
+  .flow-content { padding: 8px 0 24px; }
+  .flow-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .flow-label.green { color: var(--accent); }
+  .flow-label.yellow { color: var(--accent3); }
+  .flow-label.red { color: var(--accent2); }
+  .flow-label.blue { color: var(--accent4); }
+  .flow-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(37,40,37,0.8); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Denomination counter visual */
+  .denom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .denom-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
+  .denom-value { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--accent); min-width: 44px; }
+  .denom-info { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .denom-label { font-size: 11px; color: var(--muted); }
+
+  /* Tip / warn / info boxes */
+  .tip-box { background: rgba(78,203,113,0.06); border: 1px solid rgba(78,203,113,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 16px; display: flex; gap: 10px; font-size: 13px; color: #9de8b2; }
+  .warn-box { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.22); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #ffaeae; }
+  .info-box { background: rgba(247,201,72,0.06); border: 1px solid rgba(247,201,72,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #f7e08a; }
+
+  /* Rule callout */
+  .rule-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; }
+  .rule-number { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1; min-width: 32px; padding-top: 2px; }
+  .rule-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .rule-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Hard stop */
+  .hardstop { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.3); border-left: 3px solid var(--accent2); border-radius: 8px; padding: 16px 18px; margin-bottom: 12px; }
+  .hardstop-title { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--accent2); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 5px; }
+  .hardstop-body { font-size: 13px; color: #ffaeae; line-height: 1.65; }
+
+  /* Scenario */
+  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 14px; }
+  .scenario-tag { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+  .scenario-tag.green { background: rgba(78,203,113,0.1); color: var(--accent); }
+  .scenario-tag.yellow { background: rgba(247,201,72,0.1); color: var(--accent3); }
+  .scenario-tag.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .scenario-text { font-size: 14px; color: var(--text); font-style: italic; margin-bottom: 14px; border-left: 2px solid var(--border); padding-left: 12px; line-height: 1.7; }
+  .scenario-response-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .scenario-response { font-size: 13px; color: #9de8b2; background: rgba(78,203,113,0.05); border: 1px solid rgba(78,203,113,0.15); border-radius: 8px; padding: 12px 14px; line-height: 1.65; }
+  .scenario-response.yellow { color: #f7e08a; background: rgba(247,201,72,0.05); border-color: rgba(247,201,72,0.15); }
+  .scenario-response.red { color: #ffaeae; background: rgba(255,107,107,0.05); border-color: rgba(255,107,107,0.15); }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-size: 13px; color: var(--text); transition: border-color 0.15s; text-align: left; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-opt.correct { background: rgba(78,203,113,0.1); border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.wrong { background: rgba(255,107,107,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(78,203,113,0.08); color: var(--accent); }
+  .quiz-feedback.wrong { background: rgba(255,107,107,0.08); color: #ff8f8f; }
+
+  /* Completion */
+  .completion-banner { background: rgba(78,203,113,0.08); border: 1px solid rgba(78,203,113,0.25); border-radius: var(--radius); padding: 24px; text-align: center; margin-top: 24px; display: none; }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .nav-btn { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #0b0d0b; }
+  .nav-btn.primary:hover { background: #2da34f; border-color: #2da34f; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 5px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+  #quiz-score-bar { display: none; margin-bottom: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 6</div>
+    <h1>Till Operations &amp; <span>Cash Handling</span></h1>
+    <p class="subtitle">How to open and close the till, process transactions correctly, count cash, handle discrepancies, and protect yourself and the store.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> ~25 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · Till basics</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · Cash handling</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · Discrepancies & errors</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Knowledge check</button>
+  </div>
+
+  <!-- ===== SECTION 1: TILL BASICS ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">Till basics</div>
+    <p class="section-intro">The till is one of your core responsibilities on the floor. Knowing how to open it, process transactions cleanly, and close it out correctly protects both you and the store.</p>
+
+    <div class="summary-cards">
+      <div class="summary-card" style="--card-accent: var(--accent)">
+        <span class="summary-icon">🟢</span>
+        <div class="summary-title">Opening float</div>
+        <div class="summary-sub">Count and confirm before your shift starts</div>
+      </div>
+      <div class="summary-card" style="--card-accent: var(--accent4)">
+        <span class="summary-icon">💳</span>
+        <div class="summary-title">Processing sales</div>
+        <div class="summary-sub">Cash, card, and refunds — done correctly every time</div>
+      </div>
+      <div class="summary-card" style="--card-accent: var(--accent3)">
+        <span class="summary-icon">🔴</span>
+        <div class="summary-title">Closing count</div>
+        <div class="summary-sub">Count down, reconcile, and report before you leave</div>
+      </div>
+      <div class="summary-card" style="--card-accent: var(--accent2)">
+        <span class="summary-icon">📋</span>
+        <div class="summary-title">Discrepancies</div>
+        <div class="summary-sub">Always report — never adjust without manager approval</div>
+      </div>
+    </div>
+
+    <!-- Core rules -->
+    <h4>The rules that never change</h4>
+
+    <div class="rule-card">
+      <div class="rule-number">01</div>
+      <div>
+        <div class="rule-title">Never share a till with another staff member without a handover count</div>
+        <div class="rule-body">If you're taking over a till mid-shift, always count it first and confirm the amount with the outgoing staff member. Both of you are responsible for what's in the drawer during your respective times — a handover count protects everyone.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-number">02</div>
+      <div>
+        <div class="rule-title">Never open the till without a transaction</div>
+        <div class="rule-body">The till drawer should only open during a legitimate sale, refund, or authorised count. Opening it for any other reason — including to make change for someone who hasn't made a purchase — requires manager approval.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-number">03</div>
+      <div>
+        <div class="rule-title">Never leave the till open or unattended</div>
+        <div class="rule-body">Close the drawer after every transaction. An open till is a theft risk and an invitation for errors. If you need to step away from the counter, the drawer must be closed and the screen locked.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-number">04</div>
+      <div>
+        <div class="rule-title">Report every discrepancy — no matter how small</div>
+        <div class="rule-body">If the till is over or short at the end of your count, report it to your manager. Do not adjust the count to make it balance. Small discrepancies happen — unexplained or hidden ones are a serious problem.</div>
+      </div>
+    </div>
+
+    <!-- Opening the till -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">Opening</div>
+          <span class="detail-title">How to open the till at the start of your shift</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon green">1</div>
+            <div class="flow-content">
+              <div class="flow-label green">Receive the float from your manager or the previous shift</div>
+              <div class="flow-desc">The opening float is a set amount of cash pre-loaded into the till at the start of trading. Your manager will confirm the expected float amount — ask if you don't know what it should be.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">2</div>
+            <div class="flow-content">
+              <div class="flow-label green">Count the float before you start serving</div>
+              <div class="flow-desc">Count every denomination in the drawer and total them up. Do this privately — not in front of customers. If the total matches the expected float amount, you're good to go. If it doesn't, stop and notify your manager before any transactions take place.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">3</div>
+            <div class="flow-content">
+              <div class="flow-label green">Note the opening amount and sign off if required</div>
+              <div class="flow-desc">Some stores require staff to sign a till sheet or log the opening balance in the POS system. Ask your manager what the store's procedure is. Even if no formal sign-off is required, you should know the opening float amount for your own protection.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">4</div>
+            <div class="flow-content">
+              <div class="flow-label green">Organise the drawer before the first transaction</div>
+              <div class="flow-desc">Notes face the same direction, in the correct slots by denomination. Coins in their correct sections. A tidy drawer means faster, more accurate change-giving all shift.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>If you're ever handed a till that hasn't been counted in front of you and something comes up short later, it becomes your responsibility. Always count before you accept it — no matter how busy it is.</span></div>
+      </div>
+    </div>
+
+    <!-- Processing transactions -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip blue">Transactions</div>
+          <span class="detail-title">Processing sales — cash, card, and receipts</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Payment type</th><th>Correct process</th><th>Common mistakes</th></tr>
+          <tr>
+            <td>Cash</td>
+            <td>State the total clearly. Accept the note/coins. Place the cash on the till ledge — not in the drawer — until change is given. Count change back to the customer. Then place the payment into the drawer.</td>
+            <td>Putting cash in the drawer before giving change — if a dispute arises you can't verify what was tendered. Always keep it on the ledge until the transaction is complete.</td>
+          </tr>
+          <tr>
+            <td>Card (tap/chip)</td>
+            <td>Enter the correct amount on the POS before the customer taps or inserts. Confirm the amount on screen before they pay. Wait for the approved confirmation before bagging the product.</td>
+            <td>Rushing the card tap before the amount is confirmed. If the wrong amount is charged, a correction requires manager involvement.</td>
+          </tr>
+          <tr>
+            <td>Receipts</td>
+            <td>Offer a receipt on every cash transaction. For card transactions, follow store policy — some customers expect one. Never refuse a receipt if requested.</td>
+            <td>Skipping receipt offers to speed up the queue. Receipts protect both the customer and the store.</td>
+          </tr>
+          <tr>
+            <td>Refunds</td>
+            <td>Always get manager approval before processing any refund. Verify the original transaction if possible. Return the correct amount to the original payment method where possible.</td>
+            <td>Processing refunds to a different payment method than the original without manager approval. Refunding cash for a card transaction without sign-off.</td>
+          </tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>Never void or refund a transaction without manager approval.</strong> Even if you made the error — stop, call your manager, and let them handle the correction. Attempting to fix it yourself can create a larger discrepancy.</span></div>
+      </div>
+    </div>
+
+    <!-- Closing the till -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip yellow">Closing</div>
+          <span class="detail-title">How to close down the till at the end of your shift</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon yellow">1</div>
+            <div class="flow-content">
+              <div class="flow-label yellow">Process the final transaction of the shift before counting</div>
+              <div class="flow-desc">Make sure no transactions are left pending. The till should be in a clean state before you begin the count.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon yellow">2</div>
+            <div class="flow-content">
+              <div class="flow-label yellow">Count all cash in the drawer by denomination</div>
+              <div class="flow-desc">Count every denomination separately and note the totals. Count twice if the amount is large or if something doesn't add up first time. Do this away from customers.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon yellow">3</div>
+            <div class="flow-content">
+              <div class="flow-label yellow">Subtract the opening float to get net cash taken</div>
+              <div class="flow-desc">Total cash in drawer minus the opening float equals the cash taken during your shift. This figure should match the sales total on the POS system for cash transactions.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon yellow">4</div>
+            <div class="flow-content">
+              <div class="flow-label yellow">Record and report — over or short, always tell your manager</div>
+              <div class="flow-desc">Complete whatever till reconciliation form or POS process the store uses. If there is a discrepancy, report it immediately. Do not attempt to balance the count yourself.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon yellow">5</div>
+            <div class="flow-content">
+              <div class="flow-label yellow">Secure the cash as instructed</div>
+              <div class="flow-desc">Follow your manager's instructions for where cash goes after counting — whether that's a safe, a drop box, or held for handover. Never leave counted cash sitting on the counter.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: Cash handling →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: CASH HANDLING ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">Cash handling</div>
+    <p class="section-intro">Accurate cash handling protects you, your colleagues, and the store. Most errors are preventable — they come from rushing, distraction, or skipping steps.</p>
+
+    <!-- Counting change -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip">Giving change</div>
+          <span class="detail-title">How to count back change correctly</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Counting change back to the customer — rather than just handing over a lump of coins — reduces errors, builds trust, and immediately resolves any dispute about the amount before it starts.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon green">1</div>
+            <div class="flow-content">
+              <div class="flow-label green">State the total and what the customer handed you</div>
+              <div class="flow-desc">"That's $14.99, and you've given me $20." This creates a clear, shared reference point before anything goes into the drawer.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">2</div>
+            <div class="flow-content">
+              <div class="flow-label green">Keep the tendered note on the ledge — not in the drawer</div>
+              <div class="flow-desc">Do not put the cash into the drawer until change has been given and accepted. If the customer disputes the amount tendered, the note is still visible.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">3</div>
+            <div class="flow-content">
+              <div class="flow-label green">Count the change out loud as you hand it over</div>
+              <div class="flow-desc">"And that's one cent, $0.05, $0.25... and $5.00 makes $20." Counting back eliminates most disputes on the spot and takes only a few extra seconds.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">4</div>
+            <div class="flow-content">
+              <div class="flow-label green">Place the note in the drawer only after change is accepted</div>
+              <div class="flow-desc">Once the customer has their change and is satisfied, place the tendered note into the correct denomination slot. Close the drawer.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>If a customer hands you a large note (e.g. $100) and you're not sure you have enough change, check before you take it: "Let me just check I can break that for you." It's better than opening the drawer and having to send them elsewhere.</span></div>
+      </div>
+    </div>
+
+    <!-- Canadian denominations -->
+    <div class="card-detail" id="d4">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip blue">Denominations</div>
+          <span class="detail-title">Canadian currency — notes and coins at a glance</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Know your Canadian denominations — especially the coins, which are easy to confuse quickly.</p>
+        <h4 style="margin-top:16px;">Banknotes</h4>
+        <div class="denom-grid">
+          <div class="denom-card"><div class="denom-value">$5</div><div class="denom-info"><div>Blue</div><div class="denom-label">Wilfrid Laurier</div></div></div>
+          <div class="denom-card"><div class="denom-value">$10</div><div class="denom-info"><div>Purple</div><div class="denom-label">Viola Desmond</div></div></div>
+          <div class="denom-card"><div class="denom-value">$20</div><div class="denom-info"><div>Green</div><div class="denom-label">Queen Elizabeth II</div></div></div>
+          <div class="denom-card"><div class="denom-value">$50</div><div class="denom-info"><div>Red</div><div class="denom-label">William Lyon Mackenzie King</div></div></div>
+          <div class="denom-card"><div class="denom-value">$100</div><div class="denom-info"><div>Brown</div><div class="denom-label">Robert Borden</div></div></div>
+        </div>
+        <h4>Coins</h4>
+        <div class="denom-grid">
+          <div class="denom-card"><div class="denom-value">1¢</div><div class="denom-info"><div>Penny</div><div class="denom-label">No longer minted — round to nearest 5¢ for cash</div></div></div>
+          <div class="denom-card"><div class="denom-value">5¢</div><div class="denom-info"><div>Nickel</div><div class="denom-label">Beaver. Smaller than dime.</div></div></div>
+          <div class="denom-card"><div class="denom-value">10¢</div><div class="denom-info"><div>Dime</div><div class="denom-label">Bluenose schooner. Smallest coin.</div></div></div>
+          <div class="denom-card"><div class="denom-value">25¢</div><div class="denom-info"><div>Quarter</div><div class="denom-label">Caribou. Most common coin.</div></div></div>
+          <div class="denom-card"><div class="denom-value">$1</div><div class="denom-info"><div>Loonie</div><div class="denom-label">Gold-coloured. Common loon.</div></div></div>
+          <div class="denom-card"><div class="denom-value">$2</div><div class="denom-info"><div>Toonie</div><div class="denom-label">Two-tone. Polar bear.</div></div></div>
+        </div>
+        <div class="info-box"><span>💡</span><span><strong>Cash rounding in Canada:</strong> Since the penny was discontinued, cash transactions are rounded to the nearest $0.05. $X.01 and $X.02 round down to $X.00. $X.03 and $X.04 round up to $X.05. This only applies to cash — card transactions are charged to the exact cent.</span></div>
+      </div>
+    </div>
+
+    <!-- Counterfeit awareness -->
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip red">Counterfeit</div>
+          <span class="detail-title">Spotting and handling counterfeit notes</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Canadian polymer banknotes have multiple built-in security features. Knowing them takes 30 seconds — and it protects the store from a loss that comes directly off the bottom line.</p>
+        <table class="data-table">
+          <tr><th>Security feature</th><th>What to check</th></tr>
+          <tr><td>Transparent window</td><td>All notes $10 and above have a clear window with a metallic portrait. It should be part of the note — not stuck on or printed on.</td></tr>
+          <tr><td>Holographic stripe</td><td>The metallic stripe changes colour when tilted. It should shift — a flat metallic strip that doesn't change is a red flag.</td></tr>
+          <tr><td>Raised ink</td><td>Run your fingernail across the large number on the front — you should feel ridges. A smooth note is suspicious.</td></tr>
+          <tr><td>UV features</td><td>Under UV light, specific areas fluoresce. If your store has a UV pen or light, use it on $50 and $100 notes.</td></tr>
+          <tr><td>Feel of the note</td><td>Polymer notes have a distinctive plastic feel — they're not paper. A note that feels like paper or is visibly flimsy should be treated with suspicion.</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>If you suspect a note is counterfeit:</strong> Do not return it to the customer. Do not accuse them directly. Calmly say you need to check it and call your manager immediately. Your manager will handle it from there. Do not put a suspected counterfeit into the till.</span></div>
+      </div>
+    </div>
+
+    <!-- Scenarios -->
+    <h4>Common cash scenarios</h4>
+
+    <div class="scenario-card">
+      <div class="scenario-tag green">Correct process</div>
+      <div class="scenario-text">A customer pays $16.50 with a $20 bill. How do you process it?</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response">"That's $16.50 — and you've given me $20." Place the $20 on the ledge. Take $3.50 in change from the drawer. Count it back: "25 cents, 50 cents, 75 cents — $17, $18, $19, $20. There's your $3.50 change." Hand it over, confirm they're happy, then place the $20 in the drawer and close it.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Judgment call</div>
+      <div class="scenario-text">A customer insists they gave you a $50 but you're certain it was a $20 and you've already put it in the drawer.</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response yellow">"I understand — let me get my manager to help sort this out." Do not open the drawer and count it yourself. This is a till discrepancy situation and requires manager involvement. The manager can authorise a till check with both of you present.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Counterfeit concern</div>
+      <div class="scenario-text">You receive a $100 note and the transparent window feels like it's been printed on rather than part of the note.</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response red">"Just one moment — let me grab my manager." Do not return the note. Do not accuse the customer. Get your manager immediately. Place the note aside and do not put it in the till.</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← Till basics</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: Discrepancies &amp; errors →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: DISCREPANCIES & ERRORS ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">Discrepancies &amp; errors</div>
+    <p class="section-intro">Till discrepancies happen. How you respond to them is what matters. Always report — always be honest — never attempt to fix it yourself.</p>
+
+    <!-- Hard stops -->
+    <h4>Absolute rules — no exceptions</h4>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚫 Never adjust a count to make it balance</div>
+      <div class="hardstop-body">If your till is $5 short, do not add $5 of your own money to cover it. If it's $5 over, do not pocket it. Both are serious issues regardless of intent. Report the discrepancy as it is.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚫 Never process a void or refund without manager approval</div>
+      <div class="hardstop-body">Even if you made the mistake — even if the customer is getting frustrated — stop the transaction and call your manager. An unauthorised void creates a discrepancy that is harder to explain than the original error.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚫 Never accept cash for a transaction that's already been processed as card</div>
+      <div class="hardstop-body">If a customer's card was charged and they then offer cash "to make it easier," do not accept it. The transaction is complete. Mixing payment methods on a completed sale creates an impossible-to-reconcile discrepancy.</div>
+    </div>
+
+    <!-- Common errors -->
+    <div class="card-detail" id="d6" style="margin-top:24px;">
+      <div class="card-detail-header" onclick="toggleDetail('d6')">
+        <div class="card-detail-left">
+          <div class="chip yellow">Common errors</div>
+          <span class="detail-title">Errors that cause discrepancies — and how to avoid them</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Error</th><th>How it causes a discrepancy</th><th>How to avoid it</th></tr>
+          <tr><td>Putting cash in the drawer before giving change</td><td>If the customer disputes the amount, you can't verify what was tendered</td><td>Always keep the tendered note on the ledge until change is given and accepted</td></tr>
+          <tr><td>Giving change for the wrong denomination</td><td>Till goes short; customer gets too much change</td><td>State the denomination out loud when you receive it. Count change back every time.</td></tr>
+          <tr><td>Not confirming the card amount before the tap</td><td>Wrong amount charged; correction requires a refund and re-charge</td><td>Always confirm the amount on the POS screen before the customer taps or inserts</td></tr>
+          <tr><td>Processing a no-sale or void incorrectly</td><td>Creates a gap in the transaction record</td><td>Get manager approval before any no-sale or void. Don't attempt to correct mistakes yourself.</td></tr>
+          <tr><td>Leaving the drawer open between transactions</td><td>Increases opportunity for unnoticed errors or theft</td><td>Close the drawer immediately after every transaction, without exception</td></tr>
+          <tr><td>Miscounting the float at opening</td><td>Everything that follows is measured against a wrong starting number</td><td>Count the float twice at opening. If it's off, report before any transactions.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Reporting a discrepancy -->
+    <div class="card-detail" id="d7">
+      <div class="card-detail-header" onclick="toggleDetail('d7')">
+        <div class="card-detail-left">
+          <div class="chip">Reporting</div>
+          <span class="detail-title">How to report a discrepancy correctly</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Finding a discrepancy is not automatically a problem — what matters is how it's handled. A reported discrepancy is a manageable situation. An unreported or hidden one is not.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon green">1</div>
+            <div class="flow-content">
+              <div class="flow-label green">Recount before reporting</div>
+              <div class="flow-desc">Count the till a second time before you raise it. Miscounts happen. If the second count matches, report the discrepancy. If the second count gives a different number, count a third time and take the majority result.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">2</div>
+            <div class="flow-content">
+              <div class="flow-label green">Report the exact figure to your manager</div>
+              <div class="flow-desc">Be specific: "The till is $3.75 short" or "The till is $10 over." Your manager needs the exact figure, not a rough estimate. Give them the total in the drawer and the expected total.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">3</div>
+            <div class="flow-content">
+              <div class="flow-label green">Note anything unusual from your shift</div>
+              <div class="flow-desc">Think back through your transactions. Did anything unusual happen — a large note, a disputed change, an interrupted transaction? Giving your manager context helps them investigate.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">4</div>
+            <div class="flow-content">
+              <div class="flow-label green">Let your manager handle the investigation</div>
+              <div class="flow-desc">Once you've reported it and given context, it's in your manager's hands. Do not attempt to investigate it yourself, do not approach a customer about a suspected error without manager direction, and do not discuss it with other staff on the floor.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>A consistent pattern of small discrepancies is more concerning than a single larger one. If your till is frequently a few dollars off, your manager needs to know — it usually points to a specific habit or process that can be corrected.</span></div>
+      </div>
+    </div>
+
+    <!-- Scenarios -->
+    <h4>Discrepancy scenarios</h4>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Short till</div>
+      <div class="scenario-text">You count down at the end of your shift and the till is $8 short. You counted it twice and get the same result.</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response yellow">Report it to your manager immediately with the exact figure. Think back through your shift for anything unusual — a large note change, a transaction that felt off. Do not attempt to cover it. Being $8 short is a manageable situation. Hiding it is not.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag green">Over till</div>
+      <div class="scenario-text">Your closing count is $15 over the expected amount.</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response">Report it exactly as you would a short. An over-till is not a windfall — it means either a counting error, a transaction error, or someone received less change than they were owed. It requires the same investigation as a short.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Transaction error</div>
+      <div class="scenario-text">You accidentally charged a customer $46.99 instead of $16.99 on their card. The customer is still at the counter.</div>
+      <div class="scenario-response-label">Correct approach</div>
+      <div class="scenario-response red">"I'm so sorry — I've made an error on that charge. Let me get my manager to sort this out for you right now." Do not attempt to void or reprocess the transaction yourself. Get your manager immediately while the customer is still there.</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← Cash handling</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Knowledge check</div>
+    <p class="section-intro">10 questions on till procedures, cash handling, and discrepancy management. Score 8/10 to pass.</p>
+
+    <div id="quiz-score-bar">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. You're handed the till at the start of your shift. What should you do before serving any customers?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Start serving — counting takes too long during opening rush</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">Count the float and confirm it matches the expected amount before any transactions. If it doesn't match, notify your manager before proceeding.</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Trust the previous shift counted it correctly</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Count it at the end of your shift so you have a full picture</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. A customer pays $22.50 cash with a $50 note. At what point should you put the $50 into the drawer?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Immediately — so you can use both hands to count change</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">After you've opened the drawer to get change</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">Only after you've given the customer their change and they've accepted it — keep it on the ledge until then</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">It doesn't matter as long as the change amount is correct</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. You close your till and find it is $12 over the expected amount. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Keep it — the till being over means you made no mistakes</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Put the extra $12 aside in case a customer comes back</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">Report it to your manager with the exact figure — same as you would a short. An over-till requires investigation just like a shortage.</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Round it down to the expected amount and note a $12 adjustment</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. A customer's card has just been charged for their purchase. They then offer to pay cash instead "to make it easier." What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Accept the cash and put it in the till — it simplifies things</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Accept the cash and set it aside separately from the till</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">Decline — the transaction is complete. Accepting cash after a card charge has processed creates an unreconcilable discrepancy. Explain politely that it's already gone through.</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Void the card transaction and re-process as cash</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. You receive what looks like a $100 note but the feel is wrong — it feels like paper, not polymer. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Accept it — worn notes sometimes feel different</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Hand it back and tell the customer it's fake</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">Do not return it and do not put it in the till. Calmly say you need to check it and get your manager immediately. Do not accuse the customer directly.</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Use the till's UV light and tell the customer your findings</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. You accidentally enter the wrong amount on the card machine and the customer's card is charged incorrectly. The customer is still at the counter. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Try to void and re-process it yourself to save time</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Tell the customer to call their bank to dispute the charge</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Apologise clearly and get your manager immediately — while the customer is still there. Do not attempt to void or reprocess the transaction yourself.</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Process a second transaction for the difference and give them a receipt for both</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. How should you calculate the net cash taken during your shift?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Count everything in the drawer — that is the net cash taken</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">Total cash in the drawer minus the opening float equals net cash taken — this should match the POS total for cash transactions</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Add the opening float to the drawer total to get the full amount</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Ask your manager what the target figure is and work backwards</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. In Canada, a cash transaction comes to $14.03. How much should the customer pay?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">$14.03 — exact change only</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">$14.05 — always round up</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">$14.00 — cash transactions are rounded to the nearest $0.05, and $0.03 rounds down. Card transactions charge the exact amount.</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">$14.05 — pennies were discontinued so you always round up to the nearest nickel</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. A customer insists they gave you a $50 note but you believe it was a $20 and you've already placed it in the drawer. What's the correct response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Open the drawer and count it in front of the customer to resolve it</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Tell the customer you're certain it was a $20 and the matter is closed</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Get your manager immediately. A till check for a denomination dispute must be authorised and conducted by a manager — not resolved by opening the drawer yourself.</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Give the customer the benefit of the doubt and hand over the extra $30</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. Why should you never add your own money to the till to cover a shortage?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Because your personal money isn't legal tender in the till</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Because the shortage might resolve itself at the next count</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Because it hides a discrepancy that needs to be investigated and reported. Even with good intentions, covering a shortage is a serious issue — it prevents the store from identifying patterns, errors, or potential theft.</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Because the store might owe you money and this creates a conflict of interest</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Module 6 Complete</h3>
+      <p>You've passed the till operations module. You're ready to handle the register with confidence.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← Discrepancies &amp; errors</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. Always count the float before any transactions. If it doesn't match, you report it before the shift starts — not at the end. An uncounted float means you have no verified starting point.", wrong: "You must count the float before serving any customers. If it doesn't match the expected amount, report it to your manager before any transactions take place. Once the shift starts, any discrepancy becomes your responsibility." },
+    q2:  { correct: "Correct. Keep the tendered note on the ledge until change is given and accepted. If the customer disputes the amount, you can still see what they handed you. Once it's in the drawer, you lose that ability.", wrong: "The $50 should stay on the ledge until after you've given the correct change and the customer has accepted it. Putting it in the drawer before giving change means you can't verify what was tendered if a dispute arises." },
+    q3:  { correct: "Correct. An over-till is reported the same way as a short — with the exact figure to your manager. It could mean a customer received too little change, a counting error, or something else. It needs investigation either way.", wrong: "An over-till is reported just like a short. It doesn't mean no mistakes were made — a customer may have received too little change, or there may be a counting or transaction error. Report the exact figure to your manager." },
+    q4:  { correct: "Correct. Once a card transaction has processed, it's done. Accepting cash on top of it creates a discrepancy that can't be reconciled. Politely explain that it's already gone through and the transaction is complete.", wrong: "You should not accept cash after a card transaction has completed. The transaction is done — adding cash on top creates an unreconcilable discrepancy. Politely explain that it's already processed." },
+    q5:  { correct: "Correct. Do not return a suspected counterfeit and do not accuse the customer. Keep the note, say you need to check it, and get your manager. They handle it from there.", wrong: "If a note feels wrong, do not return it and do not put it in the till. Get your manager without accusing the customer. Handing back a suspected counterfeit allows it to be used elsewhere — your manager needs to handle the situation." },
+    q6:  { correct: "Correct. Any card error requires manager involvement. Apologise clearly, get your manager while the customer is still present, and let them handle the correction. Attempting to fix it yourself creates a larger mess.", wrong: "Any card transaction error must be handled by a manager. Apologise to the customer and get your manager immediately while they're still there. Do not attempt to void or reprocess the transaction yourself." },
+    q7:  { correct: "Correct. Total in drawer minus opening float equals net cash taken. This figure is what you compare against the POS cash sales total to determine whether the till balances.", wrong: "Net cash taken = total in drawer minus opening float. That's the figure you compare against the POS total for cash transactions. Counting everything in the drawer gives you the total float plus takings — not the takings alone." },
+    q8:  { correct: "Correct. Canadian cash rounding: $0.01–$0.02 rounds down, $0.03–$0.04 rounds up. $14.03 rounds down to $14.00. Card transactions are always charged to the exact cent.", wrong: "Canadian cash rounding rounds to the nearest $0.05. $14.03 rounds down to $14.00 — the $0.03 is below $0.025, so it rounds down. Only $0.03 and $0.04 round up to $0.05. Card payments are always exact." },
+    q9:  { correct: "Correct. A denomination dispute after the note is in the drawer must be handled by a manager. Opening the drawer yourself doesn't resolve it — a proper till check requires authorisation and needs to be conducted by someone with authority.", wrong: "A denomination dispute requires manager involvement. You should not open the drawer to resolve it yourself — that's not a reliable method and isn't proper procedure. Get your manager and let them conduct an authorised till check." },
+    q10: { correct: "Correct. Covering a shortage hides a discrepancy that may indicate an error pattern or theft that needs to be identified. Even with the best intentions, it's a serious issue — honest reporting protects you and allows the problem to be investigated properly.", wrong: "Adding your own money to cover a shortage hides a discrepancy. That discrepancy might indicate an error, a training issue, or something more serious — all of which need to be identified. Honest reporting is always the right call, and it protects you." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else { updateProgress(70); }
+    }
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

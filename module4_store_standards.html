@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4: Store Standards — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0e12;
+    --surface: #14151a;
+    --surface2: #1b1c23;
+    --border: #282933;
+    --accent: #7eb8f7;
+    --accent2: #ff6b6b;
+    --accent3: #a8e063;
+    --accent4: #f7c948;
+    --text: #eae8f0;
+    --muted: #707080;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 46px); font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 560px; }
+  .meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Progress */
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 40px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #4a90d9); border-radius: 99px; width: 0%; transition: width 0.5s ease; }
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab-btn { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #0d0e12; }
+
+  /* Panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 620px; }
+
+  /* Standard cards — top row summary */
+  .standard-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .standard-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; position: relative; overflow: hidden; }
+  .standard-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--card-accent, var(--accent)); border-radius: 3px 0 0 3px; }
+  .standard-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .standard-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+  .standard-freq { font-size: 12px; font-weight: 600; color: var(--card-accent, var(--accent)); font-family: 'Syne', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* Expandable cards */
+  .card-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .card-detail-header:hover .chevron { color: var(--accent); }
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+  .chip { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(126,184,247,0.1); color: var(--accent); }
+  .chip.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .chip.green { background: rgba(168,224,99,0.1); color: var(--accent3); }
+  .chip.yellow { background: rgba(247,201,72,0.1); color: var(--accent4); }
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Checklist rows */
+  .checklist { display: flex; flex-direction: column; gap: 0; margin-top: 16px; }
+  .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(40,41,51,0.8); font-size: 13px; color: var(--text); }
+  .check-item:last-child { border-bottom: none; }
+  .check-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--item-color, var(--accent)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; font-size: 10px; color: var(--item-color, var(--accent)); }
+  .check-text { flex: 1; line-height: 1.55; }
+  .check-text strong { color: var(--text); font-weight: 500; }
+  .check-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* Frequency badge */
+  .freq-badge { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 3px; }
+  .freq-badge.daily { background: rgba(126,184,247,0.1); color: var(--accent); }
+  .freq-badge.open { background: rgba(168,224,99,0.1); color: var(--accent3); }
+  .freq-badge.weekly { background: rgba(247,201,72,0.1); color: var(--accent4); }
+  .freq-badge.shift { background: rgba(167,139,250,0.1); color: #c084fc; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(40,41,51,0.7); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Tip / warn boxes */
+  .tip-box { background: rgba(126,184,247,0.06); border: 1px solid rgba(126,184,247,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 16px; display: flex; gap: 10px; font-size: 13px; color: #b5d4ff; }
+  .warn-box { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.22); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #ffaeae; }
+  .info-box { background: rgba(168,224,99,0.06); border: 1px solid rgba(168,224,99,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #c2e88a; }
+
+  /* Do / Don't comparison */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 580px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-col { border-radius: 8px; padding: 14px 16px; }
+  .compare-col.do { background: rgba(168,224,99,0.06); border: 1px solid rgba(168,224,99,0.2); }
+  .compare-col.dont { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.2); }
+  .compare-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .compare-label.do { color: var(--accent3); }
+  .compare-label.dont { color: var(--accent2); }
+  .compare-item { font-size: 13px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.5; }
+  .compare-item:last-child { border-bottom: none; }
+
+  /* Opening / Closing task blocks */
+  .task-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 14px; }
+  .task-block-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .task-block-icon { font-size: 20px; }
+  .task-block-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); }
+  .task-block-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-size: 13px; color: var(--text); transition: border-color 0.15s; text-align: left; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-opt.correct { background: rgba(168,224,99,0.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-opt.wrong { background: rgba(255,107,107,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(168,224,99,0.08); color: var(--accent3); }
+  .quiz-feedback.wrong { background: rgba(255,107,107,0.08); color: #ff8f8f; }
+
+  /* Completion */
+  .completion-banner { background: rgba(126,184,247,0.08); border: 1px solid rgba(126,184,247,0.25); border-radius: var(--radius); padding: 24px; text-align: center; margin-top: 24px; display: none; }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .nav-btn { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #0d0e12; }
+  .nav-btn.primary:hover { background: #4a90d9; border-color: #4a90d9; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 5px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+
+  #quiz-score-bar { display: none; margin-bottom: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 4 of 5</div>
+    <h1>Store Standards &amp; <span>Presentation</span></h1>
+    <p class="subtitle">Cleanliness, product presentation, and professional conduct — how the store looks and feels is part of the customer's experience, and that starts with you.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> ~20 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · Cleaning standards</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · Product presentation</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · Professional conduct</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Knowledge check</button>
+  </div>
+
+  <!-- ===== SECTION 1: CLEANING STANDARDS ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">Cleaning standards</div>
+    <p class="section-intro">A clean store signals to every customer that this is a place that takes pride in what it does. These aren't optional extras — they're part of the job, every shift.</p>
+
+    <div class="standard-cards">
+      <div class="standard-card" style="--card-accent: var(--accent)">
+        <span class="standard-icon">🧹</span>
+        <div class="standard-title">Vacuum floors</div>
+        <div class="standard-freq">Once daily — minimum</div>
+      </div>
+      <div class="standard-card" style="--card-accent: var(--accent3)">
+        <span class="standard-icon">🪣</span>
+        <div class="standard-title">Mop floors</div>
+        <div class="standard-freq">Once daily — minimum</div>
+      </div>
+      <div class="standard-card" style="--card-accent: var(--accent4)">
+        <span class="standard-icon">🪟</span>
+        <div class="standard-title">Clean glass surfaces</div>
+        <div class="standard-freq">Every shift</div>
+      </div>
+      <div class="standard-card" style="--card-accent: #c084fc">
+        <span class="standard-icon">🧽</span>
+        <div class="standard-title">Dust cabinets &amp; shelves</div>
+        <div class="standard-freq">Every shift</div>
+      </div>
+      <div class="standard-card" style="--card-accent: var(--accent2)">
+        <span class="standard-icon">🚽</span>
+        <div class="standard-title">Clean bathrooms</div>
+        <div class="standard-freq">Check every shift</div>
+      </div>
+    </div>
+
+    <!-- Floor care -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">Floors</div>
+          <span class="detail-title">Vacuuming &amp; mopping — what's required</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Floors are the first thing customers look at when they walk in — especially in a retail environment with glass display cases. Once daily is the minimum. More frequently if it's busy, wet outside, or visibly needed.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Vacuum the entire floor area</strong> — including behind counters and along the base of display cases where dust accumulates.
+              <div class="check-note">At minimum once per day. Do this before mopping — vacuuming first removes loose debris so the mop doesn't just push it around.</div>
+            </div>
+            <span class="freq-badge daily">Daily</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent3)">✓</div>
+            <div class="check-text">
+              <strong>Mop all hard floor surfaces</strong> using the correct solution. Don't leave the floor visibly streaky or wet.
+              <div class="check-note">At minimum once per day, after vacuuming. Put out a wet floor sign while mopping and leave it until the floor is dry.</div>
+            </div>
+            <span class="freq-badge daily">Daily</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: #c084fc">✓</div>
+            <div class="check-text">
+              <strong>Spot-clean between cycles</strong> — if something spills or the floor gets visibly dirty during a shift, deal with it immediately. Don't wait for the scheduled clean.
+              <div class="check-note">A wet floor or spill left unattended is also a safety hazard.</div>
+            </div>
+            <span class="freq-badge shift">As needed</span>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span><strong>Timing tip:</strong> Vacuuming and mopping are best done during a quiet period or at the start/end of a shift — not when the store is busy with customers. Plan around foot traffic.</span></div>
+      </div>
+    </div>
+
+    <!-- Glass and surfaces -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip yellow">Glass &amp; surfaces</div>
+          <span class="detail-title">Display cases, counters &amp; windows</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Glass display cases and counters are where customers spend most of their time. Fingerprints, smudges, and dust on glass surfaces make the store look neglected — and make products harder to see clearly.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent4)">✓</div>
+            <div class="check-text">
+              <strong>Wipe down all glass display case surfaces</strong> — inside and out. Use a glass cleaner and a lint-free cloth. No streaks.
+              <div class="check-note">Check from the customer's side — that's what they see. Not just from behind the counter.</div>
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent4)">✓</div>
+            <div class="check-text">
+              <strong>Clean the service counter surface</strong> — wipe down after each transaction if needed, and thoroughly at the start and end of each shift.
+              <div class="check-note">The counter is where the customer's hands are. It should always look clean.</div>
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent4)">✓</div>
+            <div class="check-text">
+              <strong>Clean storefront windows and door glass</strong> — fingerprints on the front door or windows are visible from outside and affect first impressions before the customer even enters.
+            </div>
+            <span class="freq-badge daily">Daily</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent4)">✓</div>
+            <div class="check-text">
+              <strong>Dust display cabinet tops and shelf edges</strong> — dust builds up quickly around products and on the top surfaces of cabinets. Use a microfibre cloth.
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+        </div>
+        <div class="warn-box"><span>⚠️</span><span>Don't use paper towel on glass — it leaves lint. Use a proper glass cloth or microfibre. And always spray the cloth, not the glass directly, when cleaning near products.</span></div>
+      </div>
+    </div>
+
+    <!-- Bathrooms -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip red">Bathrooms</div>
+          <span class="detail-title">Bathroom standards &amp; checks</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">If your store has a customer-accessible bathroom, it reflects directly on the store. A dirty bathroom tells customers you don't care about the details — and they'll extend that assumption to your products and service.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✓</div>
+            <div class="check-text">
+              <strong>Check the bathroom at the start of every shift</strong> — clean toilet, sink, mirror, and floor. Restock toilet paper and hand soap if needed.
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✓</div>
+            <div class="check-text">
+              <strong>Do a mid-shift check during busy periods</strong> — if the store is busy or the bathroom has had a lot of use, check it again mid-shift.
+            </div>
+            <span class="freq-badge shift">As needed</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✓</div>
+            <div class="check-text">
+              <strong>Clean the toilet, sink, and mirror</strong> — use the appropriate cleaning products. The mirror and tap fixtures should be streak-free. The toilet bowl and seat should be visibly clean.
+            </div>
+            <span class="freq-badge daily">Daily</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✓</div>
+            <div class="check-text">
+              <strong>Empty the bin before it overflows</strong> — a full or overflowing bin is one of the most common bathroom complaints. Don't wait until it's a problem.
+            </div>
+            <span class="freq-badge shift">As needed</span>
+          </div>
+        </div>
+        <div class="info-box"><span>ℹ️</span><span>If you find the bathroom in a state that requires more than routine cleaning, flag it to your manager rather than ignoring it. Don't leave it for the next person.</span></div>
+      </div>
+    </div>
+
+    <!-- Opening / closing tasks -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip green">Daily tasks</div>
+          <span class="detail-title">Opening &amp; closing cleaning checklist</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Use this as your guide at the start and end of each shift. Everything on this list is your responsibility unless your manager has assigned it differently.</p>
+
+        <div class="task-block">
+          <div class="task-block-header">
+            <span class="task-block-icon">🌅</span>
+            <div>
+              <div class="task-block-title">Opening tasks</div>
+              <div class="task-block-sub">Complete before opening or as soon as your shift starts</div>
+            </div>
+          </div>
+          <div class="checklist">
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Vacuum the entire sales floor</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Mop hard floor areas</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Wipe down all glass display cases (customer-facing side)</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Clean the service counter</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Dust cabinet tops and shelf edges</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Clean storefront glass / front door</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Check and clean the bathroom — restock supplies</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Face all products so shelves are tidy and labels are forward-facing</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Remove any personal items from the counter and store area</div></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <div class="task-block-header">
+            <span class="task-block-icon">🌙</span>
+            <div>
+              <div class="task-block-title">Closing tasks</div>
+              <div class="task-block-sub">Complete before end of shift</div>
+            </div>
+          </div>
+          <div class="checklist">
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Vacuum the sales floor</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Mop hard floor areas</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Wipe down glass surfaces and counter</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Face and tidy all shelves</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Final bathroom check — clean if needed, restock supplies</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Take out any bins that are full or near-full</div></div>
+            <div class="check-item"><div class="check-dot">○</div><div class="check-text">Ensure all personal items are removed from the counter and sales floor</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: Product presentation →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: PRODUCT PRESENTATION ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">Product presentation</div>
+    <p class="section-intro">How your shelves look influences what customers buy — and whether they trust the store. Tidy, well-faced shelves signal professionalism and make it easy for customers to find what they need.</p>
+
+    <!-- Facing -->
+    <div class="card-detail" id="d4">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip">Facing</div>
+          <span class="detail-title">Facing products — what it means and how to do it</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12"><strong>Facing</strong> means pulling products to the front edge of the shelf with their labels forward-facing, so every shelf looks full and organised. It takes a few minutes but makes the entire store look significantly more professional.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Pull all products to the front of the shelf</strong> — no gaps at the front edge. If stock is low, consolidate to one side rather than leaving scattered items across a shelf.
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Labels should be forward-facing</strong> — every bottle, box, and device should have its label or front panel visible to the customer. No products turned sideways or backwards.
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Group products consistently</strong> — juice by brand or flavour category, devices by type. Don't let stock get mixed up when restocking. Consistency helps customers find things faster and makes upselling easier.
+            </div>
+            <span class="freq-badge shift">Every shift</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Remove any damaged, dusty, or price-stickered-over packaging</strong> — a product that looks like it's been on the shelf for years doesn't inspire confidence. Flag old or damaged stock to your manager.
+            </div>
+            <span class="freq-badge shift">As needed</span>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent)">✓</div>
+            <div class="check-text">
+              <strong>Check display cases for fingerprints after facing</strong> — handling products to face them often leaves prints on the glass. Wipe down after.
+            </div>
+            <span class="freq-badge shift">After facing</span>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>A well-faced shelf is quicker to restock and easier to manage. Get into the habit of facing as you go — a quick tidy during quiet moments keeps the store looking sharp all shift without a big effort at the end.</span></div>
+      </div>
+    </div>
+
+    <!-- Display cases -->
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip blue" style="background: rgba(126,184,247,0.1); color: var(--accent)">Display cases</div>
+          <span class="detail-title">Keeping display cases looking their best</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Display cases are the centrepiece of the store. They need to look clean and deliberate at all times — not like a junk drawer.</p>
+        <table class="data-table">
+          <tr><th>What to check</th><th>Standard</th></tr>
+          <tr><td>Product spacing</td><td>Items should be evenly spaced — not crammed together or scattered. Leave enough room that each product can be seen clearly.</td></tr>
+          <tr><td>Orientation</td><td>Devices should be upright or positioned as intended. No items on their sides or stacked carelessly.</td></tr>
+          <tr><td>Price tags</td><td>Every item should have a visible, legible price. Missing or peeling price tags should be replaced immediately.</td></tr>
+          <tr><td>Lighting</td><td>If the case has internal lighting, make sure it's working. Report any burnt-out bulbs to your manager.</td></tr>
+          <tr><td>Glass cleanliness</td><td>Check from the customer's vantage point — not from behind the counter. Fingerprints on customer-side glass are easy to miss from your angle.</td></tr>
+          <tr><td>No personal items inside</td><td>Nothing that doesn't belong — no personal items, food wrappers, charging cables, or paperwork inside or on top of display cases.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Restocking -->
+    <div class="card-detail" id="d6">
+      <div class="card-detail-header" onclick="toggleDetail('d6')">
+        <div class="card-detail-left">
+          <div class="chip green">Restocking</div>
+          <span class="detail-title">Restocking shelves the right way</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Restocking isn't just filling shelves — it's maintaining the store's presentation. Done carelessly, it undoes everything that facing accomplished.</p>
+        <div class="compare-grid">
+          <div class="compare-col do">
+            <div class="compare-label do">✓ Do this</div>
+            <div class="compare-item">Rotate stock — older product at the front, new stock behind.</div>
+            <div class="compare-item">Face as you restock — don't leave it for later.</div>
+            <div class="compare-item">Keep like products together in the same section.</div>
+            <div class="compare-item">Check for any expired or damaged stock as you go.</div>
+            <div class="compare-item">Wipe the shelf before restocking if there's visible dust.</div>
+          </div>
+          <div class="compare-col dont">
+            <div class="compare-label dont">✗ Don't do this</div>
+            <div class="compare-item">Dump new stock at the front without rotating.</div>
+            <div class="compare-item">Leave half-empty boxes or packaging on the shelf.</div>
+            <div class="compare-item">Mix products from different categories in the same space.</div>
+            <div class="compare-item">Leave a shelf partially restocked and "come back to it."</div>
+            <div class="compare-item">Restock while serving customers — finish the transaction first.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← Cleaning standards</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: Professional conduct →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: PROFESSIONAL CONDUCT ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">Professional conduct</div>
+    <p class="section-intro">How you present yourself on the floor is as important as how the store looks. Customers form opinions about the business based on what they see when they walk in — and that includes you.</p>
+
+    <!-- Phone use -->
+    <div class="card-detail" id="d7">
+      <div class="card-detail-header" onclick="toggleDetail('d7')">
+        <div class="card-detail-left">
+          <div class="chip red">Phone use</div>
+          <span class="detail-title">Personal phone use on the floor</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">A customer should never walk into the store and see a staff member on their phone. It communicates immediately that the staff member doesn't care — and by extension, that the store doesn't care. It's one of the most common and avoidable first impressions that loses customers.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>No personal phone use on the sales floor</strong> — not at the counter, not in the display case area, not where customers can see you. If you need to use your phone, step to the back.
+              <div class="check-note">This includes texting, scrolling, watching videos, and taking calls.</div>
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>Never be on your phone when a customer enters</strong> — the moment the door opens, your attention should be on the customer. If you're on your phone and a customer walks in, the damage is already done. They've seen it.
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent3)">✓</div>
+            <div class="check-text">
+              <strong>Phone use is fine on breaks in the break area</strong> — this isn't about your breaks. It's about what the customer sees on the floor.
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent3)">✓</div>
+            <div class="check-text">
+              <strong>If you're using the store's point-of-sale or a work device</strong>, that's different — just be mindful that it looks like work, not personal use.
+            </div>
+          </div>
+        </div>
+        <div class="warn-box"><span>⚠️</span><span>If it's a genuinely urgent personal call or message, step to the back and deal with it quickly. A brief absence is far better than a customer watching you scroll.</span></div>
+      </div>
+    </div>
+
+    <!-- Personal belongings -->
+    <div class="card-detail" id="d8">
+      <div class="card-detail-header" onclick="toggleDetail('d8')">
+        <div class="card-detail-left">
+          <div class="chip red">Belongings</div>
+          <span class="detail-title">Personal belongings on the counter and sales floor</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">The service counter and sales floor are for the customer — not for your stuff. Personal items left in the customer area make the space look unprofessional and cluttered, and they signal to customers that this is someone's hangout space rather than a retail environment.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>No bags, backpacks, or jackets on or behind the counter</strong> — store personal items in the back or in a designated staff area. Not draped over the counter chair or sitting on the floor behind the till.
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>No food or drinks on the counter or sales floor</strong> — unless it's a closed water bottle kept out of sight. Food packaging, takeaway cups, and snacks on the counter look unprofessional and can be off-putting to customers.
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>No personal items on display shelves or in display cases</strong> — keys, earphones, receipts, personal vapes — none of it belongs in the customer-facing display space.
+            </div>
+          </div>
+          <div class="check-item">
+            <div class="check-dot" style="--item-color: var(--accent2)">✗</div>
+            <div class="check-text">
+              <strong>No paperwork or clutter visible to customers on the counter</strong> — if you need to have notes or paperwork out, keep it below the counter line or put it away when customers are present.
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>A quick rule of thumb: if it doesn't belong to the store and it's in the customer area, it shouldn't be there. Walk the floor with fresh eyes at the start of your shift and remove anything that doesn't belong.</span></div>
+      </div>
+    </div>
+
+    <!-- General floor presence -->
+    <div class="card-detail" id="d9">
+      <div class="card-detail-header" onclick="toggleDetail('d9')">
+        <div class="card-detail-left">
+          <div class="chip">Floor presence</div>
+          <span class="detail-title">How to carry yourself on the sales floor</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">During quiet periods, it can be tempting to sit down, lean on the counter, or look bored. Customers notice all of it. Looking engaged and attentive — even when no one is in the store — is part of the job.</p>
+        <table class="data-table">
+          <tr><th>Situation</th><th>Right approach</th></tr>
+          <tr><td>Quiet period with no customers</td><td>Use the time productively — face shelves, clean glass, tidy stock, or do other tasks. Standing attentively is far better than visibly killing time.</td></tr>
+          <tr><td>Customer enters the store</td><td>Acknowledge them immediately with a greeting. If you're mid-task, pause it, make eye contact, and greet them before continuing.</td></tr>
+          <tr><td>Multiple customers in store</td><td>Acknowledge everyone — a brief nod or "I'll be with you in a moment" to customers waiting keeps them from feeling ignored.</td></tr>
+          <tr><td>Mid-shift fatigue</td><td>Stay aware of how you're coming across. Slouching, sighing, or visibly looking at the clock reads as disengaged. If you need a reset, take your break.</td></tr>
+          <tr><td>Personal conversations with colleagues</td><td>Keep them brief and professional on the floor. A customer walking into a staff chat can feel like they're interrupting — the conversation should stop when they enter.</td></tr>
+        </table>
+        <div class="info-box"><span>ℹ️</span><span>The store's appearance is a team effort — but it starts with individuals. If you see something that needs doing, do it without being asked. That attitude is what separates good staff from great ones.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← Product presentation</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Knowledge check</div>
+    <p class="section-intro">10 questions on cleaning standards, product presentation, and professional conduct. Score 8/10 to pass.</p>
+
+    <div id="quiz-score-bar">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. What is the minimum frequency for vacuuming and mopping the store floors?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Once a week</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Twice a week</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">Once per day — more frequently if needed</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Only at opening and closing on busy days</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. When cleaning floors, what should you do before mopping — and why?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Mop first, then vacuum to pick up any remaining moisture</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">Vacuum first — it removes loose debris so the mop doesn't just push it around</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">The order doesn't matter — do whichever is more convenient</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Sweep with a broom, then skip the mop if the floor looks clean</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. When checking the cleanliness of glass display cases, from which angle should you inspect them?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">From behind the counter — that's where you'll be working</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">From the customer's side — that's what they see, and fingerprints on the customer-facing glass are easy to miss from behind the counter</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">From above — you can see the whole surface from that angle</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">It doesn't matter — glass looks the same from all angles</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. What does "facing" products on a shelf mean?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Removing products that are close to expiry and placing them at the back</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Turning products to face the wall so the back is visible for stock checks</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">Pulling products to the front edge of the shelf with labels forward-facing, so shelves look full and organised from the customer's view</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Grouping products by price from left to right</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. When restocking shelves, what is the correct approach to stock rotation?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Put new stock at the front for the best presentation</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">Put older stock at the front and new stock behind — so older product sells first</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Mix old and new stock randomly so there's no issue either way</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Stock rotation only matters for food products, not vaping products</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. A customer walks into the store and you're on your phone behind the counter. Why is this a problem?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">It's only a problem if it's a personal call — texting is fine</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">It's not a problem as long as you greet them after you finish</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">The customer has already seen it — first impressions are immediate, and a staff member on their phone signals that they don't care about the customer or the store</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">It's only a problem if a manager sees it</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. Which of the following should never be left on or behind the service counter?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">The store's point-of-sale device</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Printed receipts from recent transactions</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">Personal bags, takeaway cups, food packaging, and other personal items</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">A pen and notepad for writing down customer requests</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. The store is quiet and no customers are in. What's the best use of your time on the floor?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Sit down — there's nothing to do if there are no customers</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Browse your phone until the next customer comes in</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">Use the time productively — face shelves, clean glass, dust, or do other tasks. Stay attentive and ready to greet the next customer.</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Have a longer personal conversation with a colleague in the back</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. You receive a delivery and need to restock a shelf. A customer is waiting at the counter. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Finish restocking — it'll only take a minute</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Pause the restocking, serve the customer first, then return to restocking when they're done</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Restock with one hand and serve the customer with the other</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Ask the customer to wait and explain you're busy with stock</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. You notice the bathroom needs cleaning partway through your shift and it wasn't on your opening checklist. What should you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Leave it — bathroom checks are only required at opening and closing</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Leave a note for the next shift to handle it</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Deal with it — if it needs cleaning, clean it. If it requires more than routine maintenance, flag it to your manager. Don't leave it for someone else.</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Only address it if a customer complains about it first</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Module 4 Complete</h3>
+      <p>You've passed the store standards module. You're ready to move on to Module 5.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← Professional conduct</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. Both vacuuming and mopping are required at minimum once per day. More frequently during busy periods, after spills, or when visibly needed.", wrong: "The minimum standard is once per day for both vacuuming and mopping. More often if the store is busy or the floor needs it." },
+    q2:  { correct: "Correct. Always vacuum before mopping. Vacuuming removes loose dirt and debris so the mop can actually clean the floor — mopping first just pushes debris around in a wet mess.", wrong: "The correct order is vacuum first, then mop. Vacuuming removes loose debris so the mop can do its job properly instead of just redistributing dirt." },
+    q3:  { correct: "Correct. Always check glass from the customer's side — that's the view that matters. Fingerprints and smudges on the customer-facing glass are easy to miss when you're standing behind the counter.", wrong: "You should inspect glass from the customer's side. That's the angle they see from, and fingerprints on their side of the glass are easy to miss from behind the counter." },
+    q4:  { correct: "Correct. Facing means pulling products to the front edge of the shelf with labels forward-facing, so the shelf looks full, tidy, and easy to browse from the customer's perspective.", wrong: "Facing means pulling products to the front of the shelf with their labels forward-facing. It makes shelves look full and organised and is a key part of daily store presentation." },
+    q5:  { correct: "Correct. Older stock goes at the front, new stock behind. This ensures older product sells first and reduces the risk of stock sitting too long.", wrong: "The correct rotation is older stock at the front, new stock behind. This ensures older product sells first — putting new stock at the front risks leaving older stock unsold." },
+    q6:  { correct: "Correct. The customer has already seen it before you even look up. That first impression — staff on their phone — communicates that the store doesn't take customer service seriously. There's no recovering from it in that moment.", wrong: "The problem is immediate — the customer saw it the moment they walked in. A staff member visibly on their phone signals disengagement before a single word is spoken. Greeting them afterwards doesn't undo that first impression." },
+    q7:  { correct: "Correct. Personal bags, food packaging, and drinks have no place on or behind the service counter. The counter is a customer-facing space and should look professional at all times.", wrong: "Personal items — bags, food, takeaway cups — should never be left on or behind the service counter. That space belongs to the customer experience, not to staff storage." },
+    q8:  { correct: "Correct. Quiet periods are an opportunity to keep the store looking its best — facing shelves, cleaning glass, dusting. Staying visibly engaged also means you're ready the moment the next customer walks in.", wrong: "Quiet periods should be used productively — facing shelves, cleaning surfaces, tidying stock. Sitting down or going on your phone during quiet periods leaves work undone and creates a poor impression if a customer walks in." },
+    q9:  { correct: "Correct. Customers always take priority over stock tasks. Pause the restock, serve the customer completely, then return to what you were doing. Never make a customer wait while you finish a stock task.", wrong: "Customers always come before stock tasks. Pause restocking, serve the customer fully, then return to it. Making a customer wait while you finish a stock job is never acceptable." },
+    q10: { correct: "Correct. If it needs doing, do it — regardless of whether it was on a checklist. The checklist sets the minimum standard, not the ceiling. If it requires more than routine cleaning, flag it to your manager straight away.", wrong: "Bathroom checks aren't limited to opening and closing. If it needs attention mid-shift, deal with it. If it's beyond routine maintenance, flag it to a manager immediately — don't leave it for someone else." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else {
+        updateProgress(70);
+      }
+    }
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

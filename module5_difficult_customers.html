@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5: Difficult Customers & Conflict — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #100d0d;
+    --surface: #181314;
+    --surface2: #201819;
+    --border: #2e2526;
+    --accent: #f7845a;
+    --accent2: #ff6b6b;
+    --accent3: #a8e063;
+    --accent4: #7eb8f7;
+    --text: #ede8e8;
+    --muted: #756868;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 46px); font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 560px; }
+  .meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Progress */
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 40px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #d4603a); border-radius: 99px; width: 0%; transition: width 0.5s ease; }
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; }
+  .tab-btn { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #100d0d; }
+
+  /* Panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 620px; }
+
+  /* Principle cards */
+  .principle-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .principle-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
+  .principle-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--card-accent, var(--accent)); border-radius: 3px 0 0 3px; }
+  .principle-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .principle-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+  .principle-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Expandable */
+  .card-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .card-detail-header:hover .chevron { color: var(--accent); }
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+  .chip { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(247,132,90,0.1); color: var(--accent); }
+  .chip.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .chip.green { background: rgba(168,224,99,0.1); color: var(--accent3); }
+  .chip.blue { background: rgba(126,184,247,0.1); color: var(--accent4); }
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(46,37,38,0.8); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Tip / warn / info boxes */
+  .tip-box { background: rgba(168,224,99,0.06); border: 1px solid rgba(168,224,99,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 16px; display: flex; gap: 10px; font-size: 13px; color: #c2e88a; }
+  .warn-box { background: rgba(255,107,107,0.06); border: 1px solid rgba(255,107,107,0.22); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #ffaeae; }
+  .info-box { background: rgba(247,132,90,0.06); border: 1px solid rgba(247,132,90,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #f7b99a; }
+
+  /* Escalation flow */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .flow-step { display: flex; gap: 16px; align-items: flex-start; position: relative; }
+  .flow-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: var(--border); }
+  .flow-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; z-index: 1; border: 2px solid var(--border); background: var(--surface); }
+  .flow-icon.s1 { border-color: var(--accent3); background: rgba(168,224,99,0.1); }
+  .flow-icon.s2 { border-color: var(--accent4); background: rgba(126,184,247,0.1); }
+  .flow-icon.s3 { border-color: var(--accent); background: rgba(247,132,90,0.1); }
+  .flow-icon.s4 { border-color: var(--accent2); background: rgba(255,107,107,0.1); }
+  .flow-content { padding: 8px 0 24px; }
+  .flow-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .flow-label.s1 { color: var(--accent3); }
+  .flow-label.s2 { color: var(--accent4); }
+  .flow-label.s3 { color: var(--accent); }
+  .flow-label.s4 { color: var(--accent2); }
+  .flow-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Scenario cards */
+  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 14px; }
+  .scenario-tag { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+  .scenario-tag.orange { background: rgba(247,132,90,0.1); color: var(--accent); }
+  .scenario-tag.red { background: rgba(255,107,107,0.1); color: var(--accent2); }
+  .scenario-tag.yellow { background: rgba(247,201,72,0.1); color: #f7c948; }
+  .scenario-text { font-size: 14px; color: var(--text); font-style: italic; margin-bottom: 14px; border-left: 2px solid var(--border); padding-left: 12px; line-height: 1.7; }
+  .scenario-response-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .scenario-response { font-size: 13px; color: #f7b99a; background: rgba(247,132,90,0.05); border: 1px solid rgba(247,132,90,0.15); border-radius: 8px; padding: 12px 14px; line-height: 1.65; }
+  .scenario-response.red { color: #ffaeae; background: rgba(255,107,107,0.05); border-color: rgba(255,107,107,0.15); }
+  .scenario-response.green { color: #c2e88a; background: rgba(168,224,99,0.05); border-color: rgba(168,224,99,0.15); }
+
+  /* Hard stop box */
+  .hardstop { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.3); border-left: 3px solid var(--accent2); border-radius: 8px; padding: 16px 18px; margin-bottom: 16px; }
+  .hardstop-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .hardstop-body { font-size: 13px; color: #ffaeae; line-height: 1.65; }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-size: 13px; color: var(--text); transition: border-color 0.15s; text-align: left; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-opt.correct { background: rgba(168,224,99,0.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-opt.wrong { background: rgba(255,107,107,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(168,224,99,0.08); color: var(--accent3); }
+  .quiz-feedback.wrong { background: rgba(255,107,107,0.08); color: #ff8f8f; }
+
+  /* Completion */
+  .completion-banner { background: rgba(247,132,90,0.08); border: 1px solid rgba(247,132,90,0.25); border-radius: var(--radius); padding: 24px; text-align: center; margin-top: 24px; display: none; }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .nav-btn { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #100d0d; }
+  .nav-btn.primary:hover { background: #d4603a; border-color: #d4603a; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 5px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+
+  #quiz-score-bar { display: none; margin-bottom: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 5 of 5</div>
+    <h1>Difficult Customers <span>&amp; Conflict</span></h1>
+    <p class="subtitle">How to stay calm, de-escalate, set limits, and protect yourself — without losing a customer you didn't have to lose.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent2)"></div> ~25 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · The right mindset</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · De-escalation</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · When to escalate</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Knowledge check</button>
+  </div>
+
+  <!-- ===== SECTION 1: MINDSET ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">The right mindset</div>
+    <p class="section-intro">Difficult interactions are part of retail. The staff members who handle them best aren't the ones who never feel frustrated — they're the ones who have a clear mental framework before the situation starts.</p>
+
+    <div class="principle-cards">
+      <div class="principle-card" style="--card-accent: var(--accent4)">
+        <span class="principle-icon">🧠</span>
+        <div class="principle-title">It's rarely personal</div>
+        <div class="principle-body">Most difficult customers are frustrated about something — a product, a situation, a bad day. You're the face in front of them, not the cause. Keep that separation clear in your head.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent3)">
+        <span class="principle-icon">🌡️</span>
+        <div class="principle-title">Your tone sets theirs</div>
+        <div class="principle-body">Calm, steady, and unhurried responses physically slow down escalating conversations. Matching someone's anger with defensiveness or dismissiveness makes things worse almost every time.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent)">
+        <span class="principle-icon">🎯</span>
+        <div class="principle-title">Focus on what you can do</div>
+        <div class="principle-body">Customers get more frustrated when they hear what you can't do. Whenever possible, redirect to what is available to them. "Here's what I can do" lands better than a list of no's.</div>
+      </div>
+      <div class="principle-card" style="--card-accent: var(--accent2)">
+        <span class="principle-icon">🚧</span>
+        <div class="principle-title">Know your limits</div>
+        <div class="principle-body">Being calm and professional doesn't mean accepting abuse. There are clear lines — learn them. You don't have to take it, and you won't be expected to.</div>
+      </div>
+    </div>
+
+    <!-- Types of difficult customers -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">Customer types</div>
+          <span class="detail-title">Types of difficult interactions — and what drives them</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Not all difficult customers are the same. Understanding what's driving the behaviour helps you respond to the actual problem rather than just reacting to the surface.</p>
+        <table class="data-table">
+          <tr><th>Type</th><th>What's usually behind it</th><th>What they need from you</th></tr>
+          <tr><td>The frustrated complainer</td><td>A genuine bad experience — product didn't work, expectations weren't met, felt misled</td><td>To feel heard first. Acknowledge the frustration before jumping to solutions.</td></tr>
+          <tr><td>The aggressive demander</td><td>Used to getting what they want through pressure, or genuinely panicked about a situation</td><td>Calm firmness. Don't fold to pressure but don't match their aggression either.</td></tr>
+          <tr><td>The repeat returner</td><td>May have an underlying expectation problem, or be testing boundaries around your return policy</td><td>Consistency. Apply the policy the same way every time.</td></tr>
+          <tr><td>The price pusher</td><td>Genuinely budget-conscious, or uses pushback as a habit</td><td>Honesty about what you can and can't do, and clear value framing for what they're paying.</td></tr>
+          <tr><td>The rule challenger</td><td>Doesn't believe the rule applies to them, or has had it waived before</td><td>Calm, consistent explanation of the rule and why it exists. Never apologise for a legitimate policy.</td></tr>
+          <tr><td>The venter</td><td>Just had a bad experience and needs to express it — not necessarily seeking a specific resolution</td><td>Space to speak. Active listening. Don't rush them toward a solution before they've finished.</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>Most difficult interactions fall into the first category — someone with a genuine frustration who just wants to feel heard. That alone resolves more situations than you'd expect.</span></div>
+      </div>
+    </div>
+
+    <!-- What not to do -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip red">Common mistakes</div>
+          <span class="detail-title">Responses that make things worse</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">These are the most common staff responses that turn a manageable situation into a real problem. Most happen instinctively under pressure — which is why it's worth knowing them in advance.</p>
+        <table class="data-table">
+          <tr><th>What staff do</th><th>Why it backfires</th></tr>
+          <tr><td>Get defensive immediately</td><td>Signals that you're prioritising protecting yourself over understanding the customer. Shuts the conversation down before it starts.</td></tr>
+          <tr><td>Say "that's our policy" without context</td><td>Feels dismissive. Policies make sense for reasons — briefly explaining the reason lands better than citing the rule.</td></tr>
+          <tr><td>Interrupt before the customer finishes</td><td>Tells them you've stopped listening. Even if you already know the answer, let them finish. They need to feel heard.</td></tr>
+          <tr><td>Match their tone or volume</td><td>Escalates the situation. You have far more control over where the conversation goes than the customer does — use it.</td></tr>
+          <tr><td>Make promises you can't keep</td><td>Short-term fix that creates a bigger problem later. If you're not sure, say you'll find out — don't invent an answer to end the interaction.</td></tr>
+          <tr><td>Apologise for the policy itself</td><td>"I'm sorry, but that's just the rule" undermines the policy and signals it might be flexible. Be empathetic about the inconvenience, not apologetic about the rule.</td></tr>
+          <tr><td>Walk away or go silent</td><td>Perceived as dismissive or passive-aggressive. If you need a moment, say so: "Give me one second and I'll get this sorted."</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span>Under pressure, most people default to defensiveness or over-apologising — both extremes make things worse. The goal is calm and steady, not cold and not capitulating.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: De-escalation →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: DE-ESCALATION ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">De-escalation</div>
+    <p class="section-intro">De-escalation isn't about being a pushover — it's about lowering the temperature of a situation so that an actual resolution becomes possible. These techniques work.</p>
+
+    <!-- LEAPS method -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip">Framework</div>
+          <span class="detail-title">The LEAPS method — Listen, Empathise, Ask, Paraphrase, Solve</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">LEAPS is a simple framework for working through a difficult interaction without losing the thread. You won't use every step in every situation — but knowing the sequence means you always have a next move.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon s1">👂</div>
+            <div class="flow-content">
+              <div class="flow-label s1">Listen — fully, without interrupting</div>
+              <div class="flow-desc">Let the customer finish before you respond. Don't plan your rebuttal while they're talking — actually listen. Nod, maintain eye contact, and let the silence sit for a moment after they finish. Rushing to respond makes them feel cut off.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s2">❤️</div>
+            <div class="flow-content">
+              <div class="flow-label s2">Empathise — acknowledge how they feel</div>
+              <div class="flow-desc">Before any solution, acknowledge the feeling. "I completely understand why that's frustrating" or "That's not the experience you should have had" — these cost nothing and defuse a significant amount of tension. You don't have to agree with them to empathise with their experience.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s3">❓</div>
+            <div class="flow-content">
+              <div class="flow-label s3">Ask — clarify what they're actually looking for</div>
+              <div class="flow-desc">Sometimes what the customer says they want and what would actually resolve it for them are different. Ask: "What would you like to happen from here?" or "Can you tell me a bit more about what went wrong?" This shifts the energy from venting to problem-solving.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s3">🔁</div>
+            <div class="flow-content">
+              <div class="flow-label s3">Paraphrase — reflect back what you've understood</div>
+              <div class="flow-desc">"So just to make sure I've got this right — you bought this last week and it stopped working after two days, and you'd like it replaced or refunded?" This confirms you've listened, catches any misunderstandings, and signals you're taking it seriously.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s4">✓</div>
+            <div class="flow-content">
+              <div class="flow-label s4">Solve — offer what you can, clearly and confidently</div>
+              <div class="flow-desc">Now that the customer feels heard, they're in a position to actually receive a solution. Be clear and honest about what you can offer. If you can't give them what they want, explain why and offer what's available. If you need to get a manager, say so — don't disappear without explaining.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>The most common mistake is skipping straight to Solve before the customer has had a chance to feel heard. A solution delivered too early — before Empathise and Paraphrase — often gets rejected even if it's the right one.</span></div>
+      </div>
+    </div>
+
+    <!-- Language that helps -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip blue">Language</div>
+          <span class="detail-title">Phrases that de-escalate — and phrases that don't</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">The specific words you choose matter more than you'd think in a tense situation. Small changes in phrasing can shift a conversation from confrontational to collaborative.</p>
+        <table class="data-table">
+          <tr><th>Instead of this…</th><th>Try this</th><th>Why it works better</th></tr>
+          <tr><td>"That's not our policy."</td><td>"Here's what I'm able to do for you."</td><td>Shifts from a door closing to a door opening.</td></tr>
+          <tr><td>"You need to calm down."</td><td>"I want to help you sort this out — let's take it one step at a time."</td><td>Telling someone to calm down almost always has the opposite effect. Redirecting to action does the same job without the trigger.</td></tr>
+          <tr><td>"There's nothing I can do."</td><td>"Let me find out what options we have."</td><td>Keeps the conversation moving rather than shutting it down.</td></tr>
+          <tr><td>"You should have read the label / instructions."</td><td>"I can show you exactly how to get the best out of it."</td><td>Removes the blame element while still moving toward a solution.</td></tr>
+          <tr><td>"I already told you…"</td><td>"Just to clarify what I mentioned — "</td><td>Less confrontational. "I already told you" sounds dismissive and impatient.</td></tr>
+          <tr><td>"That's not my problem."</td><td>"Let me get someone who can help with this."</td><td>The first one ends the relationship. The second keeps it open.</td></tr>
+          <tr><td>"Obviously…" / "Clearly…"</td><td>(Drop these words entirely)</td><td>Both imply the customer should have known something. They come across as condescending even when you don't mean them that way.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scenario practice -->
+    <h4>Scenario practice</h4>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Read each scenario and the suggested response. These are common situations you'll encounter.</p>
+
+    <div class="scenario-card">
+      <div class="scenario-tag orange">Frustrated complainer</div>
+      <div class="scenario-text">"This juice I bought two days ago tastes completely different to the one I had last time. I don't know what you sold me but it's not the same thing."</div>
+      <div class="scenario-response-label">Suggested response</div>
+      <div class="scenario-response">"I'm sorry to hear that — that's not what you should be experiencing. Can you bring in the bottle so I can take a look at it? It's possible it's a different batch, or there might be a coil issue affecting the flavour. Either way I want to get to the bottom of it for you."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Price pusher</div>
+      <div class="scenario-text">"I can get this cheaper online. Why would I pay your price?"</div>
+      <div class="scenario-response-label">Suggested response</div>
+      <div class="scenario-response">"That's fair — online does tend to be cheaper. What you get here is someone who can actually help if something goes wrong, and you're walking out with it today. If that matters to you, we're here. If the price is the main thing, I understand — I won't try to talk you into something that doesn't work for you."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag orange">Rule challenger</div>
+      <div class="scenario-text">"The guy who served me last time didn't ask for ID. Why are you asking me?"</div>
+      <div class="scenario-response-label">Suggested response</div>
+      <div class="scenario-response">"I hear you — and I can't speak to what happened last time. What I can tell you is that asking for ID for anyone who looks under 25 is a legal requirement under Ontario law, and it applies to every transaction. I'm not trying to single you out — I'd ask anyone in the same situation. If you've got your ID on you, we'll get you sorted."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Aggressive demander</div>
+      <div class="scenario-text">A customer is raising their voice, demanding a full refund on a device they bought three weeks ago, and says "I know my rights — I'll report this store."</div>
+      <div class="scenario-response-label">Suggested response</div>
+      <div class="scenario-response red">"I understand you're frustrated and I want to help resolve this. I need you to know that I'm happy to look into this properly, but I can only do that if we can have a calm conversation. Can you tell me what happened with the device? If there's a fault, we'll sort it out — and if a refund is the right outcome, we'll get there. Let me get my manager involved so we can make sure this is handled correctly."</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← The right mindset</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: When to escalate →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: ESCALATION ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">When to escalate</div>
+    <p class="section-intro">Knowing when to handle something yourself and when to get a manager is one of the most important judgements you'll make on the floor. Getting it wrong in either direction causes problems.</p>
+
+    <!-- Hard stops -->
+    <h4>Situations that always require a manager</h4>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">The following situations are not judgment calls. Get a manager immediately — don't attempt to handle these alone.</p>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚨 A customer becomes physically aggressive or threatening</div>
+      <div class="hardstop-body">Do not engage. Step back, stay calm, and get a manager or call for help. If you feel unsafe, prioritise your safety first. No retail interaction is worth physical risk.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚨 A customer uses abusive, racist, or threatening language toward you or another staff member</div>
+      <div class="hardstop-body">You are not required to accept this. Calmly say: "I'm not going to be spoken to that way. I'm going to get my manager." Then do it. Do not continue the conversation alone.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚨 You suspect shoplifting or theft in progress</div>
+      <div class="hardstop-body">Do not accuse or physically intervene. Alert your manager discreetly. If no manager is available, follow the store's specific procedure. Your safety comes before any merchandise.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚨 A customer is requesting a refund or exchange above a value you're authorised to approve</div>
+      <div class="hardstop-body">Always get manager sign-off before processing any refund or exchange unless you've been explicitly authorised. Never commit to a resolution you don't have the authority to deliver.</div>
+    </div>
+
+    <div class="hardstop">
+      <div class="hardstop-title">🚨 A customer refuses to leave the store</div>
+      <div class="hardstop-body">Ask calmly once: "I'm going to have to ask you to leave the store now." If they refuse, get a manager. If there is no manager available and the situation continues, call the non-emergency police line. Do not physically attempt to remove anyone.</div>
+    </div>
+
+    <!-- Escalation process -->
+    <div class="card-detail" id="d4" style="margin-top: 24px;">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip">Escalation flow</div>
+          <span class="detail-title">How to escalate — doing it right</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">How you escalate matters almost as much as the decision to escalate. Done poorly, it can make the customer feel dismissed. Done well, it keeps the situation moving toward a resolution.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon s1">💬</div>
+            <div class="flow-content">
+              <div class="flow-label s1">Tell the customer what you're doing and why</div>
+              <div class="flow-desc">"I want to make sure this gets handled properly — I'm going to bring my manager in so they can help sort this out for you." This frames getting a manager as a positive step, not a brush-off.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s2">⏱️</div>
+            <div class="flow-content">
+              <div class="flow-label s2">Don't leave them waiting without acknowledgment</div>
+              <div class="flow-desc">If your manager isn't immediately available, come back to the customer and let them know: "My manager is just finishing something — they'll be with you in about two minutes." Silence reads as being ignored.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s3">📋</div>
+            <div class="flow-content">
+              <div class="flow-label s3">Brief your manager before they approach</div>
+              <div class="flow-desc">Give your manager a quick summary before they walk into the situation: what happened, what the customer wants, and what you've already tried. A manager walking in blind makes the handover feel clumsy and restarts the conversation from scratch.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon s4">🤝</div>
+            <div class="flow-content">
+              <div class="flow-label s4">Stay nearby unless told otherwise</div>
+              <div class="flow-desc">Don't disappear after handing over. Stay within earshot in case you're needed, and be available to confirm what was said or done earlier. Walking away entirely looks like you've washed your hands of it.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- After the interaction -->
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip green">After</div>
+          <span class="detail-title">After a difficult interaction — what to do next</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Difficult interactions have an aftereffect. Knowing how to close them out properly — for the customer and for yourself — is part of the job.</p>
+        <table class="data-table">
+          <tr><th>What to do</th><th>Why it matters</th></tr>
+          <tr><td>End on a clear note with the customer</td><td>"I hope that's sorted things out for you — don't hesitate to come back if there's anything else." Even if the interaction was difficult, a clean close keeps the relationship open.</td></tr>
+          <tr><td>Document it if it was serious</td><td>If the interaction involved threats, abusive language, or any kind of safety concern, report it to your manager and document the details while they're fresh. Time, what was said, what happened.</td></tr>
+          <tr><td>Debrief with your manager if needed</td><td>If you're unsettled by what happened or unsure how you handled it, talk it through with your manager. That's not weakness — it's how you get better at it.</td></tr>
+          <tr><td>Reset before the next customer</td><td>Take a moment if you need one. Carrying the stress of a difficult interaction into the next one isn't fair on the next customer. If you can take a short break, do.</td></tr>
+          <tr><td>Don't talk about it on the floor</td><td>Debriefing a difficult customer interaction loudly on the sales floor — especially if other customers are present — is unprofessional. Take it to the back.</td></tr>
+        </table>
+        <div class="info-box"><span>ℹ️</span><span>Everyone has difficult interactions. The ones who handle them best are the ones who reflect honestly on what went well and what they'd do differently — not the ones who shake it off and pretend it didn't happen.</span></div>
+      </div>
+    </div>
+
+    <!-- Final scenarios -->
+    <h4>High-stakes scenario practice</h4>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">These are the harder situations. Read carefully.</p>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Abusive language</div>
+      <div class="scenario-text">A customer swears at you directly and calls you incompetent when you tell them you can't process their return without a receipt.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response red">"I understand you're frustrated, but I'm not going to be spoken to that way. I want to help you sort this out — I'm going to get my manager and we'll see what we can do." Then get your manager. Do not continue the conversation alone after this point.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">Customer refuses to leave</div>
+      <div class="scenario-text">A customer whose refund request you've declined is still in the store 10 minutes later, becoming louder and showing no sign of leaving.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response red">"I've explained what I'm able to do for you today, and I understand you're unhappy with that. I'm going to have to ask you to leave the store now." Get a manager immediately. If the situation continues to escalate and no manager is available, call the non-emergency line. Do not attempt to physically remove them.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag orange">Suspected theft</div>
+      <div class="scenario-text">You notice a customer pocket a small item from the display shelf while their friend distracts you at the counter.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response">"Excuse me for just one moment" — discreetly alert your manager immediately. Do not accuse the customer directly, do not attempt to detain them or block the exit, and do not make a scene. Follow your manager's lead from that point.</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← De-escalation</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Knowledge check</div>
+    <p class="section-intro">10 questions on conflict mindset, de-escalation, and escalation decisions. Score 8/10 to pass.</p>
+
+    <div id="quiz-score-bar">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. A customer is visibly angry and raising their voice. What is the most important thing to do first?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Immediately get a manager — all angry customers require escalation</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Match their urgency so they know you take it seriously</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">Stay calm and let them finish speaking before you respond — your tone sets theirs, and listening first is the most powerful de-escalation tool</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Tell them to calm down before you can help them</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. What does the "E" in LEAPS stand for, and why does it come before offering a solution?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Explain — because customers need to understand the policy first</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">Empathise — because customers need to feel heard before they're ready to receive a solution. Offering a solution too early often gets rejected even if it's the right one.</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Exit — because sometimes the best outcome is ending the conversation quickly</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Escalate — because difficult situations always need a manager</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. A customer says "You need to calm down" will almost always make the situation worse. What should you say instead when someone is escalating?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">"I understand you're upset but I need you to lower your voice."</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">"I'm going to have to ask you to leave if this continues."</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">"I want to help you sort this out — let's take it one step at a time." Redirect to action rather than commenting on their emotional state.</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">"There's no need to get upset — it's really not a big deal."</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. A customer uses abusive language directly toward you. What is the correct response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Ignore it and continue trying to help — the customer is just frustrated</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Tell them firmly that you won't be spoken to that way and refuse service immediately</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">Calmly state that you won't be spoken to that way, say you're getting your manager, and then do so. Do not continue the conversation alone.</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Walk away without saying anything to avoid further confrontation</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. Why is saying "That's our policy" on its own often ineffective?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because policies don't actually have to be followed</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because it's technically incorrect — policies are guidelines, not rules</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">Because it feels dismissive and closes the conversation without explanation. Briefly explaining the reason behind the policy lands better and shows respect for the customer.</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because it implies the manager made a bad policy</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. You notice a customer pocket an item while their friend distracts you. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Confront the customer directly and ask them to empty their pockets</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Block the exit so they can't leave until a manager arrives</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Discreetly alert your manager immediately. Do not accuse, detain, or block the exit. Follow your manager's lead.</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Say nothing — it's not worth the confrontation over a small item</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. When getting a manager to handle an escalated situation, what should you do before they approach the customer?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Nothing — let the manager figure out the situation themselves</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">Give your manager a quick brief — what happened, what the customer wants, and what you've already tried. This prevents them walking in blind and restarting the conversation from scratch.</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Tell the customer the manager will be giving them what they want</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Walk away from the situation entirely once the manager arrives</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. A customer who frequently buys from you says their last purchase tasted off and demands a replacement on the spot. What's your first move?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Replace it immediately — loyalty deserves the benefit of the doubt</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Refuse — you can't give replacements without proof of a defect</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">Acknowledge their frustration, ask them to bring in the product so you can assess it, and be honest about what you can do once you've seen it. Get a manager involved before committing to any resolution.</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Tell them that taste is subjective and you can't help</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. After a particularly difficult or upsetting interaction, what should you do before serving the next customer?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Tell your colleague about it on the floor — talking it out helps</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Push through it — showing emotion is unprofessional</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Take a moment to reset if you can — carrying stress into the next interaction isn't fair on the next customer. If it was serious, document and debrief with your manager in private.</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Ask your manager to take over for the rest of the shift</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. A customer declines your resolution and has been in the store for 10 minutes refusing to leave. What is the correct approach?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Keep offering different resolutions until they accept one</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Physically guide them toward the exit</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Calmly ask them to leave once. If they refuse, get your manager immediately. If no manager is available and it continues, call the non-emergency police line. Do not attempt to physically remove them.</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Call the police immediately without asking them to leave first</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Training Complete</h3>
+      <p>You've completed all five modules. You're ready for your first shift — well done.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← When to escalate</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. Staying calm and listening first is the single most effective thing you can do in an escalating situation. Your tone sets theirs — and jumping to solutions before they've finished speaking almost always makes things worse.", wrong: "The most important first move is to stay calm and let them finish speaking. Listening fully before responding is the most powerful de-escalation tool available to you." },
+    q2:  { correct: "Correct. Empathise comes before Solve because customers need to feel heard before they're ready to receive a resolution. A solution offered too early — before the customer feels understood — often gets rejected even if it's the right one.", wrong: "The E in LEAPS is Empathise. It comes before the solution because customers who don't feel heard aren't ready to accept a resolution. Acknowledging the feeling first makes everything that follows more likely to land." },
+    q3:  { correct: "Correct. Redirecting to action — 'let's sort this out together' — achieves the same goal as asking someone to calm down without triggering the resentment that phrase almost always causes.", wrong: "Telling someone to calm down nearly always has the opposite effect. The better move is to redirect to action: 'I want to help you sort this out — let's take it one step at a time.' It lowers the temperature without commenting on their emotional state." },
+    q4:  { correct: "Correct. You're not required to accept abusive language. The right response is to name it calmly, state that you're getting a manager, and follow through. Do not continue the conversation alone after this point.", wrong: "You are not required to absorb abusive language. The correct response is to calmly tell them you won't be spoken to that way, get your manager, and not continue the conversation alone. Ignoring it or walking away without explanation both leave the situation unresolved." },
+    q5:  { correct: "Correct. 'That's our policy' without context feels like a door slamming. Briefly explaining the reason — even one sentence — shows respect and keeps the customer feeling like a person rather than a problem being managed.", wrong: "Citing policy without explanation feels dismissive. Customers respond better when they understand the reason behind a rule. A brief explanation — 'the reason we can't do that is...' — lands much better than a bare policy citation." },
+    q6:  { correct: "Correct. Never accuse, detain, or block exits — these can create liability and safety risks. Your job is to alert management discreetly and follow their lead. Your safety and the safety of others comes before any merchandise.", wrong: "Never confront, accuse, or attempt to detain someone you suspect of shoplifting. Alert your manager discreetly and follow their direction. Physical intervention or accusations without certainty can create legal and safety risks." },
+    q7:  { correct: "Correct. A quick briefing before the manager approaches prevents them walking in cold, which forces the customer to repeat everything and makes the handover feel clumsy. 30 seconds of context saves several minutes of awkwardness.", wrong: "Always brief your manager before they approach the customer. Cover what happened, what the customer wants, and what you've already tried. A manager walking in without context risks restarting the conversation from scratch and undermining the handover." },
+    q8:  { correct: "Correct. Acknowledge first, assess before committing, and involve your manager before agreeing to any resolution. Making promises you then can't deliver creates a second problem on top of the first.", wrong: "The right sequence is: acknowledge the frustration, ask them to bring the product in so you can assess it, and get manager involvement before committing to any resolution. Don't promise a replacement before you've seen the issue or have the authority to approve it." },
+    q9:  { correct: "Correct. Carrying unresolved stress into the next customer interaction isn't fair on them or on you. A brief reset — and a private debrief if it was serious — is the professional way to close out a difficult interaction.", wrong: "Taking a moment to reset is important — the next customer shouldn't bear the cost of the previous interaction. If the situation was serious, document it and debrief privately with your manager. Avoid processing it on the sales floor." },
+    q10: { correct: "Correct. Ask once calmly. If refused, get your manager. If no manager is available and it continues, the non-emergency line is appropriate. Physical removal is never your job — and attempting it creates far bigger problems than the original situation.", wrong: "The correct sequence is: ask them to leave once calmly, then get your manager if they refuse, then call the non-emergency line if the situation continues without a manager available. Never attempt to physically remove a customer." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else {
+        updateProgress(70);
+      }
+    }
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

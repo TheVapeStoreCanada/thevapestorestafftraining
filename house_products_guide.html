@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Products — Commission Reference Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090c;
+    --surface: #111115;
+    --surface2: #17171d;
+    --border: #222230;
+    --accent: #f7c948;
+    --accent2: #f472b6;
+    --accent3: #34d399;
+    --accent4: #60a5fa;
+    --accent5: #fb923c;
+    --text: #eeeaf0;
+    --muted: #6868808;
+    --muted: #72728a;
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .shell { max-width: 1100px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* Header */
+  .header { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+  .badge { display: inline-block; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 3px 9px; border-radius: 4px; margin-bottom: 14px; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(24px, 4vw, 40px); font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 14px; font-weight: 300; max-width: 560px; }
+  .meta-row { display: flex; gap: 20px; margin-top: 18px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+  .meta-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Commission banner */
+  .commission-banner {
+    background: rgba(247,201,72,0.07);
+    border: 1px solid rgba(247,201,72,0.25);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 32px;
+    font-size: 13px;
+    color: #f7e08a;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px 9px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+
+  .filter-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #09090c; }
+
+  .results-count { font-size: 12px; color: var(--muted); white-space: nowrap; align-self: center; }
+
+  /* Category sections */
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 36px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .category-header:first-of-type { margin-top: 0; }
+  .category-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .category-count { font-family: 'Syne', sans-serif; font-size: 11px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; }
+
+  /* Brand cards grid */
+  .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+
+  /* Brand card */
+  .brand-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .brand-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-1px); }
+  .brand-card.hidden { display: none; }
+
+  .brand-card-top {
+    padding: 16px 18px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .brand-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .brand-tagline { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  .brand-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bc-color, var(--accent));
+    white-space: nowrap;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .brand-price .price-label { font-size: 10px; color: var(--muted); font-weight: 400; font-family: 'DM Sans', sans-serif; display: block; margin-bottom: 1px; }
+
+  /* Type badges */
+  .type-badges { display: flex; gap: 5px; flex-wrap: wrap; padding: 0 18px 12px; }
+  .type-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .type-badge.salt { background: rgba(244,114,182,0.12); color: var(--accent2); border: 1px solid rgba(244,114,182,0.2); }
+  .type-badge.fb { background: rgba(96,165,250,0.1); color: var(--accent4); border: 1px solid rgba(96,165,250,0.2); }
+  .type-badge.device { background: rgba(52,211,153,0.1); color: var(--accent3); border: 1px solid rgba(52,211,153,0.2); }
+  .type-badge.size { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+
+  /* Flavour list */
+  .brand-flavours {
+    border-top: 1px solid var(--border);
+    padding: 12px 18px 14px;
+  }
+  .flavours-label { font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .flavour-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .flavour-tag {
+    font-size: 11px;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: default;
+  }
+  .flavour-tag.salt-only { border-color: rgba(244,114,182,0.25); color: #f9a8d4; }
+  .flavour-tag.fb-only { border-color: rgba(96,165,250,0.2); color: #93c5fd; }
+  .flavour-tag.both { border-color: rgba(52,211,153,0.2); color: #6ee7b7; }
+
+  /* Nic strengths row */
+  .brand-nics {
+    border-top: 1px solid var(--border);
+    padding: 10px 18px 12px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .nic-group { }
+  .nic-label { font-family: 'Syne', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .nic-values { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nic-chip {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .nic-chip.salt { background: rgba(244,114,182,0.12); color: var(--accent2); }
+  .nic-chip.fb { background: rgba(96,165,250,0.1); color: var(--accent4); }
+
+  /* SKU / sell tip row */
+  .brand-footer {
+    border-top: 1px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .sell-tip { font-size: 11px; color: var(--muted); line-height: 1.4; flex: 1; }
+  .sell-tip strong { color: var(--accent3); font-weight: 500; }
+
+  /* Legend */
+  .legend {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-title { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .legend-items { display: flex; gap: 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* No results */
+  .no-results { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 14px; display: none; }
+  .no-results.show { display: block; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="header">
+    <div class="badge">Commission Products — Staff Reference</div>
+    <h1>House <span>Products Guide</span></h1>
+    <p class="subtitle">All SKUs you earn commission on — flavours, formats, nicotine strengths, and who to recommend them to. Use the search and filters to find anything fast.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 30+ brands</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent2)"></div> Nic salts & freebase</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> 30ml · 60ml · 100ml · 120ml</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> Hardware included</div>
+    </div>
+  </div>
+
+  <div class="commission-banner">
+    <span>💰</span>
+    <span>Every product in this guide earns you commission. The more familiar you are with what's here — the flavours, the formats, who they suit — the more confidently you can recommend them. Know your products, grow your earnings.</span>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="legend-title">Flavour key</span>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(52,211,153,0.5); border:1px solid rgba(52,211,153,0.4)"></div> Available in both freebase & salts</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(244,114,182,0.5); border:1px solid rgba(244,114,182,0.4)"></div> Salts only</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(96,165,250,0.4); border:1px solid rgba(96,165,250,0.3)"></div> Freebase only</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search brand or flavour…" oninput="filterCards()">
+    </div>
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('salts', this)">Nic Salts</button>
+    <button class="filter-btn" onclick="setFilter('freebase', this)">Freebase</button>
+    <button class="filter-btn" onclick="setFilter('device', this)">Hardware</button>
+    <button class="filter-btn" onclick="setFilter('house', this)">House Brands</button>
+    <span class="results-count" id="resultsCount"></span>
+  </div>
+
+  <div id="noResults" class="no-results">No products match your search.</div>
+
+  <!-- ========== HOUSE BRANDS ========== -->
+  <div class="category-header" id="cat-house">
+    <span class="category-title">House Brands</span>
+    <span class="category-count" id="count-house">—</span>
+  </div>
+  <div class="brands-grid" id="grid-house">
+
+    <!-- CLX -->
+    <div class="brand-card" data-brand="CLX" data-type="salts freebase house" data-flavours="arctic ice banana ice blue razz blue razz lemon cool mint flavourless fruity hawaiian grape ice mango ice menthol tobacco mountain mint northern tobacco peach berry peach ice rainbow burst strawberry ice strawberry watermelon ice virginia tobacco watermelon ice">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">CLX</div>
+          <div class="brand-tagline">The house pod system — device + juice ecosystem, all in one brand</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$9.75–$47.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Nic Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–6mg</span>
+        <span class="type-badge device">Pod Device $14.99</span>
+        <span class="type-badge device">Reload Pod $9.75</span>
+        <span class="type-badge size">30ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (19)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Arctic Ice</span>
+          <span class="flavour-tag both">Banana Ice</span>
+          <span class="flavour-tag both">Blue Razz</span>
+          <span class="flavour-tag both">Blue Razz Lemon</span>
+          <span class="flavour-tag both">Cool Mint</span>
+          <span class="flavour-tag both">Flavourless</span>
+          <span class="flavour-tag both">Fruity Hawaiian</span>
+          <span class="flavour-tag both">Grape Ice</span>
+          <span class="flavour-tag both">Mango Ice</span>
+          <span class="flavour-tag both">Menthol Tobacco</span>
+          <span class="flavour-tag both">Mountain Mint</span>
+          <span class="flavour-tag both">Northern Tobacco</span>
+          <span class="flavour-tag both">Peach Berry</span>
+          <span class="flavour-tag both">Peach Ice</span>
+          <span class="flavour-tag both">Rainbow Burst</span>
+          <span class="flavour-tag both">Strawberry Ice</span>
+          <span class="flavour-tag both">Strawberry Watermelon Ice</span>
+          <span class="flavour-tag both">Virginia Tobacco</span>
+          <span class="flavour-tag both">Watermelon Ice</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Always bundle the device with juice + reload pods. The ecosystem sells itself — device at $14.99 is an easy entry point for switchers.</div>
+      </div>
+    </div>
+
+    <!-- Dvine -->
+    <div class="brand-card" data-brand="Dvine" data-type="freebase house" data-flavours="cigarello flavourless light tobacco menthol mountain mint pipe tobacco pomegranate ry4 double raspberry watermelon">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Dvine</div>
+          <div class="brand-tagline">Premium 120ml freebase — flagship large-format house juice</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">Price</span>$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–18mg</span>
+        <span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (10)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Cigarello</span>
+          <span class="flavour-tag fb-only">Flavourless</span>
+          <span class="flavour-tag fb-only">Light Tobacco</span>
+          <span class="flavour-tag fb-only">Menthol</span>
+          <span class="flavour-tag fb-only">Mountain Mint</span>
+          <span class="flavour-tag fb-only">Pipe Tobacco</span>
+          <span class="flavour-tag fb-only">Pomegranate</span>
+          <span class="flavour-tag fb-only">RY4 Double</span>
+          <span class="flavour-tag fb-only">Raspberry</span>
+          <span class="flavour-tag fb-only">Watermelon</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span><span class="nic-chip fb">18mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Best value per-ml on the floor. Strong tobacco &amp; menthol range makes it ideal for former smokers on a refillable or mod setup.</div>
+      </div>
+    </div>
+
+    <!-- Dvine Classics -->
+    <div class="brand-card" data-brand="Dvine Classics" data-type="salts freebase house" data-flavours="blue razz boo berry boo berry cold flavourless fruit explosion menthol mountain mint ry4 double ultimate canadian tobacco">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Dvine Classics</div>
+          <div class="brand-tagline">House brand in 30ml &amp; 60ml — freebase + salt line</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$30–$47.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge size">30ml</span>
+        <span class="type-badge size">60ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (9)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blue Razz</span>
+          <span class="flavour-tag both">Boo Berry</span>
+          <span class="flavour-tag both">Boo Berry Cold</span>
+          <span class="flavour-tag both">Flavourless</span>
+          <span class="flavour-tag both">Fruit Explosion</span>
+          <span class="flavour-tag both">Menthol</span>
+          <span class="flavour-tag both">Mountain Mint</span>
+          <span class="flavour-tag both">RY4 Double</span>
+          <span class="flavour-tag both">Ultimate Canadian Tobacco</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Wide nicotine range covers every customer type. Salts line is a natural upsell for pod users who want a familiar Dvine flavour.</div>
+      </div>
+    </div>
+
+    <!-- Flavour Town -->
+    <div class="brand-card" data-brand="Flavour Town" data-type="salts freebase house" data-flavours="banana c big bang dinkys frost bite lbc nomad royal blood twin mints">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Flavour Town</div>
+          <div class="brand-tagline">House fruit &amp; menthol line — freebase 120ml + Royal Blood salts</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (8)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Banana C</span>
+          <span class="flavour-tag fb-only">Big Bang</span>
+          <span class="flavour-tag fb-only">Dinkys</span>
+          <span class="flavour-tag fb-only">Frost Bite</span>
+          <span class="flavour-tag fb-only">LBC</span>
+          <span class="flavour-tag fb-only">Nomad</span>
+          <span class="flavour-tag both">Royal Blood</span>
+          <span class="flavour-tag fb-only">Twin Mints</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts (Royal Blood)</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Frost Bite and Twin Mints are strong sellers for menthol fans. Royal Blood in salts is a good upsell for pod users who want something different.</div>
+      </div>
+    </div>
+
+    <!-- Cabin Fever -->
+    <div class="brand-card" data-brand="Cabin Fever" data-type="salts freebase house" data-flavours="blue sunset campfire punch berry">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Cabin Fever</div>
+          <div class="brand-tagline">House 60ml freebase + 30ml salt line — compact &amp; affordable</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$21–$31
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–6mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge size">30ml</span>
+        <span class="type-badge size">60ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (3)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blue Sunset</span>
+          <span class="flavour-tag salt-only">Campfire</span>
+          <span class="flavour-tag both">Punch Berry</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Best entry-price house juice. 30ml salts at $21 are a great try-before-you-commit option for new customers or budget shoppers.</div>
+      </div>
+    </div>
+
+    <!-- Ghost Drop -->
+    <div class="brand-card" data-brand="Ghost Drop" data-type="salts freebase house" data-flavours="grapeberry ice grapefruit peach lime pineapple ice sour rapple ice">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Ghost Drop</div>
+          <div class="brand-tagline">House premium fruit-ice line — 30ml salts + 100ml freebase</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$33.99–$59.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">30ml</span>
+        <span class="type-badge size">100ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (4)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Grapeberry Ice</span>
+          <span class="flavour-tag both">Grapefruit Peach</span>
+          <span class="flavour-tag both">Lime Pineapple Ice</span>
+          <span class="flavour-tag salt-only">Sour Rapple Ice</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Great for customers who want something adventurous. Lime Pineapple Ice and Sour Rapple are standout flavours that aren't easy to find elsewhere.</div>
+      </div>
+    </div>
+
+    <!-- High Roller -->
+    <div class="brand-card" data-brand="High Roller" data-type="salts freebase house" data-flavours="blue wow blue wow ice cherry wow cherry wow ice grape wow pit boss">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">High Roller</div>
+          <div class="brand-tagline">Bold fruit &amp; ice house line — salts 30ml + freebase 100ml</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$33.99–$59.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">30ml</span>
+        <span class="type-badge size">100ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (6)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blue Wow</span>
+          <span class="flavour-tag both">Blue Wow Ice</span>
+          <span class="flavour-tag both">Cherry Wow</span>
+          <span class="flavour-tag both">Cherry Wow Ice</span>
+          <span class="flavour-tag both">Grape Wow</span>
+          <span class="flavour-tag both">Pit Boss</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Cherry Wow and Blue Wow are reliable crowd-pleasers. The ice variants are a great natural upsell for customers who want a cooler finish.</div>
+      </div>
+    </div>
+
+    <!-- SAVR -->
+    <div class="brand-card" data-brand="SAVR" data-type="salts freebase house" data-flavours="blueberry cc peachy rainblast sparkle swedish twinx vanilla mocha">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">SAVR / SAVR Salts</div>
+          <div class="brand-tagline">House candy &amp; dessert line — full freebase and salts range</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$31–$59.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (7)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blueberry CC</span>
+          <span class="flavour-tag both">Peachy</span>
+          <span class="flavour-tag both">Rainblast</span>
+          <span class="flavour-tag both">Sparkle</span>
+          <span class="flavour-tag both">Swedish</span>
+          <span class="flavour-tag both">Twinx</span>
+          <span class="flavour-tag both">Vanilla Mocha</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Swedish and Twinx are candy-forward and popular with customers looking for something sweet. Vanilla Mocha is unique — good for coffee drinkers or dessert fans.</div>
+      </div>
+    </div>
+
+    <!-- PODZ -->
+    <div class="brand-card" data-brand="PODZ" data-type="salts house" data-flavours="extreme mint tobacco vanilla">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">PODZ</div>
+          <div class="brand-tagline">House 30ml pod-focused salts — simple, clean, affordable</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent)">
+          <span class="price-label">From</span>$21–$33.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge size">30ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (3)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Extreme Mint</span>
+          <span class="flavour-tag salt-only">Tobacco</span>
+          <span class="flavour-tag salt-only">Vanilla</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Perfect for the customer who wants simple and familiar. Good first recommendation for cigarette switchers who want tobacco or mint without fuss.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== SALTED BRANDS ========== -->
+  <div class="category-header" id="cat-salted">
+    <span class="category-title">Salted. &amp; Toronto Juice Co. — House Crossover Brands</span>
+    <span class="category-count" id="count-salted">—</span>
+  </div>
+  <div class="brands-grid" id="grid-salted">
+
+    <!-- Salted. -->
+    <div class="brand-card" data-brand="Salted." data-type="salts house" data-flavours="flavourless gibbons grog mint omc purple tides watermelon grape">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Salted.</div>
+          <div class="brand-tagline">Salts-only crossover line — 30ml, $33.99 flat across all flavours</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent2)">
+          <span class="price-label">Price</span>$33.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge size">30ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (6)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Flavourless</span>
+          <span class="flavour-tag salt-only">Gibbons Grog</span>
+          <span class="flavour-tag salt-only">Mint</span>
+          <span class="flavour-tag salt-only">OMC</span>
+          <span class="flavour-tag salt-only">Purple Tides</span>
+          <span class="flavour-tag salt-only">Watermelon Grape</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Clean pricing at $33.99 makes this easy to recommend. OMC and Watermelon Grape are popular. Flavourless is good for DIY mixers.</div>
+      </div>
+    </div>
+
+    <!-- Toronto Juice Co. -->
+    <div class="brand-card" data-brand="Toronto Juice Co." data-type="freebase house" data-flavours="morning glory omc">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Toronto Juice Co.</div>
+          <div class="brand-tagline">House premium large-format freebase — 60ml, 100ml, 120ml</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent2)">
+          <span class="price-label">From</span>$47.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span>
+        <span class="type-badge size">100ml</span>
+        <span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Morning Glory</span>
+          <span class="flavour-tag fb-only">OMC</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Best margins on large format. OMC is a proven seller. Morning Glory is a great option for citrus &amp; tropical fans on a mod or refillable.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== PREMIUM MULTI-FORMAT ========== -->
+  <div class="category-header" id="cat-premium">
+    <span class="category-title">Premium Multi-Format Brands</span>
+    <span class="category-count" id="count-premium">—</span>
+  </div>
+  <div class="brands-grid" id="grid-premium">
+
+    <!-- That Tobacco -->
+    <div class="brand-card" data-brand="That Tobacco" data-type="salts freebase" data-flavours="american classic tillson reserve">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">That Tobacco</div>
+          <div class="brand-tagline">Premium tobacco line — every format, freebase + salts</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–18mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">American Classic</span>
+          <span class="flavour-tag both">Tillson Reserve</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span><span class="nic-chip fb">18mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> The go-to for tobacco lovers at any experience level. 18mg freebase is rare and valuable for heavy smokers on refillable devices.</div>
+      </div>
+    </div>
+
+    <!-- Sour Ghost -->
+    <div class="brand-card" data-brand="Sour Ghost" data-type="salts freebase" data-flavours="chilled original">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Sour Ghost</div>
+          <div class="brand-tagline">Sour candy line — salts 30ml + freebase up to 120ml</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">30ml</span><span class="type-badge size">60ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Original</span>
+          <span class="flavour-tag both">Chilled</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Strong loyalty product — fans come back specifically for it. Chilled is a natural step up for customers who want a cooler version.</div>
+      </div>
+    </div>
+
+    <!-- Dandies -->
+    <div class="brand-card" data-brand="Dandies" data-type="salts freebase" data-flavours="fuzzy jolly">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Dandies</div>
+          <div class="brand-tagline">Candy-inspired line — salts + full multi-size freebase</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Fuzzy</span>
+          <span class="flavour-tag both">Jolly</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Fuzzy and Jolly are playful, fruity candy flavours. Good for customers who want something fun and different. 120ml is strong value for regulars.</div>
+      </div>
+    </div>
+
+    <!-- Dolce -->
+    <div class="brand-card" data-brand="Dolce" data-type="salts freebase" data-flavours="berry batter party pebbles">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Dolce</div>
+          <div class="brand-tagline">Dessert &amp; cereal line — salts + multi-size freebase</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–6mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Berry Batter</span>
+          <span class="flavour-tag both">Party Pebbles</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Party Pebbles is a cereal-forward flavour — excellent for dessert vapers. Berry Batter suits customers who want something sweet but not cloying.</div>
+      </div>
+    </div>
+
+    <!-- Forbidden -->
+    <div class="brand-card" data-brand="Forbidden" data-type="salts freebase" data-flavours="fuji grape lime honeydew melon punch">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Forbidden</div>
+          <div class="brand-tagline">Exotic fruit blends — salts + full size freebase range</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$33.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (2)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Fuji Grape Lime</span>
+          <span class="flavour-tag both">Honeydew Melon Punch</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Both are unusual, complex fruit blends. Great for experienced vapers who are bored of generic mango/watermelon. Honeydew Melon Punch is a unique recommendation.</div>
+      </div>
+    </div>
+
+    <!-- Captain Olivers -->
+    <div class="brand-card" data-brand="Captain Olivers" data-type="freebase" data-flavours="admiral cavendish galleon gibbons grog">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Captain Olivers</div>
+          <div class="brand-tagline">Nautical-themed premium freebase — pipe &amp; rum-inspired</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent3)">
+          <span class="price-label">From</span>$47.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (3)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Admiral Cavendish</span>
+          <span class="flavour-tag fb-only">Galleon</span>
+          <span class="flavour-tag fb-only">Gibbons Grog</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Unique brand with no direct competition on the floor. Great for pipe tobacco and rum-inspired flavour fans. Strong storytelling potential.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== SALTS SPECIALISTS ========== -->
+  <div class="category-header" id="cat-salts">
+    <span class="category-title">Salts Specialists</span>
+    <span class="category-count" id="count-salts">—</span>
+  </div>
+  <div class="brands-grid" id="grid-salts">
+
+    <!-- MAX -->
+    <div class="brand-card" data-brand="MAX" data-type="salts freebase" data-flavours="b blast berry peachy blueberry ice classic fizz double blue razz mango peach melonberry ice peach blue razz punch sour apple sour drops strawnana ice the mint triple berry white grape ice">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">MAX</div>
+          <div class="brand-tagline">Large fruit range — salts + freebase, 15 flavours</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent5)">
+          <span class="price-label">From</span>$33.99–$47.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 12 &amp; 20mg</span>
+        <span class="type-badge fb">Freebase 0–6mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (15)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">B Blast</span>
+          <span class="flavour-tag both">Berry Peachy</span>
+          <span class="flavour-tag both">Blueberry Ice</span>
+          <span class="flavour-tag both">Classic Fizz</span>
+          <span class="flavour-tag both">Double Blue Razz</span>
+          <span class="flavour-tag both">Mango Peach</span>
+          <span class="flavour-tag both">Melonberry Ice</span>
+          <span class="flavour-tag both">Peach Blue Razz</span>
+          <span class="flavour-tag both">Punch</span>
+          <span class="flavour-tag both">Sour Apple</span>
+          <span class="flavour-tag both">Sour Drops</span>
+          <span class="flavour-tag salt-only">Strawnana Ice</span>
+          <span class="flavour-tag salt-only">The Mint</span>
+          <span class="flavour-tag both">Triple Berry</span>
+          <span class="flavour-tag both">White Grape Ice</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">12mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Widest flavour selection in the salts category. If a customer wants variety, start here. Classic Fizz and Mango Peach are consistent sellers.</div>
+      </div>
+    </div>
+
+    <!-- Chill Street SALT -->
+    <div class="brand-card" data-brand="Chill Street SALT" data-type="salts" data-flavours="apple grape avenue banana block blue razz boulevard peach parkway strawberry street watermelon way">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Chill Street SALT</div>
+          <div class="brand-tagline">Street-named fruit salts — clean 30ml lineup at $33.99</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent5)">
+          <span class="price-label">Price</span>$33.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (6)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Apple Grape Avenue</span>
+          <span class="flavour-tag salt-only">Banana Block</span>
+          <span class="flavour-tag salt-only">Blue Razz Boulevard</span>
+          <span class="flavour-tag salt-only">Peach Parkway</span>
+          <span class="flavour-tag salt-only">Strawberry Street</span>
+          <span class="flavour-tag salt-only">Watermelon Way</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Good for first-time salts buyers — clean flavour profiles, no complexity. Strawberry Street and Peach Parkway are safe first recommendations.</div>
+      </div>
+    </div>
+
+    <!-- French Press -->
+    <div class="brand-card" data-brand="French Press" data-type="salts" data-flavours="au lait coffee">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">French Press</div>
+          <div class="brand-tagline">Single coffee-forward salt — unique niche flavour</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent5)">
+          <span class="price-label">Price</span>$33.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (1)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Au Lait</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Niche but loyal — recommend to coffee drinkers specifically. Au Lait is a creamy coffee salt with no direct comparison on the floor.</div>
+      </div>
+    </div>
+
+    <!-- Salt Shaker -->
+    <div class="brand-card" data-brand="Salt Shaker" data-type="salts" data-flavours="mango">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Salt Shaker</div>
+          <div class="brand-tagline">Single-flavour mango salt — simple &amp; reliable</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent5)">
+          <span class="price-label">Price</span>$33.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (1)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Mango</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Clean, honest mango salt. No ice, no complexity — just mango. Good for customers who've been burned by overly icy or artificial fruit flavours.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== IMPORTED BRANDS ========== -->
+  <div class="category-header" id="cat-imported">
+    <span class="category-title">Imported &amp; Licensed Brands</span>
+    <span class="category-count" id="count-imported">—</span>
+  </div>
+  <div class="brands-grid" id="grid-imported">
+
+    <!-- Custard Monster -->
+    <div class="brand-card" data-brand="Custard Monster" data-type="salts freebase" data-flavours="blueberry lux golden lux strawberry lux vanilla lux">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Custard Monster</div>
+          <div class="brand-tagline">Rich custard dessert line — salts + freebase</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">From</span>$36.99–$66.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 3 &amp; 6mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (4)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blueberry Lux</span>
+          <span class="flavour-tag both">Golden Lux</span>
+          <span class="flavour-tag both">Strawberry Lux</span>
+          <span class="flavour-tag both">Vanilla Lux</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Premium dessert brand with a loyal following. Vanilla Lux is a classic — good for customers coming from custard or bakery vapes.</div>
+      </div>
+    </div>
+
+    <!-- Jam Monster -->
+    <div class="brand-card" data-brand="Jam Monster" data-type="salts freebase" data-flavours="blueberry jam raspberry jam strawberry jam">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Jam Monster</div>
+          <div class="brand-tagline">Buttered toast + jam — iconic dessert brand</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">From</span>$36.99–$66.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 3 &amp; 6mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (3)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Blueberry Jam</span>
+          <span class="flavour-tag both">Raspberry Jam</span>
+          <span class="flavour-tag both">Strawberry Jam</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Strawberry Jam is consistently one of the most recognised dessert flavours. Easy to recommend to any customer who wants something sweet and unique.</div>
+      </div>
+    </div>
+
+    <!-- Frozen Fruit Monster -->
+    <div class="brand-card" data-brand="Frozen Fruit Monster" data-type="salts freebase" data-flavours="blueberry raspberry lemon ice double mango ice mango peach guava ice mixed berry ice strawberry kiwi pomegranate ice">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Frozen Fruit Monster</div>
+          <div class="brand-tagline">Iced complex fruit blends — freebase + salts</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">From</span>$36.99–$66.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 3 &amp; 6mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (5)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag salt-only">Blueberry Raspberry Lemon Ice</span>
+          <span class="flavour-tag salt-only">Double Mango Ice</span>
+          <span class="flavour-tag both">Mango Peach Guava Ice</span>
+          <span class="flavour-tag both">Mixed Berry Ice</span>
+          <span class="flavour-tag both">Strawberry Kiwi Pomegranate Ice</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Complex multi-fruit profiles with strong ice. Great for experienced vapers who have moved past single-fruit flavours. Mango Peach Guava is a standout.</div>
+      </div>
+    </div>
+
+    <!-- The Milk -->
+    <div class="brand-card" data-brand="The Milk" data-type="salts freebase" data-flavours="berry crunch cinnamon fruity jax cereal milk">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">The Milk</div>
+          <div class="brand-tagline">Cereal milk dessert line — freebase + salts</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">From</span>$36.99–$66.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 3 &amp; 6mg</span>
+        <span class="type-badge salt">Salts 10 &amp; 20mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (4)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag both">Berry Crunch</span>
+          <span class="flavour-tag both">Cinnamon</span>
+          <span class="flavour-tag both">Fruity</span>
+          <span class="flavour-tag both">Jax</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+        <div class="nic-group"><div class="nic-label">Salts</div><div class="nic-values"><span class="nic-chip salt">10mg</span><span class="nic-chip salt">20mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Cereal milk profiles are very popular with experienced vapers. Fruity and Berry Crunch are the entry points — Cinnamon is for the adventurous.</div>
+      </div>
+    </div>
+
+    <!-- IAM -->
+    <div class="brand-card" data-brand="IAM" data-type="freebase" data-flavours="flavourless mint strawberry">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">IAM</div>
+          <div class="brand-tagline">Clean freebase line — multi-size, simple flavours</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">From</span>$47.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (3)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Flavourless</span>
+          <span class="flavour-tag fb-only">Mint</span>
+          <span class="flavour-tag fb-only">Strawberry</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Great for customers who want clean, unfussy flavours in large format. Flavourless is ideal for DIY mixers. Mint is a reliable menthol alternative.</div>
+      </div>
+    </div>
+
+    <!-- Vapetasia -->
+    <div class="brand-card" data-brand="Vapetasia" data-type="freebase" data-flavours="killer k cream custard">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Vapetasia</div>
+          <div class="brand-tagline">Premium single-SKU custard cream — imported, distinct</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--accent4)">
+          <span class="price-label">Price</span>$52.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–6mg</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (1)</div>
+        <div class="flavour-tags">
+          <span class="flavour-tag fb-only">Killer K</span>
+        </div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Killer K is a well-known custard cream with a strong existing fan base. If a customer asks for it, they already know what it is — just confirm the strength.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== SINGLE-REGION BRANDS ========== -->
+  <div class="category-header" id="cat-other">
+    <span class="category-title">Additional Brands</span>
+    <span class="category-count" id="count-other">—</span>
+  </div>
+  <div class="brands-grid" id="grid-other">
+
+    <!-- Johnny Tropics -->
+    <div class="brand-card" data-brand="Johnny Tropics" data-type="freebase" data-flavours="purple tides tropical">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Johnny Tropics</div>
+          <div class="brand-tagline">Tropical freebase — multi-size, single flagship flavour</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--muted)">
+          <span class="price-label">From</span>$47.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (1)</div>
+        <div class="flavour-tags"><span class="flavour-tag fb-only">Purple Tides</span></div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Purple Tides is a tropical blend — great for customers who want something full-flavoured and summery in a large format.</div>
+      </div>
+    </div>
+
+    <!-- Rave -->
+    <div class="brand-card" data-brand="Rave" data-type="freebase" data-flavours="watermelon grape">
+      <div class="brand-card-top">
+        <div>
+          <div class="brand-name">Rave</div>
+          <div class="brand-tagline">Fruit freebase — multi-size, single flavour</div>
+        </div>
+        <div class="brand-price" style="--bc-color: var(--muted)">
+          <span class="price-label">From</span>$47.99–$74.99
+        </div>
+      </div>
+      <div class="type-badges">
+        <span class="type-badge fb">Freebase 0–12mg</span>
+        <span class="type-badge size">60ml</span><span class="type-badge size">100ml</span><span class="type-badge size">120ml</span>
+      </div>
+      <div class="brand-flavours">
+        <div class="flavours-label">Flavours (1)</div>
+        <div class="flavour-tags"><span class="flavour-tag fb-only">Watermelon Grape</span></div>
+      </div>
+      <div class="brand-nics">
+        <div class="nic-group"><div class="nic-label">Freebase</div><div class="nic-values"><span class="nic-chip fb">0mg</span><span class="nic-chip fb">3mg</span><span class="nic-chip fb">6mg</span><span class="nic-chip fb">12mg</span></div></div>
+      </div>
+      <div class="brand-footer">
+        <div class="sell-tip"><strong>Sell tip:</strong> Watermelon Grape is a reliable, clean fruit blend — easy recommendation for customers who want something familiar but slightly different.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  let currentFilter = 'all';
+
+  function setFilter(type, btn) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterCards();
+  }
+
+  function filterCards() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.brand-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const brand = (card.dataset.brand || '').toLowerCase();
+      const types = (card.dataset.type || '').toLowerCase();
+      const flavours = (card.dataset.flavours || '').toLowerCase();
+      const allText = brand + ' ' + flavours;
+
+      const matchesSearch = !query || allText.includes(query);
+      const matchesFilter = currentFilter === 'all'
+        || (currentFilter === 'salts' && types.includes('salts'))
+        || (currentFilter === 'freebase' && types.includes('freebase'))
+        || (currentFilter === 'device' && types.includes('device'))
+        || (currentFilter === 'house' && types.includes('house'));
+
+      if (matchesSearch && matchesFilter) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    // Update category counts and show/hide empty sections
+    const grids = ['house', 'salted', 'premium', 'salts', 'imported', 'other'];
+    grids.forEach(id => {
+      const grid = document.getElementById('grid-' + id);
+      const header = document.getElementById('cat-' + id);
+      const count = document.getElementById('count-' + id);
+      if (grid && header) {
+        const visibleInGrid = grid.querySelectorAll('.brand-card:not(.hidden)').length;
+        count.textContent = visibleInGrid + ' brand' + (visibleInGrid !== 1 ? 's' : '');
+        header.style.display = visibleInGrid === 0 ? 'none' : 'flex';
+        grid.style.display = visibleInGrid === 0 ? 'none' : 'grid';
+      }
+    });
+
+    const noResults = document.getElementById('noResults');
+    noResults.classList.toggle('show', visible === 0);
+
+    const countEl = document.getElementById('resultsCount');
+    countEl.textContent = visible + ' product' + (visible !== 1 ? 's' : '') + ' shown';
+  }
+
+  // Init counts
+  filterCards();
+</script>
+</body>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2: Compliance Basics — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161820;
+    --surface2: #1e2029;
+    --border: #2a2c38;
+    --accent: #f7c948;
+    --accent2: #ff5f5f;
+    --accent3: #5fd4a8;
+    --accent4: #8b9cf7;
+    --text: #eeeae0;
+    --muted: #757585;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* Header */
+  .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 560px; }
+
+  .meta-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+
+  .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Law callout banner */
+  .law-banner {
+    background: rgba(247,201,72,0.07);
+    border: 1px solid rgba(247,201,72,0.3);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 36px;
+    font-size: 13px;
+    color: #f0d88a;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .law-banner strong { color: var(--accent); }
+
+  /* Progress */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #e8a820);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; flex-wrap: wrap; }
+
+  .tab-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #0d0f14; }
+
+  /* Panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .section-intro { color: var(--muted); font-size: 14px; margin-bottom: 28px; max-width: 620px; }
+
+  /* Rule cards — large high-contrast */
+  .rule-cards { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+
+  .rule-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .rule-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 36px;
+    padding-top: 2px;
+  }
+
+  .rule-content {}
+  .rule-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .rule-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* Expandable */
+  .card-detail {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+
+  .card-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+
+  .chip {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(247,201,72,0.1);
+    color: var(--accent);
+  }
+
+  .chip.red { background: rgba(255,95,95,0.1); color: var(--accent2); }
+  .chip.green { background: rgba(95,212,168,0.1); color: var(--accent3); }
+  .chip.blue { background: rgba(139,156,247,0.1); color: var(--accent4); }
+
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* ID check decision tree — visual flowchart */
+  .id-flow {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 44px;
+    width: 2px;
+    height: calc(100% - 8px);
+    background: var(--border);
+  }
+
+  .flow-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    z-index: 1;
+    border: 2px solid var(--border);
+    background: var(--surface);
+  }
+
+  .flow-icon.q { border-color: var(--accent); background: rgba(247,201,72,0.1); }
+  .flow-icon.yes { border-color: var(--accent3); background: rgba(95,212,168,0.1); }
+  .flow-icon.no { border-color: var(--accent2); background: rgba(255,95,95,0.1); }
+  .flow-icon.warn { border-color: var(--accent4); background: rgba(139,156,247,0.1); }
+
+  .flow-content { padding: 8px 0 24px; }
+  .flow-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .flow-label.q { color: var(--accent); }
+  .flow-label.yes { color: var(--accent3); }
+  .flow-label.no { color: var(--accent2); }
+  .flow-label.warn { color: var(--accent4); }
+  .flow-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(42,44,56,0.6); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Tip / warn boxes */
+  .tip-box {
+    background: rgba(95,212,168,0.06);
+    border: 1px solid rgba(95,212,168,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #9fe8cc;
+  }
+
+  .warn-box {
+    background: rgba(255,95,95,0.06);
+    border: 1px solid rgba(255,95,95,0.22);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #ffaeae;
+  }
+
+  .info-box {
+    background: rgba(139,156,247,0.06);
+    border: 1px solid rgba(139,156,247,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #b5bfff;
+  }
+
+  /* Scenario cards */
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 14px;
+  }
+
+  .scenario-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .scenario-tag.red { background: rgba(255,95,95,0.1); color: var(--accent2); }
+  .scenario-tag.yellow { background: rgba(247,201,72,0.1); color: var(--accent); }
+  .scenario-tag.blue { background: rgba(139,156,247,0.1); color: var(--accent4); }
+
+  .scenario-text {
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 14px;
+    border-left: 2px solid var(--border);
+    padding-left: 12px;
+    line-height: 1.7;
+  }
+
+  .scenario-response-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .scenario-response {
+    font-size: 13px;
+    color: #9fe8cc;
+    background: rgba(95,212,168,0.05);
+    border: 1px solid rgba(95,212,168,0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+    line-height: 1.65;
+  }
+
+  .scenario-response.red {
+    color: #ffaeae;
+    background: rgba(255,95,95,0.05);
+    border-color: rgba(255,95,95,0.15);
+  }
+
+  /* Sign-off block */
+  .signoff {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-top: 24px;
+  }
+
+  .signoff-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
+
+  .signoff-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .signoff-item:last-child { border-bottom: none; }
+
+  .signoff-check {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-size: 12px;
+  }
+
+  .signoff-check.checked { background: var(--accent3); border-color: var(--accent3); color: #0d0f14; }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    transition: border-color 0.15s;
+    text-align: left;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent4); }
+  .quiz-opt.correct { background: rgba(95,212,168,0.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-opt.wrong { background: rgba(255,95,95,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(95,212,168,0.08); color: #5fd4a8; }
+  .quiz-feedback.wrong { background: rgba(255,95,95,0.08); color: #ff8f8f; }
+
+  .completion-banner {
+    background: rgba(95,212,168,0.08);
+    border: 1px solid rgba(95,212,168,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin-top: 24px;
+    display: none;
+  }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--accent3); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #0d0f14; }
+  .nav-btn.primary:hover { background: #e8a820; border-color: #e8a820; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 20px 0 10px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 5px; }
+  .mt16 { margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 2 of 5</div>
+    <h1>Compliance <span>Basics</span></h1>
+    <p class="subtitle">Ontario law, ID checks, flavour rules, where you can't sell — and what happens when it goes wrong. This module protects you, the store, and the license.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent2)"></div> ~25 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> Sign-off required</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <div class="law-banner">
+    <span>📋</span>
+    <span>All rules in this module are based on the <strong>Smoke-Free Ontario Act, 2017</strong> and federal <strong>Tobacco and Vaping Products Act (TVPA)</strong>, current as of 2025. Laws can change — if you're unsure about anything, ask a manager before you act.</span>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · Age &amp; ID rules</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · Flavour &amp; product rules</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · Where &amp; how you sell</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Quiz &amp; sign-off</button>
+  </div>
+
+  <!-- ===== SECTION 1: AGE & ID ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">Age &amp; ID rules</div>
+    <p class="section-intro">The legal age to purchase vaping products in Ontario is 19. This is non-negotiable — and the rules around when and how to check ID are specific.</p>
+
+    <div class="rule-cards">
+      <div class="rule-card">
+        <div class="rule-number">19</div>
+        <div class="rule-content">
+          <div class="rule-title">Minimum age to purchase in Ontario</div>
+          <div class="rule-body">Under the Smoke-Free Ontario Act, 2017, no one under 19 may purchase or be sold vaping products. This applies to every transaction — in-store, every time.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">25</div>
+        <div class="rule-content">
+          <div class="rule-title">Ask for ID if the customer appears under 25</div>
+          <div class="rule-body">Ontario law requires retailers to request government-issued photo ID from anyone who appears younger than 25. When in doubt, card them. No exceptions for regulars.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ID check flow -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">ID check</div>
+          <span class="detail-title">Step-by-step: how to check an ID correctly</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <div class="id-flow">
+          <div class="flow-step">
+            <div class="flow-icon q">👤</div>
+            <div class="flow-content">
+              <div class="flow-label q">Step 1 — Does the customer appear under 25?</div>
+              <div class="flow-desc">If yes, you must ask for ID before completing the sale. If they clearly look well over 25, you may use your judgment — but when unsure, always ask. You will never get in trouble for asking.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon q">🪪</div>
+            <div class="flow-content">
+              <div class="flow-label q">Step 2 — Request government-issued photo ID</div>
+              <div class="flow-desc">Acceptable forms: Ontario driver's licence, Ontario Photo Card, Canadian passport, Canadian permanent resident card, Canadian military ID. The ID must include a photo and date of birth. Store loyalty cards and student IDs are not acceptable. Health cards can be accepted if the customer offers one, but you must never ask for a health card as ID.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon q">🔍</div>
+            <div class="flow-content">
+              <div class="flow-label q">Step 3 — Inspect the ID carefully</div>
+              <div class="flow-desc">Check: Does the photo match the person in front of you? Is the date of birth showing them to be 19 or older today? Does the ID look genuine — correct font, no warping, no peeling? Hold it up to the light if you're unsure about holograms.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon yes">✓</div>
+            <div class="flow-content">
+              <div class="flow-label yes">If ID is valid and they're 19+ — proceed with the sale</div>
+              <div class="flow-desc">Complete the transaction normally. You don't need to record anything — just be satisfied they meet the age requirement.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon no">✗</div>
+            <div class="flow-content">
+              <div class="flow-label no">If ID is refused, looks fake, or they're under 19 — decline the sale</div>
+              <div class="flow-desc">Say clearly and calmly: "I'm not able to complete this sale without valid ID showing you're 19 or older." Do not argue. Do not be pressured. Notify a manager if needed.</div>
+            </div>
+          </div>
+        </div>
+        <div class="warn-box"><span>⚠️</span><span><strong>Never request a health card as ID.</strong> Ontario law prohibits asking for a health card. However, if a customer voluntarily presents one alongside confirming their DOB, you may accept it. A gym membership card or a piece of paper is never acceptable under any circumstances. Government-issued photo ID with date of birth remains the standard.</span></div>
+      </div>
+    </div>
+
+    <!-- Acceptable ID types -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip green">Accepted ID</div>
+          <span class="detail-title">What counts as valid ID in Ontario</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>ID type</th><th>Accepted?</th><th>Notes</th></tr>
+          <tr><td>Ontario driver's licence</td><td style="color:var(--accent3)">✓ Yes</td><td>Most common. Check photo, DOB, and that it's not expired.</td></tr>
+          <tr><td>Ontario Photo Card</td><td style="color:var(--accent3)">✓ Yes</td><td>Issued to non-drivers by ServiceOntario. Valid government photo ID.</td></tr>
+          <tr><td>Canadian passport</td><td style="color:var(--accent3)">✓ Yes</td><td>Check the DOB on the data page.</td></tr>
+          <tr><td>Canadian PR card</td><td style="color:var(--accent3)">✓ Yes</td><td>Permanent resident card. Has photo and DOB.</td></tr>
+          <tr><td>Canadian military ID</td><td style="color:var(--accent3)">✓ Yes</td><td>Valid government-issued photo ID.</td></tr>
+          <tr><td>Ontario health card (OHIP)</td><td style="color:var(--accent)">~ If offered</td><td>You cannot ask for a health card as ID — Ontario law prohibits this. However, if a customer voluntarily presents one, you may accept it. Confirm their date of birth verbally to verify age.</td></tr>
+          <tr><td>Student card / TCard</td><td style="color:var(--accent2)">✗ No</td><td>Not government-issued.</td></tr>
+          <tr><td>Bank card / credit card</td><td style="color:var(--accent2)">✗ No</td><td>Not a valid form of age ID.</td></tr>
+          <tr><td>Out-of-province driver's licence</td><td style="color:var(--accent)">~ Use judgment</td><td>Other Canadian provincial licences are generally acceptable. International licences — ask a manager.</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span><strong>Expired ID:</strong> An expired driver's licence or passport is not valid ID. The expiry date matters. Check it every time.</span></div>
+      </div>
+    </div>
+
+    <!-- Fake ID -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip red">Fake ID</div>
+          <span class="detail-title">Spotting altered or fake ID — what to look for</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">You are not expected to be a forensic document specialist. But there are common signs that should make you pause.</p>
+        <table class="data-table">
+          <tr><th>What to check</th><th>Red flag</th></tr>
+          <tr><td>Photo</td><td>Photo doesn't match the person, looks like it's been replaced, or is a different print quality from the rest of the card</td></tr>
+          <tr><td>Date of birth</td><td>Numbers look a different font, colour, or size from the rest of the text — possible alteration</td></tr>
+          <tr><td>Card material</td><td>Feels flimsy, peeling, or has an unusual texture compared to a real Ontario licence</td></tr>
+          <tr><td>Holograms</td><td>Ontario licences have security holograms — if you tilt it and see nothing, it may be fake</td></tr>
+          <tr><td>Magnetic stripe / chip</td><td>Missing or visibly damaged on a card that should have one</td></tr>
+          <tr><td>Behaviour</td><td>Customer is nervous, avoids eye contact, hands over the ID upside down or covered</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>If you suspect fake ID:</strong> Decline the sale politely. Say "I'm not able to accept this ID." You are not required to confiscate it or confront the customer. Call a manager. You cannot be penalised for refusing a sale — only for completing one you shouldn't have.</span></div>
+      </div>
+    </div>
+
+    <!-- Fines -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip red">Penalties</div>
+          <span class="detail-title">What happens if a sale to a minor occurs</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Ontario and the federal government both have enforcement mechanisms. Undercover compliance checks — where officials send someone underage to attempt a purchase — are actively used in Ontario.</p>
+        <table class="data-table">
+          <tr><th>Who is penalised</th><th>Consequence</th></tr>
+          <tr><td>The individual staff member</td><td>Personal fine issued to the employee who made the sale</td></tr>
+          <tr><td>The store owner / business</td><td>Fines up to $100,000 for repeat violations</td></tr>
+          <tr><td>The store licence</td><td>Suspension or permanent revocation of the right to sell vaping products</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>You are personally liable.</strong> If you sell to a minor, the fine can be issued to you individually — not just the store. "They looked old enough" is not a legal defence if the person appeared under 25 and you didn't ask for ID.</span></div>
+        <div class="info-box"><span>ℹ️</span><span><strong>Compliance checks:</strong> Public health inspectors may send someone who appears under 25 into the store to attempt a purchase. This is standard practice in Ontario. Always follow the process — every single time.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: Flavour &amp; product rules →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: FLAVOUR & PRODUCT RULES ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">Flavour &amp; product rules</div>
+    <p class="section-intro">As a registered specialty vape store, The Vape Store operates under different rules than convenience stores. Understanding what you can sell — and to whom — matters every day on the floor.</p>
+
+    <div class="card-detail" id="d4">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip">Specialty vape stores</div>
+          <span class="detail-title">What a specialty vape store is allowed to sell</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Under Ontario's Smoke-Free Ontario Act, 2017 (as updated July 2020), vaping product sales are restricted based on store type. Specialty vape stores — which The Vape Store qualifies as — have expanded permissions that general retailers like convenience stores do not have.</p>
+        <table class="data-table">
+          <tr><th>Product type</th><th>General retailer (e.g. corner store)</th><th>Specialty vape store (The Vape Store)</th></tr>
+          <tr><td>Tobacco, mint &amp; menthol flavours</td><td style="color:var(--accent3)">✓ Allowed</td><td style="color:var(--accent3)">✓ Allowed</td></tr>
+          <tr><td>All other flavours (fruit, dessert, etc.)</td><td style="color:var(--accent2)">✗ Prohibited</td><td style="color:var(--accent3)">✓ Allowed</td></tr>
+          <tr><td>Products up to 20mg/mL nicotine</td><td style="color:var(--accent3)">✓ Allowed</td><td style="color:var(--accent3)">✓ Allowed</td></tr>
+          <tr><td>Products over 20mg/mL nicotine</td><td style="color:var(--accent2)">✗ Prohibited</td><td style="color:var(--accent2)">✗ Prohibited (20mg is the federal cap)</td></tr>
+        </table>
+        <div class="info-box"><span>ℹ️</span><span>To maintain specialty vape store status, at least 85% of the store's total sales or inventory purchases must consist of vaping products. This is managed at ownership level — but it's useful to understand why the store's product mix matters.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip">Nicotine cap</div>
+          <span class="detail-title">20mg/mL — Canada's federal nicotine limit</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Health Canada sets a maximum nicotine concentration of <strong>20mg per millilitre</strong> for all vaping products sold in Canada. This is a federal rule that applies everywhere — no province can go higher.</p>
+        <div class="warn-box"><span>⚠️</span><span>If a customer asks for "50mg nic salts" or "35mg juice" — these are not legal in Canada. Do not order them, do not sell them, and do not tell a customer they can find them locally. Politely explain that 20mg is the maximum available in Canada and recommend the best 20mg option for their needs.</span></div>
+        <div class="tip-box"><span>💡</span><span>Most customers switching from cigarettes who ask for higher nicotine are used to products from the US market. Reassure them that 20mg nic salts in Canada are specifically formulated to absorb quickly and satisfy cravings — they work well for heavy smokers.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="d6">
+      <div class="card-detail-header" onclick="toggleDetail('d6')">
+        <div class="card-detail-left">
+          <div class="chip green">Excise stamps</div>
+          <span class="detail-title">What is an excise stamp and why it matters</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Since 2022, all vaping e-liquid and pre-filled pods sold in Canada must carry a federal excise duty stamp. Ontario participates in the coordinated excise stamp program.</p>
+        <table class="data-table">
+          <tr><th>What you need to know</th><th>Details</th></tr>
+          <tr><td>What it looks like</td><td>A small stamp or mark on the product packaging — typically on the bottle or pod packaging label</td></tr>
+          <tr><td>What it means</td><td>The excise duty has been paid and the product came through a licensed Canadian importer or distributor</td></tr>
+          <tr><td>If a product has no stamp</td><td>Do not sell it. Flag it to a manager immediately. Selling unstamped goods is a federal offence.</td></tr>
+          <tr><td>Who is responsible</td><td>The store must only carry excise-stamped stock. If a product arrives without a stamp, do not put it on the shelf.</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span>Unstamped products are illegal to sell in Canada. If a customer brings in an unmarked bottle or device they purchased elsewhere and asks you to identify it, that is not your product — you are not responsible. But you cannot sell it or process it as a return for store credit.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="d7">
+      <div class="card-detail-header" onclick="toggleDetail('d7')">
+        <div class="card-detail-left">
+          <div class="chip blue">Advertising</div>
+          <span class="detail-title">What you can and cannot say or display</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">The federal TVPA places strict limits on how vaping products can be advertised and promoted — including inside stores and on social media.</p>
+        <table class="data-table">
+          <tr><th>Permitted</th><th>Prohibited</th></tr>
+          <tr><td>Product name and price on shelf tags</td><td>Lifestyle advertising (images linking vaping to glamour, freedom, social success)</td></tr>
+          <tr><td>Factual product descriptions</td><td>Any imagery, characters, or designs that could appeal to youth</td></tr>
+          <tr><td>In-store displays (within the specialty store)</td><td>Displays or signage visible from outside the store windows</td></tr>
+          <tr><td>Health warning labels on products (mandatory)</td><td>Claims that vaping is "safe", "healthy", or "better than smoking"</td></tr>
+        </table>
+        <div class="info-box"><span>ℹ️</span><span>As a specialty vape store, in-store displays are permitted — but they must not be visible from outside. This means window displays featuring vaping products are not allowed. This is enforced by inspectors.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← Age &amp; ID rules</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: Where &amp; how you sell →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: WHERE & HOW YOU SELL ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">Where &amp; how you sell</div>
+    <p class="section-intro">Compliance isn't only about what you sell — it's about where vaping is allowed, what signage must be posted, and how to handle difficult situations on the floor.</p>
+
+    <div class="card-detail" id="d8">
+      <div class="card-detail-header" onclick="toggleDetail('d8')">
+        <div class="card-detail-left">
+          <div class="chip red">No vaping zones</div>
+          <span class="detail-title">Where vaping is banned in Ontario</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Under the Smoke-Free Ontario Act, 2017, vaping is prohibited anywhere smoking is prohibited. This matters both for customers sampling in-store and for staff.</p>
+        <table class="data-table">
+          <tr><th>Location</th><th>Rule</th></tr>
+          <tr><td>Enclosed workplaces and public spaces</td><td>Vaping banned — this includes bars, restaurants, malls, offices</td></tr>
+          <tr><td>Within 9 metres of hospital entrances</td><td>No vaping in this buffer zone</td></tr>
+          <tr><td>School grounds and playgrounds</td><td>No vaping on property</td></tr>
+          <tr><td>Within 20 metres of school property</td><td>Stricter enforcement as of late 2025</td></tr>
+          <tr><td>Vehicles with anyone under 16</td><td>Vaping in a vehicle with a minor under 16 is illegal</td></tr>
+          <tr><td>Sports fields and recreational facilities</td><td>No vaping during use</td></tr>
+        </table>
+        <div class="info-box"><span>ℹ️</span><span><strong>In-store sampling:</strong> As a specialty vape store, limited sampling is permitted under specific conditions — maximum two people at one time, one-time disposable mouthpieces unless the customer uses their own device. No cannabis, tobacco, or controlled substances in the device being sampled. Confirm current store policy with your manager before offering samples.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="d9">
+      <div class="card-detail-header" onclick="toggleDetail('d9')">
+        <div class="card-detail-left">
+          <div class="chip">Required signage</div>
+          <span class="detail-title">Signage the store must have posted</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt16">Ontario law requires specific signage in stores that sell vaping and tobacco products. Responsibility for posting these signs is primarily on ownership and management, but all staff should know what should be visible.</p>
+        <table class="data-table">
+          <tr><th>Required sign</th><th>Where it must be</th></tr>
+          <tr><td>"No sale to persons under 19"</td><td>Prominently displayed at the point of sale / cash area</td></tr>
+          <tr><td>No-smoking / no-vaping sign</td><td>At entrances and where applicable inside</td></tr>
+          <tr><td>Health warning on all products</td><td>Mandatory on all product packaging — this is the manufacturer's responsibility but staff should flag unlabelled products</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>If you notice required signage is missing or damaged, flag it to a manager immediately. A missing sign won't protect you or the store during an inspection.</span></div>
+      </div>
+    </div>
+
+    <!-- Scenario practice -->
+    <h4>Scenario practice</h4>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Read each scenario and the correct response. These are common real-world situations every staff member will face.</p>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">High risk</div>
+      <div class="scenario-text">"I forgot my ID at home but I promise I'm 19. I come in here all the time, you know me."</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response red">"I completely understand and I'm sorry for the hassle. Unfortunately I have to check ID for anyone who looks under 25 — it's the law and I can't make exceptions even for regulars. If you can bring ID next time, we'll get you sorted."</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Judgment call</div>
+      <div class="scenario-text">A customer hands you an Ontario health card as their only ID.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response">"Thanks — just so you know, I can't ask you for your health card as ID, but since you've offered it I can accept it. Health cards don't show your date of birth, so I'll need you to confirm that for me — what's your date of birth?" Once confirmed, proceed if they're 19+.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Judgment call</div>
+      <div class="scenario-text">A customer presents an out-of-province driver's licence from British Columbia. They clearly look around 20.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response">Canadian provincial driver's licences from other provinces are generally acceptable. Check the photo, the DOB (ensure they are 19+), and that it's not expired. If it passes all checks, proceed. If anything seems off, ask for a second piece of ID or call your manager.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag yellow">Judgment call</div>
+      <div class="scenario-text">A customer asks if you have "50mg nic salts" because they order them from the US.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response">"That strength isn't legal to sell in Canada — Health Canada caps nicotine at 20mg/mL nationwide. What I can tell you is our 20mg nic salts are formulated to absorb really well — most people switching from cigarettes find they do the job. Want me to show you what we have in 20mg?"</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag red">High risk</div>
+      <div class="scenario-text">A customer becomes aggressive when you ask for ID, demanding to speak to a manager and saying you're discriminating against them.</div>
+      <div class="scenario-response-label">Correct response</div>
+      <div class="scenario-response red">"I absolutely understand your frustration, and I'm happy to get my manager. I do need to clarify — checking ID for anyone who appears under 25 is a legal requirement under Ontario law, not a personal decision. It applies to every customer equally. I'll get my manager for you right now."</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← Flavour &amp; product rules</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Quiz &amp; sign-off →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ & SIGN-OFF ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Quiz &amp; sign-off</div>
+    <p class="section-intro">10 questions on Ontario compliance, ID rules, and product regulations. Score 8/10 to pass, then complete the sign-off checklist.</p>
+
+    <div id="quiz-score-bar" style="display:none; margin-bottom:20px; padding:16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. What is the legal minimum age to purchase vaping products in Ontario?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">18</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">19</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">21</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">25</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. Ontario law requires you to ask for ID if a customer appears to be under what age?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">19</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">21</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">25</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">30</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. A customer voluntarily hands you their Ontario health card as ID. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Refuse it — health cards are never acceptable under any circumstances</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">Accept it since the customer offered it, but confirm their date of birth verbally — you cannot ask for a health card, but you can accept one</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Ask them to produce a different form of ID instead</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Accept it — it's a government-issued card so it's fully valid</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. What is the maximum legal nicotine concentration for vaping products in Canada?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">35mg/mL</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">50mg/mL</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">20mg/mL</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">25mg/mL</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. A convenience store down the street sells only tobacco-flavoured vapes. Why can The Vape Store sell fruit and dessert flavours?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because The Vape Store has been in business longer</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because flavoured vapes are allowed everywhere in Ontario</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">Because The Vape Store is a registered specialty vape store, which is exempt from the flavour restriction that applies to general retailers</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Because fruit and dessert flavours are not restricted in Canada</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. You find a box of e-liquid in the stockroom with no excise stamp. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Put it on the shelf — stamps are optional</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Sell it at a discount since it might be old stock</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Do not sell it and flag it to a manager immediately</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Return it to the customer who brought it in</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. A customer who is clearly a regular says "You know me — I don't need to show my ID today." They appear to be around 22. What do you do?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Skip the ID check — they're a trusted regular</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Ask for ID only if a manager is watching</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">Ask for ID regardless — the law requires it for anyone who appears under 25, with no exceptions for regulars</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Ask for ID only if it's their first visit that day</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. Under the Smoke-Free Ontario Act, vaping is banned within how many metres of a hospital entrance?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">3 metres</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">5 metres</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">9 metres</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">20 metres</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. Which of the following is acceptable government-issued photo ID for age verification in Ontario?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Ontario health card (OHIP card)</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">University student card</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Ontario Photo Card (issued by ServiceOntario)</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">A bank debit card with the customer's name</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. A customer gets angry when you ask for ID and says you're singling them out. What is the correct response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Apologise and skip the ID check to avoid conflict</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Refuse service immediately and ask them to leave</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Calmly explain that ID checks are required by Ontario law for anyone who appears under 25 — it applies to all customers equally — and offer to get a manager if needed</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Only check ID if the customer calms down first</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Quiz Passed</h3>
+      <p>Complete the sign-off checklist below to finish Module 2.</p>
+    </div>
+
+    <!-- Sign-off checklist -->
+    <div class="signoff" id="signoff-block">
+      <div class="signoff-title">Staff sign-off checklist</div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Check each box to confirm you understand and agree to follow these rules. This checklist should be reviewed with your manager before your first solo shift.</p>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc1" onclick="toggleCheck('sc1')"></div>
+        <span>I understand the legal minimum age to purchase vaping products in Ontario is 19.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc2" onclick="toggleCheck('sc2')"></div>
+        <span>I will ask for government-issued photo ID from anyone who appears to be under 25, without exception.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc3" onclick="toggleCheck('sc3')"></div>
+        <span>I know which forms of ID are acceptable — and I understand that I cannot ask for a health card as ID, but may accept one if a customer voluntarily presents it.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc4" onclick="toggleCheck('sc4')"></div>
+        <span>I will never complete a sale to someone I know or suspect to be under 19, regardless of pressure.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc5" onclick="toggleCheck('sc5')"></div>
+        <span>I understand that 20mg/mL is the maximum legal nicotine concentration in Canada and will not sell or order anything above this.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc6" onclick="toggleCheck('sc6')"></div>
+        <span>I will not sell any product that is missing an excise stamp and will flag it to a manager immediately.</span>
+      </div>
+      <div class="signoff-item">
+        <div class="signoff-check" id="sc7" onclick="toggleCheck('sc7')"></div>
+        <span>I understand that I can be personally fined for selling to a minor and that the store's licence is also at risk.</span>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← Where &amp; how you sell</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. The legal minimum purchasing age in Ontario under the Smoke-Free Ontario Act, 2017 is 19. Federally it's 18, but Ontario's provincial law is stricter and that's what applies here.", wrong: "The legal age in Ontario is 19 — higher than the federal minimum of 18. Ontario's Smoke-Free Ontario Act, 2017 governs this." },
+    q2:  { correct: "Correct. Ontario law requires retailers to request ID from anyone who appears to be under 25 — not just those who appear under 19. This is a specific provincial requirement.", wrong: "Ontario law requires ID checks for anyone appearing under 25 — not just those who look close to 19. The standard is higher than the purchasing age itself." },
+    q3:  { correct: "Correct. Ontario law prohibits staff from asking for a health card as ID. However, if a customer voluntarily presents one, you can accept it — just confirm their date of birth verbally since the card doesn't display it.", wrong: "Ontario law actually prohibits asking for a health card as ID — but if a customer offers one voluntarily, you can accept it. The key rule is never ask for it. Always confirm their DOB verbally since health cards don't display it." },
+    q4:  { correct: "Correct. Health Canada sets a federal cap of 20mg/mL for all vaping products sold in Canada. This applies nationwide — no province can sell higher concentrations.", wrong: "The federal nicotine cap in Canada is 20mg/mL. Strengths like 35mg or 50mg are not legal to sell in Canada and are not part of your inventory." },
+    q5:  { correct: "Correct. As a registered specialty vape store under Ontario's Smoke-Free Ontario Act, 2017, The Vape Store is permitted to sell all flavoured vaping products. General retailers like convenience stores are limited to tobacco, mint, and menthol only.", wrong: "The key is specialty vape store status. Ontario law restricts flavoured vape sales to registered specialty vape stores. General retailers can only sell tobacco, mint, and menthol." },
+    q6:  { correct: "Correct. Since 2022, all vaping e-liquids and pre-filled pods in Canada must carry a federal excise stamp. Selling unstamped products is illegal. Flag it to a manager right away.", wrong: "Excise stamps are mandatory on all vaping e-liquids and pre-filled pods in Canada. An unstamped product cannot be sold — flag it to management immediately." },
+    q7:  { correct: "Correct. There are no exceptions for regulars. If the customer appears under 25, the law requires ID — every visit, every time. Familiarity does not change the legal obligation.", wrong: "The law makes no exceptions for regulars or frequent customers. If they appear under 25, ID must be requested every time. Not checking because you recognise them is still a violation." },
+    q8:  { correct: "Correct. Under the Smoke-Free Ontario Act, vaping is prohibited within 9 metres of hospital entrances — the same buffer zone that applies to smoking.", wrong: "The Smoke-Free Ontario Act prohibits vaping within 9 metres of hospital entrances, windows, and air intakes. The same rule applies to schools and playgrounds." },
+    q9:  { correct: "Correct. The Ontario Photo Card is issued by ServiceOntario as a government-issued photo ID for people who don't drive. It includes a photo and date of birth — it's fully valid.", wrong: "The Ontario Photo Card, issued by ServiceOntario, is a valid government-issued photo ID with date of birth. Student cards are not acceptable. Note: you cannot ask for a health card as ID, though you may accept one if a customer volunteers it." },
+    q10: { correct: "Correct. Stay calm, explain that it's the law — not a personal decision — and that it applies to every customer equally. Offer to involve a manager. Never skip the check to avoid conflict.", wrong: "The correct approach is to stay calm, explain that ID checks are legally required for everyone who appears under 25, and offer to involve a manager. Never skip the ID check because a customer is upset." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else {
+        updateProgress(70);
+      }
+    }
+  }
+
+  function toggleCheck(id) {
+    document.getElementById(id).classList.toggle('checked');
+    const checked = document.querySelectorAll('.signoff-check.checked').length;
+    if (checked > 0) updateProgress(Math.max(currentProgress, Math.round(70 + (checked / 7) * 30)));
+    document.getElementById(id).textContent = document.getElementById(id).classList.contains('checked') ? '✓' : '';
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 60)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

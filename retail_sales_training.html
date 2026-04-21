@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Sales Training — The Complete Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c10;
+    --surface: #13131a;
+    --surface2: #1a1a24;
+    --border: #26263a;
+    --accent: #c084fc;
+    --accent2: #fb923c;
+    --accent3: #34d399;
+    --accent4: #60a5fa;
+    --accent5: #f472b6;
+    --text: #eeeaf8;
+    --muted: #72728a;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  .shell { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* Header */
+  .header { margin-bottom: 56px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 18px;
+  }
+
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(30px, 5vw, 52px); font-weight: 800; line-height: 1.08; margin-bottom: 14px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 580px; line-height: 1.7; }
+
+  .meta-row { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .meta-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* Chapter nav */
+  .chapter-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .chapter-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    line-height: 1.4;
+  }
+  .chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .chapter-btn.active { background: var(--accent); border-color: var(--accent); color: #0c0c10; }
+  .chapter-btn .ch-num { display: block; font-size: 10px; opacity: 0.7; margin-bottom: 2px; }
+
+  /* Progress */
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; margin-bottom: 44px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent4)); border-radius: 99px; width: 0%; transition: width 0.6s ease; }
+  .progress-pct { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); min-width: 36px; text-align: right; }
+
+  /* Panels */
+  .chapter-panel { display: none; animation: fadeUp 0.3s ease; }
+  .chapter-panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .chapter-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .chapter-title span { color: var(--chapter-color, var(--accent)); }
+  .chapter-intro { color: var(--muted); font-size: 14px; margin-bottom: 36px; max-width: 640px; line-height: 1.7; }
+
+  /* Insight cards — big horizontal */
+  .insight-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .insight-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--ic-color, var(--accent)); }
+  .insight-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--ic-color, var(--accent)); line-height: 1; min-width: 40px; opacity: 0.25; padding-top: 2px; }
+  .insight-content {}
+  .insight-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .insight-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* Grid cards */
+  .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .grid-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
+  .grid-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gc-color, var(--accent)); }
+  .gc-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+  .gc-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .gc-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Expandable */
+  .card-detail { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .card-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; }
+  .card-detail-header:hover .chevron { color: var(--accent); }
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+  .chip { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; background: rgba(192,132,252,0.1); color: var(--accent); }
+  .chip.orange { background: rgba(251,146,60,0.1); color: var(--accent2); }
+  .chip.green { background: rgba(52,211,153,0.1); color: var(--accent3); }
+  .chip.blue { background: rgba(96,165,250,0.1); color: var(--accent4); }
+  .chip.pink { background: rgba(244,114,182,0.1); color: var(--accent5); }
+  .detail-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s, color 0.2s; }
+  .card-detail.open .chevron { transform: rotate(180deg); }
+  .card-detail-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .data-table th { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid rgba(38,38,58,0.8); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Stat callouts */
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 20px 0; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; text-align: center; }
+  .stat-number { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; color: var(--sc-color, var(--accent)); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* Flow */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .flow-step { display: flex; gap: 16px; align-items: flex-start; position: relative; }
+  .flow-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 44px; width: 2px; height: calc(100% - 8px); background: var(--border); }
+  .flow-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-family: 'Syne', sans-serif; font-weight: 800; flex-shrink: 0; z-index: 1; border: 2px solid var(--border); background: var(--surface); }
+  .flow-icon.purple { border-color: var(--accent); background: rgba(192,132,252,0.1); color: var(--accent); }
+  .flow-icon.orange { border-color: var(--accent2); background: rgba(251,146,60,0.1); color: var(--accent2); }
+  .flow-icon.green { border-color: var(--accent3); background: rgba(52,211,153,0.1); color: var(--accent3); }
+  .flow-icon.blue { border-color: var(--accent4); background: rgba(96,165,250,0.1); color: var(--accent4); }
+  .flow-icon.pink { border-color: var(--accent5); background: rgba(244,114,182,0.1); color: var(--accent5); }
+  .flow-content { padding: 8px 0 28px; }
+  .flow-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .flow-label.purple { color: var(--accent); }
+  .flow-label.orange { color: var(--accent2); }
+  .flow-label.green { color: var(--accent3); }
+  .flow-label.blue { color: var(--accent4); }
+  .flow-label.pink { color: var(--accent5); }
+  .flow-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* Compare */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 560px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-col { border-radius: 8px; padding: 14px 16px; }
+  .compare-col.do { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); }
+  .compare-col.dont { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.2); }
+  .compare-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .compare-label.do { color: var(--accent3); }
+  .compare-label.dont { color: var(--accent2); }
+  .compare-item { font-size: 13px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.5; }
+  .compare-item:last-child { border-bottom: none; }
+
+  /* Tip / warn / info */
+  .tip-box { background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 16px; display: flex; gap: 10px; font-size: 13px; color: #86efcc; }
+  .warn-box { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.22); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #fed7aa; }
+  .info-box { background: rgba(192,132,252,0.06); border: 1px solid rgba(192,132,252,0.2); border-radius: 8px; padding: 14px 16px; margin-top: 12px; display: flex; gap: 10px; font-size: 13px; color: #e9d5ff; }
+
+  /* Pull quote */
+  .pull-quote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 24px 0; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; }
+  .pull-quote span { color: var(--accent); }
+
+  /* Scenario */
+  .scenario-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin-bottom: 14px; }
+  .scenario-tag { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+  .scenario-tag.purple { background: rgba(192,132,252,0.1); color: var(--accent); }
+  .scenario-tag.orange { background: rgba(251,146,60,0.1); color: var(--accent2); }
+  .scenario-tag.green { background: rgba(52,211,153,0.1); color: var(--accent3); }
+  .scenario-text { font-size: 14px; color: var(--text); font-style: italic; margin-bottom: 14px; border-left: 2px solid var(--border); padding-left: 12px; line-height: 1.7; }
+  .scenario-response-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .scenario-response { font-size: 13px; color: #e9d5ff; background: rgba(192,132,252,0.05); border: 1px solid rgba(192,132,252,0.15); border-radius: 8px; padding: 12px 14px; line-height: 1.65; }
+  .scenario-response.green { color: #86efcc; background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.15); }
+  .scenario-response.orange { color: #fed7aa; background: rgba(251,146,60,0.05); border-color: rgba(251,146,60,0.15); }
+
+  /* Quiz */
+  .quiz-q { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .quiz-q-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: pointer; font-size: 13px; color: var(--text); transition: border-color 0.15s; text-align: left; }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-opt.correct { background: rgba(52,211,153,0.1); border-color: var(--accent3); color: var(--accent3); }
+  .quiz-opt.wrong { background: rgba(251,146,60,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(52,211,153,0.08); color: var(--accent3); }
+  .quiz-feedback.wrong { background: rgba(251,146,60,0.08); color: #fed7aa; }
+
+  /* Completion */
+  .completion-banner { background: rgba(192,132,252,0.07); border: 1px solid rgba(192,132,252,0.25); border-radius: var(--radius); padding: 28px; text-align: center; margin-top: 24px; display: none; }
+  .completion-banner.show { display: block; }
+  .completion-banner h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .completion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* Nav */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .nav-btn { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #0c0c10; }
+  .nav-btn.primary:hover { opacity: 0.85; }
+
+  strong { color: var(--text); font-weight: 500; }
+  p { margin-bottom: 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 24px 0 12px; }
+  ul { padding-left: 20px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  li { margin-bottom: 6px; }
+  .mt12 { margin-top: 12px; }
+  .mt20 { margin-top: 20px; }
+  #quiz-score-bar { display: none; margin-bottom: 20px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="header">
+    <div class="badge">Retail Sales Training — Complete Guide</div>
+    <h1>Sell Better.<br><span>Keep Them Coming Back.</span></h1>
+    <p class="subtitle">A practical guide to the full sales process — from the first hello to building customers who wouldn't shop anywhere else. For new staff, experienced staff, and everyone in between.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 5 chapters</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent2)"></div> ~45 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> 10-question quiz</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> All experience levels</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="chapter-btn active" onclick="switchChapter(0)"><span class="ch-num">Chapter 1</span>The sales mindset</button>
+    <button class="chapter-btn" onclick="switchChapter(1)"><span class="ch-num">Chapter 2</span>The sales process</button>
+    <button class="chapter-btn" onclick="switchChapter(2)"><span class="ch-num">Chapter 3</span>Converting browsers</button>
+    <button class="chapter-btn" onclick="switchChapter(3)"><span class="ch-num">Chapter 4</span>Loyalty & repeat business</button>
+    <button class="chapter-btn" onclick="switchChapter(4)"><span class="ch-num">Chapter 5</span>Knowledge check</button>
+  </div>
+
+  <!-- ===== CHAPTER 1: THE SALES MINDSET ===== -->
+  <div class="chapter-panel active" id="panel-0" style="--chapter-color: var(--accent)">
+    <div class="chapter-title">The <span>Sales Mindset</span></div>
+    <p class="chapter-intro">Before technique, there's mindset. The most effective salespeople aren't the pushiest — they're the most genuinely helpful. That distinction changes everything about how you show up on the floor.</p>
+
+    <div class="pull-quote">"People don't want to be sold to. They want to be <span>helped to buy.</span>"</div>
+
+    <div class="insight-cards">
+      <div class="insight-card" style="--ic-color: var(--accent)">
+        <div class="insight-num">01</div>
+        <div class="insight-content">
+          <div class="insight-title">Sales is problem solving, not persuading</div>
+          <div class="insight-body">Every customer who walks in has a problem they're trying to solve — even if they can't articulate it clearly. Your job is to understand that problem and match the right solution to it. When you do that well, the sale is a natural outcome, not a battle.</div>
+        </div>
+      </div>
+      <div class="insight-card" style="--ic-color: var(--accent2)">
+        <div class="insight-num">02</div>
+        <div class="insight-content">
+          <div class="insight-title">Confidence comes from knowledge</div>
+          <div class="insight-body">The most common reason staff hesitate to recommend or close is that they're not confident enough in what they're recommending. Deep product knowledge eliminates that. When you know your products well, making recommendations feels natural — not salesy.</div>
+        </div>
+      </div>
+      <div class="insight-card" style="--ic-color: var(--accent3)">
+        <div class="insight-num">03</div>
+        <div class="insight-content">
+          <div class="insight-title">Every interaction is a long-term investment</div>
+          <div class="insight-body">The value of a retail customer isn't a single transaction — it's everything they'll spend over months and years if they trust you. A customer who spends $30 today but comes back 50 times is worth far more than one who spends $100 once. Optimise for the relationship, not the receipt.</div>
+        </div>
+      </div>
+      <div class="insight-card" style="--ic-color: var(--accent4)">
+        <div class="insight-num">04</div>
+        <div class="insight-content">
+          <div class="insight-title">Rejection is information, not failure</div>
+          <div class="insight-body">When a customer says no — to a recommendation, an add-on, or the sale itself — that's data. What were they looking for that you didn't quite land? What question could you have asked earlier? The best salespeople treat every no as a lesson, not a verdict.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c1d0">
+      <div class="card-detail-header" onclick="toggleDetail('c1d0')">
+        <div class="card-detail-left">
+          <div class="chip">Mindset</div>
+          <span class="detail-title">The difference between order-taking and selling</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Most retail staff default to being order takers — they wait for a customer to say what they want, find it, and process the transaction. That's fine. But it's not selling. Selling is active, not passive. Here's what separates the two:</p>
+        <div class="compare-grid">
+          <div class="compare-col do">
+            <div class="compare-label do">✓ Selling</div>
+            <div class="compare-item">Asks questions before recommending anything.</div>
+            <div class="compare-item">Makes one clear, confident recommendation.</div>
+            <div class="compare-item">Explains why a product fits the customer's situation.</div>
+            <div class="compare-item">Anticipates what the customer will need next.</div>
+            <div class="compare-item">Moves the conversation toward a decision naturally.</div>
+            <div class="compare-item">Follows up or invites the customer to return.</div>
+          </div>
+          <div class="compare-col dont">
+            <div class="compare-label dont">✗ Order taking</div>
+            <div class="compare-item">Waits for the customer to know what they want.</div>
+            <div class="compare-item">Shows five options and lets them decide alone.</div>
+            <div class="compare-item">Describes the product without connecting it to needs.</div>
+            <div class="compare-item">Processes the transaction and moves on.</div>
+            <div class="compare-item">Avoids suggesting anything in case it feels pushy.</div>
+            <div class="compare-item">Has no follow-up or return mechanism.</div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>The irony is that customers prefer being sold to — when it's done well. A staff member who asks the right questions and makes a confident recommendation feels like a trusted expert. That's a better experience than being left to figure it out alone.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c1d1">
+      <div class="card-detail-header" onclick="toggleDetail('c1d1')">
+        <div class="card-detail-left">
+          <div class="chip orange">Common traps</div>
+          <span class="detail-title">Mindset traps that hold salespeople back</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>The trap</th><th>What it sounds like</th><th>The reframe</th></tr>
+          <tr><td>"I don't want to be pushy"</td><td>"They'll ask if they want help."</td><td>Pushing is recommending something the customer doesn't need. Helping is recommending something they do. Know the difference and lean in.</td></tr>
+          <tr><td>"The price will put them off"</td><td>"I won't mention the premium option."</td><td>Let the customer decide what they can afford. Your job is to show them the best solution — not to decide for them based on assumptions.</td></tr>
+          <tr><td>"They already know what they want"</td><td>"I'll just process it."</td><td>A customer who walks in with a specific request still benefits from a 30-second qualifying question. You might find a better fit, or an add-on they genuinely need.</td></tr>
+          <tr><td>"I hate being rejected"</td><td>"I won't suggest the add-on in case they say no."</td><td>A declined suggestion costs nothing. A missed one costs revenue and, potentially, a customer who walks out without something they needed.</td></tr>
+          <tr><td>"It's not my job to chase sales"</td><td>"I'm just here to help."</td><td>Helping and selling are the same thing when done right. Revenue keeps the store open, which keeps you employed. It is your job.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchChapter(1)">Chapter 2: The sales process →</button>
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 2: THE SALES PROCESS ===== -->
+  <div class="chapter-panel" id="panel-1" style="--chapter-color: var(--accent2)">
+    <div class="chapter-title">The <span style="color:var(--accent2)">Sales Process</span></div>
+    <p class="chapter-intro">A consistent sales process is what separates staff who occasionally have good days from staff who consistently perform. The steps below work in any retail environment — learn them, then make them feel natural.</p>
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent2)">5</div><div class="stat-label">steps in the complete retail sales process</div></div>
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent3)">2–3</div><div class="stat-label">qualifying questions that unlock the right recommendation</div></div>
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent4)">1</div><div class="stat-label">recommendation — not a menu. One clear answer wins.</div></div>
+    </div>
+
+    <div class="card-detail" id="c2d0">
+      <div class="card-detail-header" onclick="toggleDetail('c2d0')">
+        <div class="card-detail-left">
+          <div class="chip orange">Full process</div>
+          <span class="detail-title">The 5-step retail sales process</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon purple">1</div>
+            <div class="flow-content">
+              <div class="flow-label purple">Open — make contact without pressure</div>
+              <div class="flow-desc">The opening sets the tone for everything that follows. The goal is to make the customer feel welcome and comfortable, not watched or intercepted. A natural greeting — "Hey, welcome in — let me know if you need anything" — followed by giving them space is usually ideal. For customers who look ready for help, approach within 30 seconds and open with a question, not a pitch: <em>"What brings you in today?"</em></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon orange">2</div>
+            <div class="flow-content">
+              <div class="flow-label orange">Qualify — understand before you recommend</div>
+              <div class="flow-desc">This is the most skipped and most valuable step. Two or three good questions tell you everything you need to make a great recommendation. Ask about their situation, not their preference: <em>"Are you looking for something for yourself or as a gift?"</em> / <em>"Have you used something like this before?"</em> / <em>"What's most important to you — ease of use, flavour, price?"</em> Listen actively. Their answers give you the map.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon green">3</div>
+            <div class="flow-content">
+              <div class="flow-label green">Recommend — one answer, not a list</div>
+              <div class="flow-desc">Based on what you've learned, give one clear recommendation. Not three options. Not "it depends." A specific suggestion, with a brief reason why it fits their situation: <em>"For what you've described, I'd go with this one — it's the easiest to start with and most people in your situation find it hits the spot."</em> Confidence in your recommendation builds the customer's confidence in it.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon blue">4</div>
+            <div class="flow-content">
+              <div class="flow-label blue">Handle objections — acknowledge, clarify, address</div>
+              <div class="flow-desc">If the customer hesitates or pushes back, don't retreat. Acknowledge their concern first, then clarify what's behind it, then address it. <em>"That's fair — can I ask, is it more the price or whether it's the right fit?"</em> Most objections are questions in disguise. Answer the real question.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon pink">5</div>
+            <div class="flow-content">
+              <div class="flow-label pink">Close — move naturally toward the decision</div>
+              <div class="flow-desc">A close doesn't have to be a dramatic moment. It's just moving the conversation forward: <em>"Want me to grab one of those for you?"</em> or <em>"I'll pop a pack of [add-on] in with that — worth having on hand."</em> If the customer seems ready, don't keep selling — they've decided. Guide them to the transaction.</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box"><span>💡</span><span>The most common failure point is Step 2 — skipping the qualify and jumping to recommend. Without knowing the customer's situation, you're guessing. Two questions take 30 seconds and change the outcome entirely.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c2d1">
+      <div class="card-detail-header" onclick="toggleDetail('c2d1')">
+        <div class="card-detail-left">
+          <div class="chip green">Qualifying</div>
+          <span class="detail-title">The art of the qualifying question</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Good qualifying questions are open-ended, situational, and conversational. Bad ones feel like an interrogation or a form to fill in.</p>
+        <table class="data-table">
+          <tr><th>Type</th><th>Good examples</th><th>Why they work</th></tr>
+          <tr><td>Experience level</td><td>"Is this something you've used before, or more of a first time?"</td><td>Tells you how much explaining to do and what baseline to start from.</td></tr>
+          <tr><td>Use case</td><td>"Is this for you, or are you thinking of it as a gift?"</td><td>Changes the entire recommendation — personal use vs gift-buying have completely different needs.</td></tr>
+          <tr><td>Priority</td><td>"What matters most to you — keeping it simple, getting the best value, or having the most options?"</td><td>Surfaces the real decision driver without guessing.</td></tr>
+          <tr><td>Current situation</td><td>"What are you using at the moment?"</td><td>For existing users — tells you what they're coming from and what they might be trying to upgrade or fix.</td></tr>
+          <tr><td>Budget signal</td><td>"Are you looking for something to start simple, or happy to invest a bit more for something longer-term?"</td><td>Opens the price conversation naturally without asking "what's your budget?" directly, which often puts people on the defensive.</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span>Never ask more than three qualifying questions in a row — it starts to feel like an interview. Ask one or two, get enough to make a recommendation, then move forward. You can gather more context during the recommend step.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c2d2">
+      <div class="card-detail-header" onclick="toggleDetail('c2d2')">
+        <div class="card-detail-left">
+          <div class="chip blue">Add-ons</div>
+          <span class="detail-title">The add-on sale — when and how</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">An add-on is something the customer genuinely needs alongside their main purchase — not a random extra you're trying to attach to the transaction. Done right, it improves their experience. Done wrong, it damages trust.</p>
+        <table class="data-table">
+          <tr><th>The rule</th><th>What it means</th></tr>
+          <tr><td>One add-on per transaction</td><td>Choose the most genuinely useful add-on and focus there. Stacking multiple suggestions feels like a hard sell and erodes the goodwill you've built.</td></tr>
+          <tr><td>Frame it as practical, not a upsell</td><td>"You'll want a pack of these too — they'll run out in a couple of weeks" lands far better than "Can I interest you in adding…"</td></tr>
+          <tr><td>Time it right</td><td>Introduce the add-on after the main purchase is decided — not before. Introducing it too early makes the customer feel like the main product was just a foot in the door.</td></tr>
+          <tr><td>Accept no gracefully</td><td>If they decline, let it go immediately and move to the close. Pushing after a no destroys the transaction.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scenarios -->
+    <h4>Process in action</h4>
+
+    <div class="scenario-card">
+      <div class="scenario-tag orange">New customer</div>
+      <div class="scenario-text">A customer walks in slowly, looks around without direction, and hasn't approached the counter. They look uncertain.</div>
+      <div class="scenario-response-label">What to do</div>
+      <div class="scenario-response">Give them 30–45 seconds to settle, then approach with a low-pressure opener: "Hey — have you been in before, or is this your first time?" Their answer tells you immediately whether to give an orientation or a specific recommendation. Don't lead with a pitch.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-tag green">Returning customer</div>
+      <div class="scenario-text">A regular customer comes in for their usual purchase. You've served them before and know what they buy.</div>
+      <div class="scenario-response-label">What to do</div>
+      <div class="scenario-response green">Acknowledge the familiarity — it makes them feel valued. "The usual?" Then, if there's a genuine reason to introduce something new: "Actually, we just got something in that I think you'd like — similar to what you normally get but [improvement]. Worth trying?" Keep it conversational, not a hard sell.</div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchChapter(0)">← The sales mindset</button>
+      <button class="nav-btn primary" onclick="switchChapter(2)">Chapter 3: Converting browsers →</button>
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 3: CONVERTING BROWSERS ===== -->
+  <div class="chapter-panel" id="panel-2" style="--chapter-color: var(--accent3)">
+    <div class="chapter-title">Converting <span style="color:var(--accent3)">Browsers</span></div>
+    <p class="chapter-intro">A browser is someone who hasn't committed to buying yet. They're not a lost cause — they're an opportunity. Most people who browse without buying either lacked confidence in a product or didn't get the help they needed at the right moment.</p>
+
+    <div class="pull-quote" style="border-left-color: var(--accent3);">"The customer who <span style="color:var(--accent3)">says nothing</span> and walks out is the one you should be thinking about."</div>
+
+    <div class="grid-cards">
+      <div class="grid-card" style="--gc-color: var(--accent3)">
+        <span class="gc-icon">🚶</span>
+        <div class="gc-title">Why people browse without buying</div>
+        <div class="gc-body">Uncertainty about what's right for them. Price hesitation. Waiting for a sign it's worth it. Not feeling helped. These are all solvable.</div>
+      </div>
+      <div class="grid-card" style="--gc-color: var(--accent4)">
+        <span class="gc-icon">⏱️</span>
+        <div class="gc-title">The 45-second window</div>
+        <div class="gc-body">If a browser hasn't been engaged within 45 seconds of looking at a specific product, they'll usually move on or leave. Timing your approach is the first lever.</div>
+      </div>
+      <div class="grid-card" style="--gc-color: var(--accent)">
+        <span class="gc-icon">❓</span>
+        <div class="gc-title">Questions beat pitches</div>
+        <div class="gc-body">A browser who gets pitched at will resist. A browser who gets asked a good question will talk — and talking leads to buying far more often than being sold at.</div>
+      </div>
+      <div class="grid-card" style="--gc-color: var(--accent2)">
+        <span class="gc-icon">🚪</span>
+        <div class="gc-title">Give them a graceful exit</div>
+        <div class="gc-body">If they're not ready today, making them feel comfortable leaving keeps the door open. A good goodbye is worth as much as a marginal close.</div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c3d0">
+      <div class="card-detail-header" onclick="toggleDetail('c3d0')">
+        <div class="card-detail-left">
+          <div class="chip green">Approach</div>
+          <span class="detail-title">How to approach a browser — timing and openers</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">The approach is everything. Get it wrong and the browser shuts down. Get it right and a conversation starts — and conversations lead to purchases.</p>
+        <table class="data-table">
+          <tr><th>Signal</th><th>What it means</th><th>How to respond</th></tr>
+          <tr><td>Picking up a product to look at it</td><td>Genuine interest in that specific item</td><td>Approach within 20 seconds: "That one's popular — have you seen it before?" Opens a specific conversation.</td></tr>
+          <tr><td>Lingering on a section without picking anything up</td><td>Interested but uncertain, possibly overwhelmed</td><td>"Are you looking for something specific or just having a browse?" Both answers are useful — one leads to qualifying, the other tells you to give them space.</td></tr>
+          <tr><td>Looking at price tags repeatedly</td><td>Budget-conscious or value comparison</td><td>Approach and acknowledge the value question directly: "There's actually a pretty big range in that category — happy to point you toward the best value for what you need?"</td></tr>
+          <tr><td>Looking around for staff</td><td>Ready for help and not finding it</td><td>This is a missed window. Never let a customer visually search for staff for more than a few seconds. Get there first.</td></tr>
+          <tr><td>Moving quickly through sections</td><td>On a specific mission, not browsing</td><td>Intercept with "Can I help you find something?" rather than letting them wander. They'll get to what they need faster.</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>The worst opener:</strong> "Can I help you?" — it almost always gets "just looking thanks" and closes the conversation. Replace it with a question that starts a conversation, or a product-specific comment that shows genuine knowledge.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c3d1">
+      <div class="card-detail-header" onclick="toggleDetail('c3d1')">
+        <div class="card-detail-left">
+          <div class="chip blue">Decision blockers</div>
+          <span class="detail-title">What stops browsers from buying — and how to remove each blocker</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Blocker</th><th>What it looks like</th><th>How to remove it</th></tr>
+          <tr><td>Product uncertainty</td><td>"I'm not sure which one is right for me."</td><td>Ask two qualifying questions and make a clear recommendation. Uncertainty evaporates when someone they trust tells them what to get.</td></tr>
+          <tr><td>Price hesitation</td><td>Looking at the price tag repeatedly, hesitating</td><td>Reframe the value: cost per use, long-term saving, what they'd be giving up by going cheaper. Don't just defend the price — justify it.</td></tr>
+          <tr><td>Commitment anxiety</td><td>"I'll think about it" / "I might come back."</td><td>"What's making you want to think about it?" — surfaces the real objection. Often it's uncertainty or price. Address the real thing.</td></tr>
+          <tr><td>Social proof gap</td><td>"I'm not sure if it'll work for me."</td><td>"Most people who come in with a similar situation go with this — and they come back for it." Genuine social proof from experience is powerful.</td></tr>
+          <tr><td>Too many options</td><td>Looking between multiple products, paralysed</td><td>Narrow it down for them. "Honestly, given what you've told me, it's between these two. If I were in your situation I'd go with this one — here's why."</td></tr>
+          <tr><td>Not feeling heard</td><td>Giving short answers, looking for the exit</td><td>Ask one more question — a genuine one. Show that you're interested in their situation. People who feel heard are far more likely to buy.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c3d2">
+      <div class="card-detail-header" onclick="toggleDetail('c3d2')">
+        <div class="card-detail-left">
+          <div class="chip pink">The walkaway</div>
+          <span class="detail-title">Handling the customer who's leaving without buying</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">When a customer heads for the door without buying, you have one last opportunity — and it's more valuable than it looks. The walkaway moment is often where the real objection finally surfaces.</p>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-icon green">1</div>
+            <div class="flow-content">
+              <div class="flow-label green">Ask one clarifying question — gently</div>
+              <div class="flow-desc">"Is there anything I can help clarify before you go?" or "Can I ask what's making you want to think about it?" This gives them an opening without pressure. If they have an unspoken concern, this is where it surfaces.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon blue">2</div>
+            <div class="flow-content">
+              <div class="flow-label blue">If they name a blocker — address it briefly</div>
+              <div class="flow-desc">One clear, confident response to whatever they say. Not a long pitch — a short answer. If it's price: the value case in one or two sentences. If it's uncertainty: one final recommendation with a reason. Don't re-open the whole conversation.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-icon orange">3</div>
+            <div class="flow-content">
+              <div class="flow-label orange">If they're still leaving — let them go warmly</div>
+              <div class="flow-desc">"No problem at all — if you have any questions when you're thinking it over, we're always here." A warm, pressure-free exit keeps the door genuinely open. Many customers who "think about it" come back — and they come back to the person who made them feel good about leaving.</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-box"><span>ℹ️</span><span>The customer who feels pressured tells their friends. The customer who feels genuinely helped — even if they didn't buy — also tells their friends. The walkaway is a brand moment, not just a missed sale.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchChapter(1)">← The sales process</button>
+      <button class="nav-btn primary" onclick="switchChapter(3)">Chapter 4: Loyalty & repeat business →</button>
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 4: LOYALTY ===== -->
+  <div class="chapter-panel" id="panel-3" style="--chapter-color: var(--accent4)">
+    <div class="chapter-title">Loyalty &amp; <span style="color:var(--accent4)">Repeat Business</span></div>
+    <p class="chapter-intro">Repeat customers are the foundation of a healthy retail business. They spend more, cost less to serve, refer others, and forgive mistakes. Building them is the highest-value activity in retail — and it starts with every single interaction.</p>
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent4)">5×</div><div class="stat-label">more expensive to acquire a new customer than to retain an existing one</div></div>
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent3)">67%</div><div class="stat-label">more spent per visit by loyal customers vs new ones on average</div></div>
+      <div class="stat-card"><div class="stat-number" style="--sc-color: var(--accent)">1</div><div class="stat-label">bad experience can undo 10 good ones for a customer on the fence</div></div>
+    </div>
+
+    <div class="card-detail" id="c4d0">
+      <div class="card-detail-header" onclick="toggleDetail('c4d0')">
+        <div class="card-detail-left">
+          <div class="chip blue">What creates loyalty</div>
+          <span class="detail-title">What actually makes a customer come back</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Loyalty isn't primarily about loyalty programmes — it's about how the customer feels every time they interact with your store. These are the drivers that actually move the needle:</p>
+        <div class="insight-cards" style="margin-top:16px;">
+          <div class="insight-card" style="--ic-color: var(--accent4)">
+            <div class="insight-num">01</div>
+            <div class="insight-content">
+              <div class="insight-title">They feel known</div>
+              <div class="insight-body">Remembering a regular's name, their usual purchase, or something they mentioned last time costs nothing and creates an outsized loyalty effect. People return to places where they feel recognised — it's a basic human need.</div>
+            </div>
+          </div>
+          <div class="insight-card" style="--ic-color: var(--accent3)">
+            <div class="insight-num">02</div>
+            <div class="insight-content">
+              <div class="insight-title">They trust your recommendations</div>
+              <div class="insight-body">A customer who has had a recommendation that worked will come back and ask for another one. That trust is earned one good recommendation at a time. It's also why pushing the wrong product — just to make a sale — is so destructive.</div>
+            </div>
+          </div>
+          <div class="insight-card" style="--ic-color: var(--accent)">
+            <div class="insight-num">03</div>
+            <div class="insight-content">
+              <div class="insight-title">Problems got fixed well</div>
+              <div class="insight-body">Counterintuitively, customers who had a problem that was resolved well often become more loyal than customers who never had a problem. How you handle issues matters more than whether issues happen.</div>
+            </div>
+          </div>
+          <div class="insight-card" style="--ic-color: var(--accent2)">
+            <div class="insight-num">04</div>
+            <div class="insight-content">
+              <div class="insight-title">Consistency — every time</div>
+              <div class="insight-body">A great experience followed by an indifferent one plants doubt. Loyalty is built on consistent quality of service. Every visit should feel like the same standard, regardless of how busy you are or how your day is going.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c4d1">
+      <div class="card-detail-header" onclick="toggleDetail('c4d1')">
+        <div class="card-detail-left">
+          <div class="chip green">Habits that build loyalty</div>
+          <span class="detail-title">What to do every shift to build a loyal customer base</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table">
+          <tr><th>Habit</th><th>What it looks like in practice</th><th>Why it works</th></tr>
+          <tr><td>Use names</td><td>If you learn a customer's name — use it. Once per interaction is enough. "Here you go, [name]" at close feels personal without being weird.</td><td>People have a deep positive response to hearing their own name. It signals that you see them as a person, not a transaction.</td></tr>
+          <tr><td>Remember preferences</td><td>"Your usual?" / "Last time you got [X] — did you get on with it?"</td><td>Signals that you pay attention. Most retail staff don't — standing out here is easy and highly effective.</td></tr>
+          <tr><td>Follow up on recommendations</td><td>"How did you get on with [product] you got last time?"</td><td>Shows that you cared about the outcome, not just the sale. Creates real trust.</td></tr>
+          <tr><td>Give them a reason to return</td><td>"We're getting [product] in next week — I'll put one aside if you want?" / "Come back and let me know how you get on."</td><td>Creates a forward-looking thread. Gives them a specific reason to come back, not just a vague open door.</td></tr>
+          <tr><td>Close warmly every time</td><td>A genuine "See you next time" or "Hope that works out for you" — not a mechanical "have a nice day."</td><td>The last impression is what sticks. A warm close is what people remember.</td></tr>
+          <tr><td>Handle problems without drama</td><td>When something goes wrong, focus on fixing it efficiently and warmly. Don't make them fight for a resolution.</td><td>Effortless problem resolution is the single most powerful loyalty builder in retail.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c4d2">
+      <div class="card-detail-header" onclick="toggleDetail('c4d2')">
+        <div class="card-detail-left">
+          <div class="chip pink">Losing customers</div>
+          <span class="detail-title">The most common reasons customers stop coming back</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Most customer churn in retail isn't dramatic — it's quiet. They just stop coming. Understanding why it happens is the first step to preventing it.</p>
+        <table class="data-table">
+          <tr><th>Reason</th><th>How common it is</th><th>What you can do</th></tr>
+          <tr><td>Felt ignored or unwelcome</td><td>The #1 reason people leave and don't return — by a wide margin</td><td>Greet everyone. Make eye contact. Acknowledge people waiting. Never let a customer feel invisible.</td></tr>
+          <tr><td>A recommendation that didn't work out</td><td>High — especially if it was never followed up</td><td>Follow up on recommendations. If something didn't work, fixing it proactively builds more loyalty than the original sale.</td></tr>
+          <tr><td>Inconsistent service quality</td><td>High — especially in stores with variable staff</td><td>Your personal standard should be the same regardless of day, time, or how busy the store is.</td></tr>
+          <tr><td>A complaint was handled poorly</td><td>High — and nearly always avoidable</td><td>See every complaint as a loyalty opportunity. Customers who feel heard and helped stay. Those who feel dismissed leave and tell people.</td></tr>
+          <tr><td>Found somewhere with lower prices</td><td>Lower than most people assume — price alone rarely causes churn</td><td>Focus on experience and trust. Most customers will pay a premium for a place they trust and enjoy visiting.</td></tr>
+        </table>
+        <div class="tip-box"><span>💡</span><span>Research consistently shows that the number one reason customers leave a business is feeling unappreciated or indifferent service — not price. You have direct control over this in every single interaction.</span></div>
+      </div>
+    </div>
+
+    <div class="card-detail" id="c4d3">
+      <div class="card-detail-header" onclick="toggleDetail('c4d3')">
+        <div class="card-detail-left">
+          <div class="chip orange">Word of mouth</div>
+          <span class="detail-title">Turning customers into advocates</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Word of mouth is the most powerful form of marketing a retail store can have — and it's entirely driven by staff. Every exceptional interaction is a potential referral. Every poor one is a warning to someone's friends.</p>
+        <div class="compare-grid">
+          <div class="compare-col do">
+            <div class="compare-label do">✓ What creates advocates</div>
+            <div class="compare-item">Getting a recommendation that was exactly right.</div>
+            <div class="compare-item">Being remembered on a return visit.</div>
+            <div class="compare-item">Having a problem fixed quickly and without drama.</div>
+            <div class="compare-item">Feeling like the staff member genuinely cared about the outcome.</div>
+            <div class="compare-item">An experience that was notably better than expected.</div>
+          </div>
+          <div class="compare-col dont">
+            <div class="compare-label dont">✗ What creates detractors</div>
+            <div class="compare-item">Being ignored or feeling like a bother.</div>
+            <div class="compare-item">A recommendation that clearly wasn't thought about.</div>
+            <div class="compare-item">Having to fight for a fair resolution to a problem.</div>
+            <div class="compare-item">Inconsistent service — great one time, indifferent the next.</div>
+            <div class="compare-item">Feeling like they were sold to rather than helped.</div>
+          </div>
+        </div>
+        <div class="info-box"><span>ℹ️</span><span>You don't need to manufacture "wow moments." The bar is actually lower than that — consistently meeting a reasonable standard of helpfulness, knowledge, and warmth is enough to stand out in most retail environments, because most retail environments don't do it reliably.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchChapter(2)">← Converting browsers</button>
+      <button class="nav-btn primary" onclick="switchChapter(4)">Chapter 5: Knowledge check →</button>
+    </div>
+  </div>
+
+  <!-- ===== CHAPTER 5: QUIZ ===== -->
+  <div class="chapter-panel" id="panel-4">
+    <div class="chapter-title">Knowledge <span>Check</span></div>
+    <p class="chapter-intro">10 questions covering sales mindset, process, converting browsers, and building loyalty. Score 8/10 to pass.</p>
+
+    <div id="quiz-score-bar">
+      <span class="progress-label">Score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. What is the fundamental difference between selling and order taking?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Selling involves pushing customers toward the most expensive option</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">Selling is active — asking questions, making recommendations, and anticipating needs. Order taking is passive — waiting for the customer to know what they want and processing it.</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">Selling requires special training; order taking is what most staff should do</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">There is no real difference — both result in a completed transaction</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. In the 5-step sales process, which step do most staff skip — and why does it matter?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">The open — staff forget to greet customers properly</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">The qualify — staff jump straight to recommending without understanding the customer's situation, which means they're guessing instead of matching</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">The close — staff are afraid of rejection so avoid asking for the sale</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">The objection handling — staff give up too early when customers push back</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. A customer is looking at two products, going back and forth between them without deciding. What is the best response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Give them space — they'll ask if they want help</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Describe the features of both products in detail</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">Ask a qualifying question to understand their situation, then narrow it down for them with a clear recommendation and a reason — "Given what you've said, I'd go with this one."</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Recommend the more expensive one — it's usually better</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. Why is "Can I help you?" generally a poor opener for a browsing customer?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">It's too formal for most retail environments</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">It almost always gets "just looking thanks" — a closed answer that ends the conversation before it starts. Better openers are product-specific or open-ended questions that invite a real response.</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">It implies the customer doesn't know what they're doing</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">It's fine — the problem is what staff say after, not the opener itself</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. When is the right time to introduce an add-on sale?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">As early as possible — before the main product is decided</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Only if the customer asks about it first</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">After the main purchase is decided — introduce it as a practical suggestion, not a sales pitch. One add-on per transaction maximum.</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">After the customer has paid — as a suggestion for next time</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. A customer says "I'll think about it" and heads for the door. What is the correct response?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Let them go — following up feels pushy</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Offer a discount to close the sale immediately</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Ask one gentle clarifying question — "Can I ask what's making you want to think about it?" — to surface the real blocker. If they're still leaving after you address it, let them go warmly.</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Remind them of everything they'd be missing by not buying today</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. According to the loyalty data, how much more expensive is it to acquire a new customer compared to retaining an existing one?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">About twice as expensive</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">About three times as expensive</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">About five times as expensive — which is why every existing customer relationship is worth actively protecting</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">The same — acquisition and retention cost roughly the same</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. What is the number one reason customers stop returning to a retail store?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Finding cheaper prices elsewhere</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">A product that didn't work as expected</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">Feeling ignored, unwelcome, or like they received indifferent service — this is consistently the leading cause of retail customer churn</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">The store being difficult to get to</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. A customer comes in who had a bad experience last time — their recommendation didn't work out and they're visibly hesitant. What's the best approach?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Avoid bringing up the previous experience and start fresh</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Apologise profusely and offer a discount to make up for it</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Acknowledge the previous experience directly, ask what happened, and treat it as an opportunity to rebuild trust with a better recommendation. Customers who have a problem resolved well often become the most loyal.</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Let them browse and only approach if they ask for help</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. What is the most powerful thing a staff member can do to turn a one-time buyer into a regular?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Offer them a discount on their next visit</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Give them a loyalty card to track their purchases</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">Remember something about them — their name, their purchase, something they mentioned — and reference it on their next visit. Being remembered is the most powerful loyalty trigger in retail.</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">Tell them about upcoming promotions before they leave</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Training Complete</h3>
+      <p>You've completed the Retail Sales Training guide. The principles here apply to every customer, every shift, every day.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchChapter(3)">← Loyalty &amp; repeat business</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const chapters = document.querySelectorAll('.chapter-btn');
+  const panels = document.querySelectorAll('.chapter-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Correct. Selling is active — it involves qualifying, recommending, anticipating, and closing. Order taking is passive — it waits for the customer to know what they want. Both can result in a transaction, but only one builds a relationship.", wrong: "Selling is active and order taking is passive. Selling means asking questions, making confident recommendations, and anticipating needs. Order taking waits for the customer to direct the interaction. The difference isn't about pressure — it's about engagement." },
+    q2:  { correct: "Correct. The qualify step is the most skipped and the most valuable. Without understanding the customer's situation, any recommendation is a guess. Two questions take 30 seconds and transform the quality of what follows.", wrong: "The most commonly skipped step is qualify — Step 2. Staff often jump straight from greeting to recommending without understanding who they're talking to or what they actually need. The result is generic recommendations that miss the mark." },
+    q3:  { correct: "Correct. Decision paralysis from too many options is one of the most common conversion blockers. The right move is to qualify briefly, then narrow it down to one clear recommendation with a reason. 'Given what you've said, I'd go with this one' is far more useful than presenting both options equally.", wrong: "When a customer is paralysed between options, giving them more information about both usually makes it worse. The right response is to qualify briefly and then make a clear recommendation — 'given what you've told me, I'd go with this one, because...'" },
+    q4:  { correct: "Correct. 'Can I help you?' almost always gets a reflexive 'just looking' — it's a closed question that closes the conversation. Better openers reference a specific product the customer is looking at, or ask an open question that invites a real response.", wrong: "'Can I help you?' is a weak opener because it almost always gets 'just looking thanks' — a reflexive response that ends the conversation. The fix is to open with something product-specific or a question that requires a real answer, not a yes/no." },
+    q5:  { correct: "Correct. Introduce add-ons after the main purchase is decided, frame them as practical advice rather than a sales pitch, and limit it to one per transaction. Stacking multiple add-ons or introducing them before the main product is decided both damage the interaction.", wrong: "Add-ons should be introduced after the main purchase is decided — not before, and not after payment. Frame them as genuinely useful: 'You'll want these too — they'll run out in a few weeks.' One add-on maximum per transaction." },
+    q6:  { correct: "Correct. 'I'll think about it' almost always has a real reason behind it. One gentle question — 'what's making you want to think about it?' — surfaces the actual blocker and gives you a chance to address it. If they're still leaving, a warm goodbye keeps the door open.", wrong: "When a customer says they'll think about it, ask one clarifying question to surface the real blocker. If it's addressable, address it briefly. If they're still leaving, let them go warmly. A comfortable exit is worth more than a pressured close." },
+    q7:  { correct: "Correct. Acquiring a new customer costs roughly five times more than retaining an existing one. This is why every customer relationship is worth actively investing in — and why losing a loyal customer to poor service is such a costly mistake.", wrong: "Acquiring a new customer costs approximately five times more than retaining an existing one. This is why loyalty-building behaviours — remembering names, following up on recommendations, resolving problems well — have such a strong return." },
+    q8:  { correct: "Correct. Indifferent or unwelcoming service is consistently the number one cause of customer churn in retail — not price. You have direct, immediate control over this in every single interaction.", wrong: "The #1 reason customers stop returning is feeling ignored or receiving indifferent service — not price, not product issues. Price rarely drives churn on its own. The experience does. This means the most important retention tool is already in your hands." },
+    q9:  { correct: "Correct. A customer who returns after a bad experience is giving you a second chance — that's actually a significant trust signal. Acknowledge the issue directly, find out what happened, and use it as an opportunity to rebuild. Customers whose problems are resolved well often become the most loyal.", wrong: "When a customer returns after a bad experience, acknowledge it directly rather than starting fresh. Ask what happened, take it seriously, and treat it as a chance to rebuild trust. Customers who have problems resolved well are often more loyal than those who never had a problem." },
+    q10: { correct: "Correct. Being remembered is the most powerful loyalty trigger available to front-line retail staff. It costs nothing, requires no systems, and creates an emotional response that discounts and loyalty cards simply can't replicate.", wrong: "The most powerful loyalty trigger is being remembered — a name, a purchase, something they mentioned. It signals that they matter as a person, not just a transaction. Discounts and loyalty programmes work, but they can't replicate the feeling of genuine recognition." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    }
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else { updateProgress(70); }
+    }
+  }
+
+  function switchChapter(idx) {
+    chapters.forEach((c, i) => c.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 4) updateProgress(Math.max(currentProgress, Math.round((visited.size / 5) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>

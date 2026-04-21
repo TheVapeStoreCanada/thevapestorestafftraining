@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1: Product Knowledge — Vape Store Sales Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f11;
+    --surface: #18181c;
+    --surface2: #222228;
+    --border: #2e2e38;
+    --accent: #7effd4;
+    --accent2: #ff6b6b;
+    --accent3: #ffd166;
+    --accent4: #a78bfa;
+    --text: #f0ede8;
+    --muted: #7a7a8a;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  .shell {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+    max-width: 540px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .meta-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #5ecba1);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  .progress-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* Section nav tabs */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0f0f11;
+  }
+
+  /* Section panels */
+  .section-panel { display: none; animation: fadeUp 0.3s ease; }
+  .section-panel.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section heading */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .section-intro {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    max-width: 620px;
+  }
+
+  /* Cards grid */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--card-accent, var(--accent));
+    border-radius: 3px 0 0 3px;
+  }
+
+  .card:hover { border-color: var(--card-accent, var(--accent)); transform: translateY(-2px); }
+
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .card-body {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Expandable detail card */
+  .card-detail {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .card-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .card-detail-header:hover .chevron { color: var(--accent); }
+
+  .card-detail-left { display: flex; align-items: center; gap: 12px; }
+
+  .chip {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--chip-bg, rgba(126,255,212,0.12));
+    color: var(--chip-color, var(--accent));
+  }
+
+  .detail-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .card-detail.open .chevron { transform: rotate(180deg); }
+
+  .card-detail-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-detail.open .card-detail-body { display: block; }
+
+  /* Tables */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(46,46,56,0.6);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 500; }
+
+  /* Tip box */
+  .tip-box {
+    background: rgba(126,255,212,0.06);
+    border: 1px solid rgba(126,255,212,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #b0f0de;
+  }
+
+  .tip-icon { flex-shrink: 0; font-size: 15px; }
+
+  .warn-box {
+    background: rgba(255,107,107,0.06);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #ffb3b3;
+  }
+
+  /* Key terms */
+  .term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+
+  .term-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .term-word {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 4px;
+  }
+
+  .term-def { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Quiz section */
+  .quiz-q {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .quiz-q-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+
+  .quiz-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left;
+  }
+
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent4); color: var(--text); }
+  .quiz-opt.correct { background: rgba(126,255,212,0.1); border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.wrong { background: rgba(255,107,107,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: none;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(126,255,212,0.08); color: #7effd4; }
+  .quiz-feedback.wrong { background: rgba(255,107,107,0.08); color: #ff9f9f; }
+
+  /* Scenario cards */
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .scenario-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent4);
+    border: 1px solid rgba(167,139,250,0.3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .scenario-text {
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 12px;
+    line-height: 1.7;
+    border-left: 2px solid var(--border);
+    padding-left: 12px;
+  }
+
+  .scenario-response-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .scenario-response {
+    font-size: 13px;
+    color: #b0f0de;
+    background: rgba(126,255,212,0.05);
+    border: 1px solid rgba(126,255,212,0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+    line-height: 1.65;
+  }
+
+  /* Nav footer */
+  .nav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .nav-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0f0f11;
+  }
+
+  .nav-btn.primary:hover { background: #5ecba1; border-color: #5ecba1; }
+
+  .completion-banner {
+    background: rgba(126,255,212,0.08);
+    border: 1px solid rgba(126,255,212,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin-top: 24px;
+    display: none;
+  }
+
+  .completion-banner.show { display: block; }
+
+  .completion-banner h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .completion-banner p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  li { margin-bottom: 4px; }
+
+  p { margin-bottom: 10px; }
+
+  .mt12 { margin-top: 12px; }
+  .mt20 { margin-top: 20px; }
+
+  h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 16px 0 8px;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Sales Training · Module 1 of 5</div>
+    <h1>Product <span>Knowledge</span></h1>
+    <p class="subtitle">Everything your team needs to confidently talk about what's on the shelf — devices, e-liquids, and the language of vaping.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot"></div> 4 sections</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent3)"></div> ~30 min read</div>
+      <div class="meta-item"><div class="meta-dot" style="background:var(--accent4)"></div> 10-question quiz</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <span class="progress-pct" id="prog-pct">0%</span>
+  </div>
+
+  <!-- Tab Nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">1 · Device types</button>
+    <button class="tab-btn" onclick="switchTab(1)">2 · E-liquids</button>
+    <button class="tab-btn" onclick="switchTab(2)">3 · Key terminology</button>
+    <button class="tab-btn" onclick="switchTab(3)">4 · Knowledge check</button>
+  </div>
+
+  <!-- ===== SECTION 1: DEVICE TYPES ===== -->
+  <div class="section-panel active" id="panel-0">
+    <div class="section-title">Device types</div>
+    <p class="section-intro">Customers walk in knowing roughly what they want — or nothing at all. Understanding the device categories lets you meet them exactly where they are.</p>
+
+    <div class="cards">
+      <div class="card" style="--card-accent: var(--accent)">
+        <span class="card-icon">💨</span>
+        <div class="card-title">Disposables</div>
+        <div class="card-body">Pre-filled, pre-charged, no buttons. Use it and bin it. Great entry point for new switchers.</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent4)">
+        <span class="card-icon">🔋</span>
+        <div class="card-title">Pod systems</div>
+        <div class="card-body">Rechargeable battery, swappable pods. Compact and low-maintenance. Huge seller.</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent3)">
+        <span class="card-icon">⚙️</span>
+        <div class="card-title">Refillable devices</div>
+        <div class="card-body">Rechargeable battery, refillable tank or pod. Affordable upgrade from disposables for regular users.</div>
+      </div>
+      <div class="card" style="--card-accent: var(--accent2)">
+        <span class="card-icon">🔧</span>
+        <div class="card-title">Box mods</div>
+        <div class="card-body">Adjustable wattage/temp, replaceable batteries. For experienced users who want full control.</div>
+      </div>
+    </div>
+
+    <!-- Expandable detail: Disposables -->
+    <div class="card-detail" id="d0">
+      <div class="card-detail-header" onclick="toggleDetail('d0')">
+        <div class="card-detail-left">
+          <div class="chip">Disposables</div>
+          <span class="detail-title">How they work &amp; who buys them</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Disposables are a sealed, all-in-one unit — battery, coil, and e-liquid in one body. When the battery or liquid runs out, the whole device is disposed of.</p>
+        <table class="data-table">
+          <tr><th>Feature</th><th>Details</th></tr>
+          <tr><td>Puff count</td><td>Typically 300–6,000+ puffs depending on model and price point</td></tr>
+          <tr><td>Nicotine type</td><td>Almost always nic salts (smooth, fast-absorbing)</td></tr>
+          <tr><td>Flavours</td><td>Pre-set — wide range available, fruity/menthol dominate</td></tr>
+          <tr><td>Price point</td><td>$15–$65 depending on size and brand</td></tr>
+          <tr><td>Typical buyer</td><td>People just quitting cigarettes, casual or social vapers, travellers</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span> <span><strong>Sales tip:</strong> Disposables are the easiest conversion for smokers. If someone walks in asking "what's easiest to use?" — start here. Then plant a seed about pods for cost savings long-term.</span></div>
+      </div>
+    </div>
+
+    <!-- Expandable: Pod systems -->
+    <div class="card-detail" id="d1">
+      <div class="card-detail-header" onclick="toggleDetail('d1')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(167,139,250,0.12); --chip-color: var(--accent4)">Pod systems</div>
+          <span class="detail-title">Closed vs open pod — know the difference</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Pod systems come in two types. Knowing which is which prevents a lot of frustrated returns.</p>
+        <table class="data-table">
+          <tr><th>Type</th><th>How it works</th><th>Who it's for</th></tr>
+          <tr><td><strong>Closed pod</strong></td><td>Pre-filled pods you swap out. No filling required.</td><td>Low maintenance users. Former smokers wanting simplicity.</td></tr>
+          <tr><td><strong>Open pod</strong></td><td>Refillable pod you fill yourself with bottled e-liquid.</td><td>Regular vapers wanting variety and lower cost per puff.</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span><span><strong>Sales tip:</strong> Open pods have a higher upfront cost but lower ongoing cost. If a customer buys closed pods regularly, suggest transitioning to open pods — it saves them money and builds loyalty with your bottled juice selection.</span></div>
+      </div>
+    </div>
+
+    <!-- Expandable: Vape pens -->
+    <div class="card-detail" id="d2">
+      <div class="card-detail-header" onclick="toggleDetail('d2')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(255,209,102,0.12); --chip-color: var(--accent3)">Refillable devices</div>
+          <span class="detail-title">Types, components &amp; maintenance</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Refillable devices include vape pens, tube mods, and refillable AIOs (all-in-ones). They use a rechargeable battery, a refillable tank or pod, and replaceable coils. They're a great step-up device for someone who's been using disposables for a few months.</p>
+        <table class="data-table">
+          <tr><th>Component</th><th>Purpose</th></tr>
+          <tr><td>Tank / clearomizer</td><td>Holds the e-liquid. Usually 2–4ml capacity.</td></tr>
+          <tr><td>Coil / atomizer</td><td>Heats the liquid to create vapour. Needs replacing every 1–3 weeks.</td></tr>
+          <tr><td>Battery</td><td>Built-in, rechargeable via USB-C (on modern pens).</td></tr>
+          <tr><td>Airflow ring</td><td>Controls draw tightness — tighter = more cigarette-like.</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span><span><strong>Sales tip:</strong> When selling a refillable device, always sell coils at the same time. A customer who runs out of coils and can't get back to buy more will switch brands. Suggest a 3-pack of coils as part of the bundle.</span></div>
+      </div>
+    </div>
+
+    <!-- Expandable: Box mods -->
+    <div class="card-detail" id="d3">
+      <div class="card-detail-header" onclick="toggleDetail('d3')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(255,107,107,0.12); --chip-color: var(--accent2)">Box mods</div>
+          <span class="detail-title">Wattage, temperature control &amp; batteries</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Box mods are for the experienced vaper who wants total control. Unless a customer comes in asking specifically for one, don't lead with this category — it can overwhelm newer users and stall a sale.</p>
+        <table class="data-table">
+          <tr><th>Feature</th><th>What it means for the customer</th></tr>
+          <tr><td>Variable wattage</td><td>Adjust power to get more or less vapour and flavour intensity</td></tr>
+          <tr><td>Temperature control</td><td>Prevent dry hits and fine-tune the experience</td></tr>
+          <tr><td>Replaceable batteries</td><td>18650 cells — never need to replace the whole device, just the battery</td></tr>
+          <tr><td>Sub-ohm tanks</td><td>Used with box mods for high-vapour, direct-lung hits</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>Note:</strong> If a customer wants replaceable batteries, always ask if they have a battery charger. Selling loose lithium batteries without a safe charger is a liability and a poor experience.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div></div>
+      <button class="nav-btn primary" onclick="switchTab(1)">Next: E-liquids →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: E-LIQUIDS ===== -->
+  <div class="section-panel" id="panel-1">
+    <div class="section-title">E-liquids</div>
+    <p class="section-intro">E-liquid is often the highest-margin repeat purchase in the store. Staff who understand it well can guide customers to a bottle they'll come back for every week.</p>
+
+    <!-- VG/PG -->
+    <div class="card-detail" id="d4">
+      <div class="card-detail-header" onclick="toggleDetail('d4')">
+        <div class="card-detail-left">
+          <div class="chip">VG / PG ratios</div>
+          <span class="detail-title">What the numbers mean and when they matter</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12"><strong>VG (Vegetable Glycerin)</strong> and <strong>PG (Propylene Glycol)</strong> are the two base liquids in every e-juice. Their ratio dramatically changes the vaping experience.</p>
+        <table class="data-table">
+          <tr><th>Ratio</th><th>Vapour</th><th>Throat hit</th><th>Flavour</th><th>Best for</th></tr>
+          <tr><td><strong>50/50</strong></td><td>Medium</td><td>Noticeable</td><td>Sharp</td><td>Pods, pens, MTL users</td></tr>
+          <tr><td><strong>70/30 VG</strong></td><td>Large clouds</td><td>Smooth</td><td>Good</td><td>Sub-ohm tanks, experienced users</td></tr>
+          <tr><td><strong>Max VG</strong></td><td>Huge clouds</td><td>Very smooth</td><td>Mild</td><td>Cloud chasers, low-resistance builds</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span><span><strong>Quick rule:</strong> If someone uses a pod or a pen, steer them toward 50/50 or nic salt. If they have a big tank or mod, they likely want 70/30 VG. Always confirm before recommending.</span></div>
+        <div class="warn-box"><span>⚠️</span><span>High-VG juice in a pod system will clog coils quickly. A customer who runs back complaining about burnt taste may have the wrong VG/PG for their device.</span></div>
+      </div>
+    </div>
+
+    <!-- Nicotine types -->
+    <div class="card-detail" id="d5">
+      <div class="card-detail-header" onclick="toggleDetail('d5')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(255,209,102,0.12); --chip-color: var(--accent3)">Nicotine types</div>
+          <span class="detail-title">Freebase vs nic salts — the most important distinction</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <table class="data-table mt12">
+          <tr><th></th><th>Freebase nicotine</th><th>Nicotine salts (nic salts)</th></tr>
+          <tr><td><strong>Feel</strong></td><td>Harsher at higher strengths</td><td>Smooth even at high mg</td></tr>
+          <tr><td><strong>Absorption</strong></td><td>Slower into bloodstream</td><td>Faster — closer to cigarettes</td></tr>
+          <tr><td><strong>Common strengths</strong></td><td>3mg, 6mg, 12mg</td><td>3mg, 6mg, 12mg, 20mg (20mg is the legal max in Canada)</td></tr>
+          <tr><td><strong>Best device</strong></td><td>Mods, sub-ohm tanks</td><td>Pods, disposables, pens</td></tr>
+          <tr><td><strong>Best for</strong></td><td>Experienced vapers, cloud users</td><td>New switchers from cigarettes</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span><span><strong>For new smokers switching:</strong> Always start with nic salts at 20mg (the Canadian maximum). The faster absorption satisfies cravings quicker, which reduces the urge to go back to cigarettes. As they get comfortable vaping, they can step down to 12mg over time.</span></div>
+      </div>
+    </div>
+
+    <!-- Nicotine strength -->
+    <div class="card-detail" id="d6">
+      <div class="card-detail-header" onclick="toggleDetail('d6')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(167,139,250,0.12); --chip-color: var(--accent4)">Nicotine strength</div>
+          <span class="detail-title">Matching strength to smoking habits</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Recommending the wrong nicotine strength is one of the most common reasons new vapers give up and go back to cigarettes. Get this right and you keep the customer.</p>
+        <table class="data-table">
+          <tr><th>Smoking habit</th><th>Recommended nic salt strength</th><th>Notes</th></tr>
+          <tr><td>Heavy smoker (20+ cigs/day)</td><td>20mg</td><td>Maximum allowed in Canada — the right starting point for heavy smokers</td></tr>
+          <tr><td>Moderate (10–20 cigs/day)</td><td>12mg–20mg</td><td>Most common starting range — gauge by how satisfied they feel</td></tr>
+          <tr><td>Light (under 10 cigs/day)</td><td>6mg–12mg</td><td>Lower end works well; freebase at 6mg is also an option</td></tr>
+          <tr><td>Already vaping</td><td>Match their current device/setup</td><td>Ask what they're using and at what strength</td></tr>
+          <tr><td>Just want nicotine-free</td><td>0mg</td><td>Available in most juice lines — confirm before handing over</td></tr>
+        </table>
+        <div class="warn-box"><span>⚠️</span><span><strong>Canadian regulation:</strong> Health Canada caps nicotine concentration at 20mg/mL for all vaping products sold in Canada. Never recommend or sell anything above this limit.</span></div>
+      </div>
+    </div>
+
+    <!-- Flavour families -->
+    <div class="card-detail" id="d7">
+      <div class="card-detail-header" onclick="toggleDetail('d7')">
+        <div class="card-detail-left">
+          <div class="chip" style="--chip-bg: rgba(255,107,107,0.12); --chip-color: var(--accent2)">Flavours</div>
+          <span class="detail-title">Flavour categories and how to guide customers</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="card-detail-body">
+        <p class="mt12">Flavour preference is personal but there are patterns. Learning to quickly identify what category a customer likes helps you narrow down from dozens of options to two or three confident suggestions.</p>
+        <table class="data-table">
+          <tr><th>Category</th><th>Examples</th><th>Common buyer profile</th></tr>
+          <tr><td>Fruit</td><td>Mango, watermelon, strawberry, lychee</td><td>Most popular overall — safe default recommendation</td></tr>
+          <tr><td>Menthol / Ice</td><td>Mint, glacier, iced berry, cool mango</td><td>Former menthol smokers, people who like a sharp exhale</td></tr>
+          <tr><td>Tobacco</td><td>Virginia tobacco, RY4, caramel tobacco</td><td>Smokers who want familiarity during the switch</td></tr>
+          <tr><td>Dessert / Sweet</td><td>Custard, cereal, candy, cheesecake</td><td>Experienced vapers who want all-day flavour</td></tr>
+          <tr><td>Beverage</td><td>Lemonade, cola, energy drink, coffee</td><td>Adventurous buyers, good for upselling second bottles</td></tr>
+        </table>
+        <div class="tip-box"><span class="tip-icon">💡</span><span><strong>Conversion tip:</strong> New smokers switching often start with tobacco or menthol. Once they've made the switch and are comfortable, introduce them to fruit flavours — they almost always become their long-term preference, which increases flavour variety sales.</span></div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(0)">← Device types</button>
+      <button class="nav-btn primary" onclick="switchTab(2)">Next: Terminology →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: TERMINOLOGY ===== -->
+  <div class="section-panel" id="panel-2">
+    <div class="section-title">Key terminology</div>
+    <p class="section-intro">Customers use this language. Staff should too — it builds trust fast and prevents confusion. Learn these before your first shift on the floor.</p>
+
+    <h4>Device &amp; hardware terms</h4>
+    <div class="term-grid">
+      <div class="term-card">
+        <div class="term-word">Coil / Atomizer</div>
+        <div class="term-def">The replaceable heating element inside a tank or pod. Needs regular replacement to avoid burnt taste.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Ohm (Ω)</div>
+        <div class="term-def">Measures coil resistance. Lower ohm = more power, more vapour. Sub-ohm means below 1.0Ω.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">MTL (Mouth-to-Lung)</div>
+        <div class="term-def">Drawing vapour into your mouth first, then inhaling — like smoking a cigarette. Most natural for new switchers.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">DTL / DL (Direct Lung)</div>
+        <div class="term-def">Inhaling vapour directly into the lungs, like a bong hit. More vapour, less throat hit. Common with mods.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Wattage</div>
+        <div class="term-def">The power output of a device. Higher wattage = hotter coil = more vapour. Too high = burnt taste.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Priming</div>
+        <div class="term-def">Letting a new coil soak in liquid before first use. Prevents burnt coils. Always tell customers this.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">mAh</div>
+        <div class="term-def">Battery capacity. Higher mAh = longer battery life between charges. Important for buyers asking "how long does it last?"</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Dry hit</div>
+        <div class="term-def">Vaping on an empty or unprimed coil — tastes burnt and harsh. Caused by low juice or coil not being primed.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Throat hit</div>
+        <div class="term-def">The feeling at the back of the throat when inhaling. Higher nicotine and PG = stronger throat hit.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Cloud chasing</div>
+        <div class="term-def">Prioritising large vapour clouds. Uses high-VG juice, low-resistance coils, and high-wattage mods.</div>
+      </div>
+    </div>
+
+    <h4 class="mt20">E-liquid terms</h4>
+    <div class="term-grid">
+      <div class="term-card">
+        <div class="term-word">PG (Propylene Glycol)</div>
+        <div class="term-def">Thinner base liquid. Carries flavour well, provides throat hit. Used more in MTL/pod juices.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">VG (Vegetable Glycerin)</div>
+        <div class="term-def">Thicker, sweeter base. Produces large clouds. Dominant in sub-ohm juices.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Nic salts</div>
+        <div class="term-def">Nicotine bound to an acid — absorbs faster, smoother at high mg. Standard in pods and disposables.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Freebase nicotine</div>
+        <div class="term-def">Standard nicotine form — harsher at high strengths. Used in lower-mg juices for mods.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Steeping</div>
+        <div class="term-def">Letting juice sit sealed to mature the flavour over time — like wine. Some customers ask about this.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-word">Shortfill</div>
+        <div class="term-def">A large bottle filled slightly below capacity, leaving room to add a nic shot to DIY the nicotine level.</div>
+      </div>
+    </div>
+
+    <div class="tip-box mt20">
+      <span class="tip-icon">💡</span>
+      <span><strong>On the floor:</strong> You don't need to define these terms to every customer — but when a customer uses one, match their language. If they say "I'm having dry hits on my tank," don't say "sorry what?" — ask "what coil are you running and how full is your tank?" It builds immediate credibility.</span>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(1)">← E-liquids</button>
+      <button class="nav-btn primary" onclick="switchTab(3)">Take the quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4: QUIZ ===== -->
+  <div class="section-panel" id="panel-3">
+    <div class="section-title">Knowledge check</div>
+    <p class="section-intro">10 questions covering devices, e-liquids, and terminology. You need 8/10 to pass this module.</p>
+
+    <div id="quiz-score-bar" style="display:none; margin-bottom:20px; padding:16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+      <span class="progress-label">Your score: </span><span id="score-display" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color: var(--accent)"></span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. A customer who smokes 15 cigarettes a day is switching for the first time. What nicotine strength and type would you recommend?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">3mg freebase in a sub-ohm tank</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">20mg nic salt in a pod system</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">12mg freebase in a refillable device</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">0mg in a disposable</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. What does MTL stand for, and what kind of customer prefers it?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Medium Throat Level — moderate smokers</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Maximum Tobacco Liquid — people switching from cigarettes</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">Mouth-to-Lung — new vapers and former smokers who prefer a cigarette-like draw</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">Multi-Tier Liquid — customers who mix flavours</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. A regular customer buys closed pods weekly. What would you suggest to save them money?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Switch to disposables — they're cheaper upfront</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">Upgrade to an open pod system so they can buy bottled e-liquid instead</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Buy pods in bulk and get a discount</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">Switch to a box mod with a sub-ohm tank</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. What does a higher VG ratio (e.g. 70/30 VG) mean for the vaping experience?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Stronger throat hit and less vapour</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">More nicotine absorption per puff</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">Larger vapour clouds and a smoother hit</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">Better flavour clarity and sharper taste</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. A customer complains their new coil tastes burnt after the first few puffs. What likely went wrong?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">They bought the wrong nicotine strength</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">They didn't prime the coil before using it</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">The VG/PG ratio was too high in PG</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">Their device wattage is too low</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q" id="q6">
+      <div class="quiz-q-text">6. Which device type is best suited to an experienced vaper who wants full control over their experience?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Disposable</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Closed pod system</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',false)">Basic refillable device</button>
+        <button class="quiz-opt" onclick="answer(this,'q6',true)">Box mod with variable wattage</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q" id="q7">
+      <div class="quiz-q-text">7. What is the main difference between nic salts and freebase nicotine?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Nic salts are weaker and used in mods</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',true)">Nic salts absorb faster and are smoother at high strengths — better for pods and switchers</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">Freebase is always higher nicotine than nic salts</button>
+        <button class="quiz-opt" onclick="answer(this,'q7',false)">There is no practical difference — it's just branding</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q" id="q8">
+      <div class="quiz-q-text">8. A customer using a pod system wants to try bottled e-liquid. You hand them a 70/30 VG juice. What's the issue?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">70/30 VG has too much nicotine for pods</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',true)">High-VG juice is too thick for pod coils and will cause clogging and burnt hits</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">Pods can only use freebase nicotine juice</button>
+        <button class="quiz-opt" onclick="answer(this,'q8',false)">There's no issue — 70/30 works in any device</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-q" id="q9">
+      <div class="quiz-q-text">9. A first-time customer says they used to smoke menthol cigarettes. What flavour category would be your first suggestion?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Dessert / custard</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Tropical fruit</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',true)">Menthol / ice</button>
+        <button class="quiz-opt" onclick="answer(this,'q9',false)">Tobacco</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-q" id="q10">
+      <div class="quiz-q-text">10. When selling a refillable device to a new customer, what additional product should you always suggest at the same time?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">A battery charger</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">A box mod for upgrades</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',true)">A pack of replacement coils</button>
+        <button class="quiz-opt" onclick="answer(this,'q10',false)">A shortfill bottle</button>
+      </div>
+      <div class="quiz-feedback" id="fb-q10"></div>
+    </div>
+
+    <div class="completion-banner" id="completion">
+      <h3>✓ Module 1 Complete</h3>
+      <p>You've passed the product knowledge module. You're ready to move on to Module 2: Compliance basics.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="nav-btn" onclick="switchTab(2)">← Terminology</button>
+      <button class="nav-btn primary" onclick="window.print()">Print / Save module</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.section-panel');
+  const visited = new Set([0]);
+
+  const feedbacks = {
+    q1:  { correct: "Right. In Canada the nicotine cap is 20mg/mL, so 20mg nic salt in a pod is the strongest option available and the right call for a moderate smoker switching for the first time.", wrong: "Not quite. In Canada, the maximum nicotine strength is 20mg/mL. For a moderate smoker switching, 20mg nic salt in a pod system is the strongest and most appropriate recommendation." },
+    q2:  { correct: "Correct. MTL = Mouth-to-Lung. It mimics the draw of a cigarette, making it the most natural starting point for people switching from smoking.", wrong: "MTL stands for Mouth-to-Lung — drawing vapour into your mouth first before inhaling to the lungs. It replicates the cigarette experience." },
+    q3:  { correct: "Correct. Open pod systems use refillable pods filled from bottled e-liquid. The upfront cost is higher but per-puff cost is much lower, and it keeps them buying juice from you.", wrong: "The best long-term saving is switching to an open pod system — refillable pods with bottled juice are significantly cheaper per puff than pre-filled pods." },
+    q4:  { correct: "Correct. High VG means more viscous liquid, which produces larger, denser clouds and a noticeably smoother inhale. Great for sub-ohm users.", wrong: "Higher VG = more vapour and smoother hit. PG delivers flavour clarity and throat hit — the two work together in different ratios for different styles." },
+    q5:  { correct: "Correct. A new coil needs to be primed — drop liquid on the cotton wicks and let it soak for 5–10 minutes before use. Skipping this burns the dry cotton immediately.", wrong: "Most likely cause is an unprimed coil. New coils need to soak in liquid before first use or the dry cotton will burn on the first draw." },
+    q6:  { correct: "Correct. Box mods with variable wattage give experienced users control over power, vapour volume, temperature, and coil compatibility — nothing else comes close for customisation.", wrong: "Box mods with variable wattage are the choice for experienced users. Disposables and pods are designed for simplicity, not control." },
+    q7:  { correct: "Correct. Nic salts use benzoic acid to lower pH, making high-strength nicotine smooth and fast-absorbing. Freebase at the same strength would be too harsh.", wrong: "Nic salts absorb faster and are smoother at high strengths — ideal for pods and new switchers. Freebase is harsher but used at lower mg in sub-ohm devices." },
+    q8:  { correct: "Correct. High-VG juice is thick and viscous. Pod coils are small and have tight wicking channels — they can't absorb thick juice fast enough, leading to dry hits and premature coil failure.", wrong: "The issue is viscosity. 70/30 VG is too thick for pod coil wicking channels. Pods need 50/50 or a nic salt formulation which is designed for tight coils." },
+    q9:  { correct: "Correct. Former menthol smokers almost always respond well to menthol and ice flavours first — it's the closest match to what they're used to and reduces the 'unfamiliar' barrier to switching.", wrong: "A former menthol smoker is most likely to feel comfortable with menthol/ice flavours as a starting point — it mirrors their previous experience." },
+    q10: { correct: "Right. Coils are the consumable of any refillable device. A customer who can't replace their coil when it wears out will be frustrated and may blame the device. Always sell a coil pack with the device.", wrong: "Always sell replacement coils with a refillable device. Coils typically last 1–3 weeks and running out without a spare is a common reason customers return dissatisfied." }
+  };
+
+  let correctCount = 0;
+  let answeredCount = 0;
+
+  function answer(btn, qid, isCorrect) {
+    const block = document.getElementById(qid);
+    const opts = block.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = true; });
+
+    const fb = document.getElementById('fb-' + qid);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + feedbacks[qid].correct;
+      fb.className = 'quiz-feedback show correct';
+      correctCount++;
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + feedbacks[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+      opts.forEach(o => {
+        if (o.onclick.toString().includes('true')) o.classList.add('correct');
+      });
+    }
+
+    answeredCount++;
+    document.getElementById('quiz-score-bar').style.display = 'flex';
+    document.getElementById('score-display').textContent = correctCount + ' / ' + answeredCount + ' answered';
+
+    if (answeredCount === 10) {
+      document.getElementById('score-display').textContent = correctCount + ' / 10';
+      if (correctCount >= 8) {
+        document.getElementById('completion').classList.add('show');
+        updateProgress(100);
+      } else {
+        updateProgress(70);
+      }
+    }
+  }
+
+  function switchTab(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+    visited.add(idx);
+    if (idx < 3) updateProgress(Math.max(currentProgress, Math.round((visited.size / 4) * 70)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentProgress = 0;
+  function updateProgress(val) {
+    currentProgress = Math.max(currentProgress, val);
+    document.getElementById('prog-fill').style.width = currentProgress + '%';
+    document.getElementById('prog-pct').textContent = currentProgress + '%';
+  }
+
+  function toggleDetail(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+</script>
+</body>
+</html>
