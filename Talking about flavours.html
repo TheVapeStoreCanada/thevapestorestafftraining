@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flavour Description Guide — Wild Predator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fffaf4;
+    --page: #ffffff;
+    --border: #e8d8c8;
+    --border2: #f0e4d4;
+
+    --mango:   #f97c2b;
+    --peach:   #f4a45a;
+    --berry:   #c2547a;
+    --citrus:  #e8c630;
+    --leaf:    #5a9e6f;
+    --lavender:#9b7ec8;
+    --teal:    #4aada4;
+    --sky:     #5a9ec8;
+
+    --ink:     #2a1f14;
+    --sub:     #6b5040;
+    --muted:   #a08870;
+    --light:   #f5ede2;
+    --light2:  #fdf6ee;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  /* ── FLORAL SVG BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3C!-- large hibiscus TL --%3E%3Cg opacity='.13' transform='translate(30,20) rotate(-15)'%3E%3Ccircle cx='60' cy='60' r='18' fill='%23f97c2b'/%3E%3Cellipse cx='60' cy='32' rx='10' ry='22' fill='%23f97c2b'/%3E%3Cellipse cx='60' cy='88' rx='10' ry='22' fill='%23f97c2b'/%3E%3Cellipse cx='32' cy='60' rx='22' ry='10' fill='%23f97c2b'/%3E%3Cellipse cx='88' cy='60' rx='22' ry='10' fill='%23f97c2b'/%3E%3Cellipse cx='41' cy='41' rx='10' ry='22' fill='%23f97c2b' transform='rotate(45,41,41)'/%3E%3Cellipse cx='79' cy='41' rx='10' ry='22' fill='%23f97c2b' transform='rotate(-45,79,41)'/%3E%3Cellipse cx='41' cy='79' rx='10' ry='22' fill='%23f97c2b' transform='rotate(-45,41,79)'/%3E%3Cellipse cx='79' cy='79' rx='10' ry='22' fill='%23f97c2b' transform='rotate(45,79,79)'/%3E%3Ccircle cx='60' cy='60' r='9' fill='%23fff176'/%3E%3C/g%3E%3C!-- leaves TL --%3E%3Cg opacity='.10' fill='%235a9e6f'%3E%3Cellipse cx='110' cy='55' rx='28' ry='12' transform='rotate(30,110,55)'/%3E%3Cellipse cx='140' cy='80' rx='22' ry='9' transform='rotate(55,140,80)'/%3E%3Cellipse cx='85' cy='100' rx='25' ry='10' transform='rotate(-20,85,100)'/%3E%3C/g%3E%3C!-- berries TL --%3E%3Cg opacity='.14' fill='%23c2547a'%3E%3Ccircle cx='160' cy='30' r='8'/%3E%3Ccircle cx='178' cy='22' r='6'/%3E%3Ccircle cx='172' cy='44' r='7'/%3E%3Ccircle cx='192' cy='34' r='5'/%3E%3Cline x1='160' y1='30' x2='178' y2='22' stroke='%23c2547a' stroke-width='1.5'/%3E%3Cline x1='178' y1='22' x2='172' y2='44' stroke='%23c2547a' stroke-width='1.5'/%3E%3Cline x1='172' y1='44' x2='192' y2='34' stroke='%23c2547a' stroke-width='1.5'/%3E%3C/g%3E%3C!-- citrus slice TR --%3E%3Cg opacity='.12' transform='translate(780,30)'%3E%3Ccircle cx='55' cy='55' r='50' fill='none' stroke='%23e8c630' stroke-width='6'/%3E%3Ccircle cx='55' cy='55' r='38' fill='%23fdf6c0' stroke='%23e8c630' stroke-width='2'/%3E%3Cline x1='55' y1='17' x2='55' y2='93' stroke='%23e8c630' stroke-width='2'/%3E%3Cline x1='17' y1='55' x2='93' y2='55' stroke='%23e8c630' stroke-width='2'/%3E%3Cline x1='28' y1='28' x2='82' y2='82' stroke='%23e8c630' stroke-width='1.5'/%3E%3Cline x1='82' y1='28' x2='28' y2='82' stroke='%23e8c630' stroke-width='1.5'/%3E%3Ccircle cx='55' cy='55' r='6' fill='%23e8c630'/%3E%3C/g%3E%3C!-- peach TR --%3E%3Cg opacity='.13' transform='translate(720,10) rotate(20,45,45)'%3E%3Cellipse cx='45' cy='50' rx='35' ry='40' fill='%23f4a45a'/%3E%3Cellipse cx='55' cy='50' rx='28' ry='38' fill='%23f9c490' opacity='.5'/%3E%3Cellipse cx='45' cy='12' rx='5' ry='12' fill='%235a9e6f'/%3E%3C/g%3E%3C!-- small flowers scattered --%3E%3Cg opacity='.11'%3E%3C!-- flower 1 --%3E%3Cg transform='translate(300,15)'%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c2547a'/%3E%3Cellipse cx='16' cy='5' rx='5' ry='9' fill='%23e87aa0'/%3E%3Cellipse cx='16' cy='27' rx='5' ry='9' fill='%23e87aa0'/%3E%3Cellipse cx='5' cy='16' rx='9' ry='5' fill='%23e87aa0'/%3E%3Cellipse cx='27' cy='16' rx='9' ry='5' fill='%23e87aa0'/%3E%3C/g%3E%3C!-- flower 2 --%3E%3Cg transform='translate(450,40)'%3E%3Ccircle cx='14' cy='14' r='4' fill='%239b7ec8'/%3E%3Cellipse cx='14' cy='4' rx='4' ry='9' fill='%23b89ae0'/%3E%3Cellipse cx='14' cy='24' rx='4' ry='9' fill='%23b89ae0'/%3E%3Cellipse cx='4' cy='14' rx='9' ry='4' fill='%23b89ae0'/%3E%3Cellipse cx='24' cy='14' rx='9' ry='4' fill='%23b89ae0'/%3E%3C/g%3E%3C!-- flower 3 --%3E%3Cg transform='translate(600,8)'%3E%3Ccircle cx='13' cy='13' r='4' fill='%23f97c2b'/%3E%3Cellipse cx='13' cy='3' rx='4' ry='9' fill='%23ffaa60'/%3E%3Cellipse cx='13' cy='23' rx='4' ry='9' fill='%23ffaa60'/%3E%3Cellipse cx='3' cy='13' rx='9' ry='4' fill='%23ffaa60'/%3E%3Cellipse cx='23' cy='13' rx='9' ry='4' fill='%23ffaa60'/%3E%3C/g%3E%3C/g%3E%3C!-- bottom left botanical --%3E%3Cg opacity='.10' fill='%235a9e6f' transform='translate(0,800)'%3E%3Cellipse cx='40' cy='40' rx='35' ry='14' transform='rotate(-30,40,40)'/%3E%3Cellipse cx='80' cy='20' rx='30' ry='12' transform='rotate(10,80,20)'/%3E%3Cellipse cx='20' cy='70' rx='28' ry='11' transform='rotate(-50,20,70)'/%3E%3Cellipse cx='110' cy='50' rx='32' ry='11' transform='rotate(25,110,50)'/%3E%3C/g%3E%3C!-- bottom right hibiscus --%3E%3Cg opacity='.12' transform='translate(800,800) rotate(30)'%3E%3Ccircle cx='50' cy='50' r='14' fill='%23c2547a'/%3E%3Cellipse cx='50' cy='26' rx='8' ry='20' fill='%23e87aa0'/%3E%3Cellipse cx='50' cy='74' rx='8' ry='20' fill='%23e87aa0'/%3E%3Cellipse cx='26' cy='50' rx='20' ry='8' fill='%23e87aa0'/%3E%3Cellipse cx='74' cy='50' rx='20' ry='8' fill='%23e87aa0'/%3E%3Cellipse cx='34' cy='34' rx='8' ry='20' fill='%23e87aa0' transform='rotate(45,34,34)'/%3E%3Cellipse cx='66' cy='34' rx='8' ry='20' fill='%23e87aa0' transform='rotate(-45,66,34)'/%3E%3Cellipse cx='34' cy='66' rx='8' ry='20' fill='%23e87aa0' transform='rotate(-45,34,66)'/%3E%3Cellipse cx='66' cy='66' rx='8' ry='20' fill='%23e87aa0' transform='rotate(45,66,66)'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%23fff176'/%3E%3C/g%3E%3C!-- mid-page mango --%3E%3Cg opacity='.09' transform='translate(830,420)'%3E%3Cellipse cx='35' cy='50' rx='30' ry='45' fill='%23f97c2b'/%3E%3Cellipse cx='42' cy='50' rx='22' ry='40' fill='%23f4c870' opacity='.6'/%3E%3Cellipse cx='35' cy='8' rx='4' ry='10' fill='%235a9e6f'/%3E%3C/g%3E%3C!-- mid page berries left --%3E%3Cg opacity='.10' fill='%239b7ec8' transform='translate(10,440)'%3E%3Ccircle cx='20' cy='20' r='9'/%3E%3Ccircle cx='38' cy='12' r='7'/%3E%3Ccircle cx='32' cy='34' r='8'/%3E%3Ccircle cx='52' cy='24' r='6'/%3E%3Cline x1='20' y1='20' x2='38' y2='12' stroke='%239b7ec8' stroke-width='1.5'/%3E%3Cline x1='38' y1='12' x2='32' y2='34' stroke='%239b7ec8' stroke-width='1.5'/%3E%3Cline x1='32' y1='34' x2='52' y2='24' stroke='%239b7ec8' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 900px 900px;
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── WRAPPER ── */
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.92);
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #fff5e8 0%, #fce8f0 40%, #ede8fc 70%, #e8f5e8 100%);
+    border-bottom: 2px solid var(--border);
+    padding: 44px 56px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '🌸🍋🍑🫐🥭';
+    position: absolute;
+    right: 56px;
+    top: 20px;
+    font-size: 22px;
+    letter-spacing: 6px;
+    opacity: 0.5;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mango);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 40px);
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: var(--sub);
+    max-width: 300px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* ── MAIN ── */
+  main { padding: 48px 56px 64px; }
+  section { margin-bottom: 56px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--mango);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  p { font-size: 13.5px; color: var(--sub); line-height: 1.7; }
+
+  /* ── PROBLEM BOX ── */
+  .problem-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+
+  .problem-side { padding: 24px 28px; }
+  .side-weak { background: #fff5f5; border-right: 1.5px solid var(--border); }
+  .side-strong { background: #f5fbf5; }
+
+  .problem-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .badge-bad  { background: #fce8e8; color: #c25454; border: 1px solid #f4c0c0; }
+  .badge-good { background: #e8f5e8; color: #4a8a5a; border: 1px solid #b0d8b0; }
+
+  .example-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .example-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── DIMENSIONS ── */
+  .dim-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .dim-card {
+    border-radius: 6px;
+    padding: 18px;
+    border: 1.5px solid;
+    position: relative;
+  }
+
+  .dim-taste     { background: #fff8ee; border-color: #f4d0a0; }
+  .dim-smell     { background: #eefaf8; border-color: #9ed8d0; }
+  .dim-texture   { background: #fef0f4; border-color: #f0b0c8; }
+  .dim-temp      { background: #eef4fb; border-color: #a0c4e0; }
+  .dim-finish    { background: #f4eefb; border-color: #c4a8e8; }
+  .dim-intensity { background: #eef6ee; border-color: #a0c898; }
+
+  .dim-icon  { font-size: 18px; margin-bottom: 8px; display: block; }
+  .dim-title { font-family: 'Playfair Display', serif; font-size: 14px; margin-bottom: 4px; color: var(--ink); }
+  .dim-sub   { font-size: 11px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+
+  .word-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid;
+    line-height: 1.6;
+  }
+
+  .p-gold   { color: #a06010; border-color: #e8c080; background: #fff4d8; }
+  .p-teal   { color: #207870; border-color: #80c8c0; background: #e0f8f5; }
+  .p-rose   { color: #a03060; border-color: #e090b0; background: #fce8f0; }
+  .p-blue   { color: #205880; border-color: #80b0d8; background: #e0eef8; }
+  .p-purple { color: #582080; border-color: #b090d8; background: #f0e8fc; }
+  .p-green  { color: #306820; border-color: #90c878; background: #eaf5e4; }
+
+  /* ── FLAVOUR FAMILIES TABLE ── */
+  .family-list {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 12.5px;
+  }
+
+  .family-header, .family-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 1.2fr;
+  }
+
+  .family-header {
+    background: linear-gradient(90deg, #fff5e8, #fce8f0, #f0e8fc);
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  .fh-cell {
+    padding: 9px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+  }
+  .fh-cell:last-child { border-right: none; }
+
+  .family-row { border-bottom: 1px solid var(--border2); }
+  .family-row:last-child { border-bottom: none; }
+  .family-row:nth-child(even) { background: #fdfaf6; }
+
+  .family-name {
+    padding: 14px 18px;
+    border-right: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .family-emoji { font-size: 16px; }
+  .family-title { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--ink); }
+
+  .family-words {
+    padding: 14px 18px;
+    border-right: 1px solid var(--border2);
+    color: var(--sub);
+    line-height: 1.55;
+  }
+
+  .family-example {
+    padding: 14px 18px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  /* ── SWAP GRID ── */
+  .swap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .swap-card {
+    background: var(--light2);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+  }
+
+  .swap-boring {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #c05050;
+    text-decoration: line-through;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .swap-arrow { color: var(--muted); font-size: 13px; margin-bottom: 5px; }
+
+  .swap-good {
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.55;
+  }
+
+  .swap-good em { font-style: normal; color: var(--mango); font-weight: 500; }
+
+  /* ── SCRIPTS ── */
+  .script-stack { display: flex; flex-direction: column; gap: 10px; }
+
+  .script-card {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .script-scenario {
+    background: linear-gradient(90deg, #fff0e0, #fce8f4);
+    padding: 10px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mango);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .script-body { padding: 16px 20px; background: white; }
+
+  .script-q {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .script-a {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  .script-a mark {
+    background: #fff3d8;
+    color: #a06010;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-style: normal;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: linear-gradient(135deg, #fff5e8, #fce8f0);
+    border-top: 1.5px solid var(--border);
+    padding: 20px 56px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── PRINT STYLES ── */
+  @media print {
+    body { background: white; font-size: 11px; }
+    body::before { display: none; }
+
+    .page-wrap {
+      background: white;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    header {
+      background: white !important;
+      border-bottom: 2px solid #e0c8b0;
+      padding: 28px 40px 22px;
+    }
+
+    header::after { display: none; }
+
+    main { padding: 28px 40px 40px; }
+    section { margin-bottom: 32px; page-break-inside: avoid; }
+
+    .problem-box { break-inside: avoid; }
+    .dim-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .dim-card { padding: 12px; }
+    .dim-sub { font-size: 10px; }
+    .pill { font-size: 8.5px; padding: 1px 5px; }
+
+    .family-list { font-size: 11px; }
+    .family-name, .family-words, .family-example { padding: 10px 14px; }
+
+    .swap-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .swap-card { padding: 10px 12px; }
+
+    .script-body { padding: 12px 16px; }
+
+    footer {
+      background: white !important;
+      border-top: 1.5px solid #e0c8b0;
+      padding: 14px 40px;
+    }
+
+    /* Force background colors to print */
+    .dim-taste, .dim-smell, .dim-texture,
+    .dim-temp, .dim-finish, .dim-intensity,
+    .p-gold, .p-teal, .p-rose, .p-blue, .p-purple, .p-green,
+    .side-weak, .side-strong,
+    .badge-bad, .badge-good,
+    .family-header, .script-scenario,
+    .swap-card, .family-row:nth-child(even) {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .script-a mark {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    h1 { font-size: 28px; }
+    h2 { font-size: 18px; }
+  }
+
+  @media (max-width: 680px) {
+    header, main, footer { padding-left: 20px; padding-right: 20px; }
+    .problem-box { grid-template-columns: 1fr; }
+    .side-weak { border-right: none; border-bottom: 1.5px solid var(--border); }
+    .dim-grid { grid-template-columns: repeat(2, 1fr); }
+    .family-header, .family-row { grid-template-columns: 1fr; }
+    .family-name, .family-words { border-right: none; border-bottom: 1px solid var(--border2); }
+    .fh-cell { border-right: none; }
+    .swap-grid { grid-template-columns: repeat(2, 1fr); }
+    .header-sub { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<header>
+  <div>
+    <div class="eyebrow">Wild Predator Vapor Shop — Staff Reference</div>
+    <h1>Talking About Flavour</h1>
+  </div>
+  <div class="header-sub">Language that goes beyond "sweet" — so you can actually sell what's in the bottle.</div>
+</header>
+
+<main>
+
+  <!-- 1. WHY IT MATTERS -->
+  <section>
+    <div class="section-label">Why It Matters</div>
+    <h2>One-word descriptions lose sales</h2>
+    <p>When a customer asks what something tastes like, a vague answer ends the conversation. Specific, sensory language builds trust, sets expectations, and helps customers find what they're actually looking for — and come back for it.</p>
+
+    <div class="problem-box">
+      <div class="problem-side side-weak">
+        <div class="problem-badge badge-bad">Weak</div>
+        <div class="example-quote">"It's sweet. Kind of fruity. You'd probably like it."</div>
+        <div class="example-note">Tells the customer nothing. Could describe 300 juices. No mental image forms. No trust built. They'll pick randomly or leave.</div>
+      </div>
+      <div class="problem-side side-strong">
+        <div class="problem-badge badge-good">Strong</div>
+        <div class="example-quote">"It opens with a bright, almost tart mango — then mid-vape you get this creamy, ripe undertone, like the fruit's been left in the sun. The exhale is clean with just a little lingering sweetness."</div>
+        <div class="example-note">Customer can picture it. They know what to expect. They feel like they're talking to someone who really knows the product.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SIX DIMENSIONS -->
+  <section>
+    <div class="section-label">The Framework</div>
+    <h2>Six dimensions to describe any juice</h2>
+    <p style="margin-bottom: 18px;">You don't need all six every time. Two or three well-chosen dimensions make any description land. Think of these as the tools in your vocabulary kit.</p>
+
+    <div class="dim-grid">
+
+      <div class="dim-card dim-taste">
+        <span class="dim-icon">👅</span>
+        <div class="dim-title">Taste</div>
+        <div class="dim-sub">The primary flavour — what's actually there. Go beyond the name on the bottle.</div>
+        <div class="word-pills">
+          <span class="pill p-gold">tart</span><span class="pill p-gold">tangy</span><span class="pill p-gold">bright</span><span class="pill p-gold">rich</span><span class="pill p-gold">deep</span><span class="pill p-gold">bitter edge</span><span class="pill p-gold">jammy</span><span class="pill p-gold">sharp</span><span class="pill p-gold">mellow</span><span class="pill p-gold">caramelized</span><span class="pill p-gold">earthy</span><span class="pill p-gold">honeyed</span>
+        </div>
+      </div>
+
+      <div class="dim-card dim-smell">
+        <span class="dim-icon">👃</span>
+        <div class="dim-title">Aroma on the Inhale</div>
+        <div class="dim-sub">What you notice as it comes in — often the first thing that hooks someone.</div>
+        <div class="word-pills">
+          <span class="pill p-teal">fragrant</span><span class="pill p-teal">floral</span><span class="pill p-teal">fresh-cut</span><span class="pill p-teal">tropical</span><span class="pill p-teal">bakery-warm</span><span class="pill p-teal">herbal</span><span class="pill p-teal">toasted</span><span class="pill p-teal">citrusy</span><span class="pill p-teal">musky</span><span class="pill p-teal">clean</span><span class="pill p-teal">zesty</span>
+        </div>
+      </div>
+
+      <div class="dim-card dim-texture">
+        <span class="dim-icon">☁️</span>
+        <div class="dim-title">Texture / Mouthfeel</div>
+        <div class="dim-sub">How the vapour feels. Customers often can't name this — but it's usually why they love or hate a juice.</div>
+        <div class="word-pills">
+          <span class="pill p-rose">thick</span><span class="pill p-rose">silky</span><span class="pill p-rose">creamy</span><span class="pill p-rose">airy</span><span class="pill p-rose">smooth</span><span class="pill p-rose">velvety</span><span class="pill p-rose">light</span><span class="pill p-rose">dense</span><span class="pill p-rose">coating</span><span class="pill p-rose">pillowy</span><span class="pill p-rose">thin</span>
+        </div>
+      </div>
+
+      <div class="dim-card dim-temp">
+        <span class="dim-icon">🌡️</span>
+        <div class="dim-title">Temperature Sensation</div>
+        <div class="dim-sub">Whether the juice feels warm, neutral, or cooling — even without added menthol.</div>
+        <div class="word-pills">
+          <span class="pill p-blue">icy</span><span class="pill p-blue">cool</span><span class="pill p-blue">neutral</span><span class="pill p-blue">warming</span><span class="pill p-blue">cozy</span><span class="pill p-blue">tingly</span><span class="pill p-blue">crisp</span><span class="pill p-blue">refreshing</span><span class="pill p-blue">frosty</span><span class="pill p-blue">brisk</span>
+        </div>
+      </div>
+
+      <div class="dim-card dim-finish">
+        <span class="dim-icon">💨</span>
+        <div class="dim-title">Finish / Exhale</div>
+        <div class="dim-sub">What happens after the hit. Often the most memorable part — and what customers mean when they say it "stays with them."</div>
+        <div class="word-pills">
+          <span class="pill p-purple">clean finish</span><span class="pill p-purple">long finish</span><span class="pill p-purple">lingers</span><span class="pill p-purple">fades fast</span><span class="pill p-purple">sweet tail</span><span class="pill p-purple">dry finish</span><span class="pill p-purple">cool aftertaste</span><span class="pill p-purple">buttery close</span>
+        </div>
+      </div>
+
+      <div class="dim-card dim-intensity">
+        <span class="dim-icon">📊</span>
+        <div class="dim-title">Intensity & Complexity</div>
+        <div class="dim-sub">How loud or layered the flavour is. Key for customers switching styles or dealing with flavour fatigue.</div>
+        <div class="word-pills">
+          <span class="pill p-green">subtle</span><span class="pill p-green">bold</span><span class="pill p-green">punchy</span><span class="pill p-green">layered</span><span class="pill p-green">one-note</span><span class="pill p-green">complex</span><span class="pill p-green">understated</span><span class="pill p-green">evolving</span><span class="pill p-green">balanced</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. FLAVOUR FAMILIES -->
+  <section>
+    <div class="section-label">Flavour Families</div>
+    <h2>Category-specific vocabulary</h2>
+    <p style="margin-bottom: 18px;">Different categories need different language. Use these as a starting point for any juice in that family.</p>
+
+    <div class="family-list">
+      <div class="family-header">
+        <div class="fh-cell">Category</div>
+        <div class="fh-cell">Words that work</div>
+        <div class="fh-cell">How to say it to a customer</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🍑</span><div class="family-title">Stone Fruit</div></div>
+        <div class="family-words">sun-warmed, ripe, juicy, nectar-like, soft, velvety, fleshy, honey-edged, almost syrupy</div>
+        <div class="family-example">"It tastes like biting into a peach at the end of summer — really ripe, a little sweet, with that soft almost-floral thing stone fruits have."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🍋</span><div class="family-title">Citrus</div></div>
+        <div class="family-words">bright, zesty, tart, sharp, electric, clean, biting, refreshing, bitter pith, tangy, crisp, lively</div>
+        <div class="family-example">"Sharp citrus hit on the inhale — almost like lemon zest, not just the juice. Very crisp. No sweetness until the exhale."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🍇</span><div class="family-title">Berry</div></div>
+        <div class="family-words">jammy, bold, slightly tart, deep, dark, candy-like, earthy (blackberry), perfumed (raspberry), wild, concentrated</div>
+        <div class="family-example">"More like a dark jam than fresh fruit. Slightly tart at first but the sweetness builds. Very bold, doesn't fade fast."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🥭</span><div class="family-title">Tropical</div></div>
+        <div class="family-words">lush, exotic, fragrant, funky, musky (mango), buttery (papaya), fizzy (pineapple), punchy, aromatic, almost floral</div>
+        <div class="family-example">"Lush and tropical — the mango is really fragrant, almost musky, and the pineapple gives it a little fizzy brightness underneath."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🍦</span><div class="family-title">Dessert / Cream</div></div>
+        <div class="family-words">indulgent, velvety, buttery, rich, heavy, warm, toasty, caramelized, custardy, pillowy, decadent, cozy</div>
+        <div class="family-example">"Proper dessert — thick and creamy vapour, really warm and buttery. The kind of juice you want after dinner, not your all-day vape."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🍬</span><div class="family-title">Candy</div></div>
+        <div class="family-words">sugary, nostalgic, bold, fun, bright, fizzy, sharp sweetness, mouth-coating, straightforward, one-dimensional</div>
+        <div class="family-example">"Straight-up candy — that sugary-sweet that hits immediately. Super bold, really fun. It's not subtle, but it's not trying to be."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🧁</span><div class="family-title">Bakery</div></div>
+        <div class="family-words">warm, doughy, yeasty, buttery, golden, toasted, vanilla-forward, soft, comforting, brown sugar notes</div>
+        <div class="family-example">"Smells almost exactly like a bakery — warm and doughy right away. Buttery and soft, with a brown sugar finish that lingers."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">❄️</span><div class="family-title">Menthol / Ice</div></div>
+        <div class="family-words">cooling, icy, piercing, clean, sharp, tingly, brisk, frosty, arctic, crisp, refreshing, strong throat sensation</div>
+        <div class="family-example">"Very forward menthol — really icy, hits the back of the throat. Great if you like that sharp cooling feeling. Not subtle at all."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">🌿</span><div class="family-title">Tobacco</div></div>
+        <div class="family-words">earthy, dry, toasted, nutty, woody, mellow, smooth, robust, slightly bitter, caramel-finished, full-bodied</div>
+        <div class="family-example">"Smooth tobacco — not harsh at all. Mellow and earthy, with a little nuttiness and a subtle caramel finish that keeps it from tasting too dry."</div>
+      </div>
+      <div class="family-row">
+        <div class="family-name"><span class="family-emoji">☕</span><div class="family-title">Beverage</div></div>
+        <div class="family-words">roasted, rich, bitter-sweet, fizzy, effervescent, creamy (latte-style), refreshing, nostalgic, full-flavoured</div>
+        <div class="family-example">"Like an iced coffee with too much vanilla syrup — in a good way. Sweet, roasted, and creamy. Very full-flavoured, nothing subtle about it."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. WORD UPGRADES -->
+  <section>
+    <div class="section-label">Word Upgrades</div>
+    <h2>Swap these tired words out</h2>
+    <p style="margin-bottom: 18px;">These words show up in every description and say almost nothing. Here's what to say instead.</p>
+
+    <div class="swap-grid">
+      <div class="swap-card">
+        <div class="swap-boring">sweet</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good">What kind? Try: <em>sugary, jammy, honeyed, syrupy, caramelized, candy-like, ripe, brown-sugar</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">fruity</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good">Name the fruit, then describe it: <em>"a ripe, jammy mango"</em> vs. <em>"a bright, tart citrus hit"</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">smooth</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good">What makes it smooth? <em>Silky on the draw, no harshness on the throat, velvety exhale, no sharp edges</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">refreshing</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good"><em>Crisp and cooling, light on the vapour, clean exhale — the menthol gives it a real brisk, almost icy finish</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">strong</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good">Strong flavour or throat hit? <em>"Very bold, hits immediately"</em> vs. <em>"pronounced throat hit, good for higher nic"</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">nice / good</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good">Tell them why: <em>"Customers come back to this one a lot — it doesn't get boring even as an all-day vape."</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">a bit of everything</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good"><em>"It's layered — citrus up front, creamy mid-note, warm and sweet finish. It actually changes as you vape it."</em></div>
+      </div>
+      <div class="swap-card">
+        <div class="swap-boring">you'll probably like it</div>
+        <div class="swap-arrow">↓</div>
+        <div class="swap-good"><em>"Based on what you said, I think this one will land for you — here's why…"</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. SCRIPTS -->
+  <section>
+    <div class="section-label">Real Conversations</div>
+    <h2>What to actually say</h2>
+    <p style="margin-bottom: 18px;">Highlighted words show where specific flavour language makes the biggest difference. Borrow the patterns, not the exact words.</p>
+
+    <div class="script-stack">
+
+      <div class="script-card">
+        <div class="script-scenario">Customer: "I want something sweet but not too sweet"</div>
+        <div class="script-body">
+          <div class="script-q">Don't ask "do you like fruit?" — too broad. Narrow it with one question.</div>
+          <div class="script-a">"When you say too sweet, do you mean like <mark>candy-sweet</mark>, or more like <mark>heavy dessert</mark>? Because I've got a <mark>sun-warmed peach</mark> that's sweet but still feels <mark>fresh and light</mark> — versus something like [X] which is more <mark>thick and syrupy</mark>. Depends which direction you want to go."</div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-scenario">Customer is switching from cigarettes</div>
+        <div class="script-body">
+          <div class="script-q">They want familiarity. Don't make it feel like a science experiment.</div>
+          <div class="script-a">"If you're coming from cigarettes, a <mark>mellow tobacco</mark> is a natural landing spot — <mark>earthy, dry, smooth</mark>, nothing harsh. Some people also go straight to a <mark>light menthol</mark> because of that <mark>cooling throat sensation</mark> that feels familiar. Want to try both and see which your throat prefers?"</div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-scenario">Customer: "I don't really know what I want"</div>
+        <div class="script-body">
+          <div class="script-q">Don't hand them a menu. Ask one question to split the direction.</div>
+          <div class="script-a">"Do you want something that tastes like <mark>fruit</mark>, or something that tastes like <mark>food</mark>? Fruit goes from <mark>crisp and citrusy</mark> to <mark>deep and jammy</mark>. Food is more like <mark>warm, creamy, bakery stuff</mark>. Which sounds better right now?"</div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-scenario">Customer: "I want something different from what I have"</div>
+        <div class="script-body">
+          <div class="script-q">Find out what they have and why it's not working before recommending anything.</div>
+          <div class="script-a">"What's not working about it — is it too <mark>one-note</mark>, are you just bored of it, or is something about the <mark>vapour feel</mark> bugging you? Those have different fixes and I don't want to put you in something with the same problem."</div>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-scenario">Describing a complex or layered juice</div>
+        <div class="script-body">
+          <div class="script-q">Don't just list the name ingredients. Walk them through it like an experience.</div>
+          <div class="script-a">"On the inhale you get this <mark>bright, almost tart green apple</mark> — very crisp. Mid-vape it shifts into something <mark>creamier and warmer</mark>, like the apple's been baked. And the exhale is <mark>clean but has this lingering caramel thing</mark>. It changes as you go — not just one flat note."</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Wild Predator Vapor Shop — Staff Reference</span>
+  <span>Flavour Description Guide</span>
+</footer>
+
+</div><!-- end page-wrap -->
+</body>
+</html>
